@@ -44,25 +44,26 @@ class Player(pg.sprite.Sprite):
     def input(self):
         keys = pg.key.get_pressed()
 
-        # First for up and down movement
-        if keys[pg.K_UP]:
-            self.direction.y = -1
-            self.status = "up"
-        elif keys[pg.K_DOWN]:
-            self.direction.y = 1
-            self.status = "down"
-        else:
-            self.direction.y = 0
-        
-        # Then for left and right movement
-        if keys[pg.K_RIGHT]:
-            self.direction.x = 1
-            self.status = "right"
-        elif keys[pg.K_LEFT]:
-            self.direction.x = -1
-            self.status = "left"
-        else:
-            self.direction.x = 0
+        if not self.attacking:
+            # First for up and down movement
+            if keys[pg.K_UP]:
+                self.direction.y = -1
+                self.status = "up"
+            elif keys[pg.K_DOWN]:
+                self.direction.y = 1
+                self.status = "down"
+            else:
+                self.direction.y = 0
+            
+            # Then for left and right movement
+            if keys[pg.K_RIGHT]:
+                self.direction.x = 1
+                self.status = "right"
+            elif keys[pg.K_LEFT]:
+                self.direction.x = -1
+                self.status = "left"
+            else:
+                self.direction.x = 0
 
         # Now defining the attack input
         if keys[pg.K_SPACE] and not self.attacking:
