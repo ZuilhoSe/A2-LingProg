@@ -16,6 +16,8 @@ class Level:
 
 		# Attack sprites
 		self.current_attack = None
+		self.attack_sprites = pygame.sprite.Group()
+		self.attackable_sprites = pygame.sprite.Group()
 
 		# sprite setup
 		self.create_map()

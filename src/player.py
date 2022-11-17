@@ -1,8 +1,9 @@
 import pygame as pg
 from settings import *
 from support import import_folder
+from entity import Entity
 
-class Player(pg.sprite.Sprite):
+class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack):
         super().__init__(groups)
         self.image = pg.image.load("../graphics/test/player.png").convert_alpha() #Path de TESTE, não está pronto
@@ -13,12 +14,7 @@ class Player(pg.sprite.Sprite):
 
         self.player_assets() # Import player graphic assets
 
-        self.direction = pg.math.Vector2() # This is a vector representing the sprite's movement direction
-        self.speed = 5 # This will be used to define the speed movement in pixels/frame
-
         self.status = "down"
-        self.frame_index = 0
-        self.animation_speed = 0.15
 
         self.create_attack = create_attack
         self.end_attack = end_attack
@@ -26,8 +22,13 @@ class Player(pg.sprite.Sprite):
         self.attack_cooldown = 400
         self.attack_time = None
 
-        self.weapon_index = 1 #IMPORTANT to change the weapon
+        self.weapon_index = 0 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
+
+        self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 6}
+        self.health = self.stats["health"]
+        self.energy = self.stats["energy"]
+        self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
     
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
@@ -81,37 +82,6 @@ class Player(pg.sprite.Sprite):
             self.attacking = True
             self.attack_time = pg.time.get_ticks()
             print("Magic!")
-
-    # Defining how the vector and the speed interact to create movement
-    def move(self, speed):
-        if self.direction.magnitude() != 0:
-            self.direction = self.direction.normalize() # Here we normalize the vector, so if you go in two simultaneous directions, you don't become The Flash
-
-        self.hitbox.x += self.direction.x * speed
-        self.collision("x")
-
-        self.hitbox.y += self.direction.y * speed
-        self.collision("y")
-
-        self.rect.center = self.hitbox.center   
-
-    # Defining the collision behaviour
-    def collision(self, direction):
-        if direction == "x":
-            for obstacle in self.obstacle_sprites:
-                if obstacle.hitbox.colliderect(self.hitbox):
-                    if self.direction.x > 0: # The player is moving right, so we have a collision to the right
-                        self.hitbox.right = obstacle.hitbox.left
-                    if self.direction.x < 0: # The player is moving left, so we have a collision to the left
-                        self.hitbox.left = obstacle.hitbox.right
-
-        if direction == "y":
-            for obstacle in self.obstacle_sprites:
-                if obstacle.hitbox.colliderect(self.hitbox):
-                    if self.direction.y > 0: # The player is moving down, so we have a collision at the bottom
-                        self.hitbox.bottom = obstacle.hitbox.top
-                    if self.direction.y < 0: # The player is moving up, so we have a collision to the top
-                        self.hitbox.top = obstacle.hitbox.bottom
 
     #Defining some action's cooldowns
     def cooldowns(self):

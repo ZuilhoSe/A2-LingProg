@@ -19,6 +19,6 @@ class Weapon(pg.sprite.Sprite):
         elif direction == "left":
             self.rect = self.image.get_rect(midright = player.rect.midleft + pg.math.Vector2(0, 16))
         elif direction == "up":
-            self.rect = self.image.get_rect(midbottom = player.rect.midtop + pg.math.Vector2(-10, 0))
+            self.rect = self.image.get_rect(midbottom = player.rect.midtop + pg.math.Vector2(-12, 0))
         elif direction == "down":
             self.rect = self.image.get_rect(midtop = player.rect.midbottom + pg.math.Vector2(-10, 0))
