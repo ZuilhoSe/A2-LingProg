@@ -2,7 +2,7 @@ import pygame
 from settings import *
 from tile import Tile
 from player import Player
-
+from weapon import Weapon
 
 class Level:
 	def __init__(self):
@@ -13,6 +13,9 @@ class Level:
 		# sprite group setup
 		self.visible_sprites = YsortCameraGroup()
 		self.obstacle_sprites = pygame.sprite.Group()
+
+		# Attack sprites
+		self.current_attack = None
 
 		# sprite setup
 		self.create_map()
@@ -25,7 +28,16 @@ class Level:
 				if col == 'x':
 					Tile((x,y), [self.visible_sprites, self.obstacle_sprites])
 				if col == 'p':
-					self.player = Player((x,y), [self.visible_sprites], self.obstacle_sprites)
+					self.player = Player((x,y), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.end_attack)
+
+	# Methods to create and kill attack's sprites
+	def create_attack(self):
+		self.current_attack = Weapon(self.player, [self.visible_sprites])
+
+	def end_attack(self):
+		if self.current_attack:
+			self.current_attack.kill()
+		self.current_attack = None
 
 	def run(self):
 		# update and draw the game

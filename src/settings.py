@@ -26,3 +26,9 @@ WORLD_MAP = [
 ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
 ['x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'],
 ]
+
+# Weapon Data:
+weapon_data = {
+    "Stick": {"cooldown": 100, "damage": 8, "graphic": "..graphics/weapons/Stick/SpriteInHand.png"},
+    "Katana": {"cooldown": 80, "damage": 15, "graphic": "..graphics/weapons/Katana/SpriteInHand.png"}
+}

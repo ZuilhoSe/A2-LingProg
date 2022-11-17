@@ -3,7 +3,7 @@ from settings import *
 from support import import_folder
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, pos, groups, obstacle_sprites):
+    def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack):
         super().__init__(groups)
         self.image = pg.image.load("../graphics/test/player.png").convert_alpha() #Path de TESTE, não está pronto
         self.rect = self.image.get_rect(topleft = pos)
@@ -20,9 +20,14 @@ class Player(pg.sprite.Sprite):
         self.frame_index = 0
         self.animation_speed = 0.15
 
+        self.create_attack = create_attack
+        self.end_attack = end_attack
         self.attacking = False
         self.attack_cooldown = 400
         self.attack_time = None
+
+        self.weapon_index = 1 #IMPORTANT to change the weapon
+        self.weapon = list(weapon_data.keys())[self.weapon_index]
     
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
@@ -69,7 +74,7 @@ class Player(pg.sprite.Sprite):
         if keys[pg.K_SPACE] and not self.attacking:
             self.attacking = True
             self.attack_time = pg.time.get_ticks()
-            print("Attack!")
+            self.create_attack()
 
         # And now the magic input
         if keys[pg.K_SPACE] and not self.attacking:
@@ -115,6 +120,8 @@ class Player(pg.sprite.Sprite):
         if self.attacking:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
+                self.end_attack()
+
 
      # Gets the player status to apply the correct animation
     def get_status(self):
