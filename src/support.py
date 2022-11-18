@@ -3,6 +3,13 @@ from os import walk
 import pygame
 
 def import_csv_layout(path):
+	"""Function to import the CSV file and return the map layout
+
+	:param path: Path to the csv file
+	:type path: str
+	:return: List with the map layout
+	:rtype: list
+	"""
 	terrain_map = []
 	with open(path) as level_map:
 		layout = reader(level_map,delimiter = ',')
@@ -11,6 +18,13 @@ def import_csv_layout(path):
 		return terrain_map
 
 def import_folder(path):
+	"""Function to import all the images from a folder
+
+	:param path: Path to the folder
+	:type path: str
+	:return: List with the images
+	:rtype: list
+	"""	
 	surface_list = []
 
 	for _,__,img_files in walk(path):
