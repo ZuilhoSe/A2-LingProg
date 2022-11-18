@@ -25,7 +25,7 @@ class Player(Entity):
         self.weapon_index = 0 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
 
-        self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 6}
+        self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 30}
         self.health = self.stats["health"]
         self.energy = self.stats["energy"]
         self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame

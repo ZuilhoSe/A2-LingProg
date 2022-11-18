@@ -9,7 +9,6 @@ class Game:
 		self.screen = pygame.display.set_mode((WIDTH,HEIGTH))
 		pygame.display.set_caption('Joguinho de testes que não está pronto')
 		self.clock = pygame.time.Clock()
-
 		self.level = Level()
 	
 	def run(self):

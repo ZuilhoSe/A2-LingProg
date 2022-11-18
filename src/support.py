@@ -35,3 +35,19 @@ def import_folder(path):
 			surface_list.append(image_surf)
 
 	return surface_list
+
+def import_tiles(path):
+	surface = pygame.image.load(path).convert_alpha()
+	tile_x = surface.get_size()[0] // 16
+	tile_y = surface.get_size()[1] // 16
+
+	tiles = []
+	for row in range(tile_y):
+		for col in range(tile_x):
+			x = col * 64
+			y = row * 64
+			new_surface = pygame.Surface((64,64))
+			new_surface.blit(surface, (0,0), pygame.Rect(x,y,64,64))
+			tiles.append(new_surface)
+			
+	return tiles
