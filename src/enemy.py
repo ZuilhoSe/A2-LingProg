@@ -5,6 +5,11 @@ from entity import Entity
 import support
 
 class Enemy(Entity):
+    """Enemy class responsible for the enemy's behaviour
+
+    :param Entity: Enemy class inherits from Entity class
+    :type Entity: Entity
+    """    
     def __init__(self, monster_name: str, pos: tuple[int], groups, obstacle_sprites: pygame.sprite.Group()):
         """
         :param monster_name: name of the enemy so that it's attributes can be searched
