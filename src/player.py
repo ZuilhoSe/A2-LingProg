@@ -134,6 +134,10 @@ class Player(Entity):
         if self.health>0:
             self.health-=1
 
+    def mana_cost(self,cost):
+        if self.mana>0:
+            self.mana-=cost
+
     def update(self):
         self.input()
         self.move(self.speed)
