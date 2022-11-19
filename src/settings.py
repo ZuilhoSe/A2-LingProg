@@ -9,7 +9,7 @@ WORLD_MAP = [
 ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
 ['x',' ','p',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
 ['x',' ',' ','x',' ',' ',' ',' ',' ','x','x','x','x','x',' ',' ',' ',' ',' ','x'],
-['x',' ',' ','x',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ',' ',' ','x'],
+['x',' ',' ','x',' ',' ','e',' ',' ',' ',' ',' ',' ','x',' ',' ',' ',' ',' ','x'],
 ['x',' ',' ','x',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ',' ',' ','x'],
 ['x',' ',' ','x',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ',' ',' ','x'],
 ['x',' ',' ','x',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ',' ',' ','x'],
@@ -31,4 +31,8 @@ WORLD_MAP = [
 weapon_data = {
     "Stick": {"cooldown": 100, "damage": 8, "graphic": "..graphics/weapons/Stick/SpriteInHand.png"},
     "Katana": {"cooldown": 80, "damage": 15, "graphic": "..graphics/weapons/Katana/SpriteInHand.png"}
+}
+
+monsters_data = {
+    'squid': {'health': 100,'exp':100,'damage':20,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360}
 }

@@ -3,7 +3,7 @@ from settings import *
 from tile import Tile
 from player import Player
 from weapon import Weapon
-
+from enemy import Enemy
 class Level:
 	def __init__(self):
 
@@ -21,7 +21,6 @@ class Level:
 
 		# sprite setup
 		self.create_map()
-
 	def create_map(self):
 		for row_index, row in enumerate(WORLD_MAP):
 			for col_index, col in enumerate(row):
@@ -31,6 +30,9 @@ class Level:
 					Tile((x,y), [self.visible_sprites, self.obstacle_sprites])
 				if col == 'p':
 					self.player = Player((x,y), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.end_attack)
+				if col == 'e':
+					Enemy('squid',(x,y),[self.visible_sprites],self.obstacle_sprites)
+					
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
@@ -45,6 +47,7 @@ class Level:
 		# update and draw the game
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.update()
+		self.visible_sprites.enemy_update(self.player)
 
 class YsortCameraGroup(pygame.sprite.Group):
 	def __init__(self):
@@ -64,3 +67,11 @@ class YsortCameraGroup(pygame.sprite.Group):
 		for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery): # This line sorts the hitboxes so the sprite with the higher y position appears over the others during the sprite overlap
 			offset_pos = sprite.rect.topleft - self.offset
 			self.display_surface.blit(sprite.image, offset_pos)
+	
+	def enemy_update(self,player):
+		enemy_sprites=[]
+		for sprite in self.sprites():
+			if hasattr(sprite,'sprite_type') and sprite.sprite_type == 'enemy':
+					enemy_sprites.append(sprite)
+		for enemy in enemy_sprites:
+			enemy.enemy_update(player)
