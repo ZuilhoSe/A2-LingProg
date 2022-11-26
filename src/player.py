@@ -126,6 +126,8 @@ class Player(Entity):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
+    def get_full_weapon_damage(self):
+        pass
     def update(self):
         self.input()
         self.move(self.speed)

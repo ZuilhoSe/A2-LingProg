@@ -29,25 +29,42 @@ class Level:
 				if col == 'x':
 					Tile((x,y), [self.visible_sprites, self.obstacle_sprites])
 				if col == 'p':
-					self.player = Player((x,y), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.end_attack)
+					self.player = Player((x,y), [self.visible_sprites],
+                          				self.obstacle_sprites, 
+                              			self.create_attack, 
+                                 		self.end_attack)
 				if col == 'e':
-					Enemy('squid',(x,y),[self.visible_sprites],self.obstacle_sprites)
+					Enemy('squid',(x,y),
+           				  [self.visible_sprites,self.attackable_sprites],
+                 		  self.obstacle_sprites)
 					
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
-		self.current_attack = Weapon(self.player, [self.visible_sprites])
+		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
 
 	def end_attack(self):
 		if self.current_attack:
 			self.current_attack.kill()
 		self.current_attack = None
+  
+	def player_attack(self):
+		if self.attack_sprites:
+			for attack in self.attack_sprites:
+					# check if the attack is colliding with an enemy
+				collisions = pygame.sprite.spritecollide(attack, self.attackable_sprites, False)
+				for target_sprite in collisions:
+					if target_sprite.sprite_type == 'grass':
+						target_sprite.kill()
+					elif target_sprite.sprite_type == 'enemy':
+						target_sprite.kill()
 
 	def run(self):
 		# update and draw the game
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.update()
 		self.visible_sprites.enemy_update(self.player)
+		self.player_attack()
 
 class YsortCameraGroup(pygame.sprite.Group):
 	def __init__(self):
