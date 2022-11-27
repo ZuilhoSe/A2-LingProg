@@ -4,8 +4,6 @@ from tile import Tile
 from player import Player
 from weapon import Weapon
 from enemy import Enemy
-from ui import UI
-
 class Level:
 	def __init__(self):
 
@@ -23,10 +21,6 @@ class Level:
 
 		# sprite setup
 		self.create_map()
-
-		# UI setup
-		self.ui=UI(self.player)
-	
 	def create_map(self):
 		for row_index, row in enumerate(WORLD_MAP):
 			for col_index, col in enumerate(row):
@@ -71,7 +65,6 @@ class Level:
 		self.visible_sprites.update()
 		self.visible_sprites.enemy_update(self.player)
 		self.player_attack()
-		self.ui.display(self.player)
 
 class YsortCameraGroup(pygame.sprite.Group):
 	def __init__(self):
