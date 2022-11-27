@@ -29,8 +29,8 @@ WORLD_MAP = [
 
 # Weapon Data:
 weapon_data = {
-    "Stick": {"cooldown": 100, "damage": 8, "graphic": "..graphics/weapons/Stick/SpriteInHand.png"},
-    "Katana": {"cooldown": 80, "damage": 15, "graphic": "..graphics/weapons/Katana/SpriteInHand.png"}
+    "Stick": {"cooldown": 1000, "damage": 15, "graphic": "..graphics/weapons/Stick/SpriteInHand.png"},
+    "Katana": {"cooldown": 800, "damage": 25, "graphic": "..graphics/weapons/Katana/SpriteInHand.png"}
 }
 
 monsters_data = {

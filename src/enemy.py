@@ -52,6 +52,11 @@ class Enemy(Entity):
         self.can_attack = True
         self.attack_time = None
         self.attack_cooldown = 400
+
+        # Invincibility cooldown
+        self.vulnerable = True
+        self.hit_time = None
+        self.invincibility_duration = 400
         
     def import_graphics(self, name: str):
         """Stores the animations of the enemy in a dictionay
@@ -128,20 +133,39 @@ class Enemy(Entity):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
         
-    def cooldown(self):
+    def cooldowns(self):
         """Attack cooldown timer of the enemy
         """        
+        current_time = pygame.time.get_ticks()
         if not self.can_attack:
-            current_time = pygame.time.get_ticks()
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.can_attack = True
+
+        if not self.vulnerable:
+            if current_time - self.hit_time >= self.invincibility_duration:
+                self.vulnerable = True
                 
+    def get_damage(self, player, attack_type):
+        if self.vulnerable:
+            if attack_type == "weapon":
+                self.health -= settings.weapon_data[player.weapon]["damage"]
+            else:
+                pass # For future implementation of magic
+            
+            self.hit_time = pygame.time.get_ticks()
+            self.vulnerable = False
+
+    def die(self):
+        if self.health <= 0:
+            self.kill()
+    
     def update(self):
         """Updates the enemy
         """        
         self.move(self.speed)
         self.animate()
-        self.cooldown()
+        self.cooldowns()
+        self.die()
         
     def enemy_update(self,player):
         """updates the enemy

@@ -21,6 +21,7 @@ class Level:
 
 		# sprite setup
 		self.create_map()
+
 	def create_map(self):
 		for row_index, row in enumerate(WORLD_MAP):
 			for col_index, col in enumerate(row):
@@ -51,13 +52,13 @@ class Level:
 	def player_attack(self):
 		if self.attack_sprites:
 			for attack in self.attack_sprites:
-					# check if the attack is colliding with an enemy
+				# Check if the attack is colliding with an enemy
 				collisions = pygame.sprite.spritecollide(attack, self.attackable_sprites, False)
 				for target_sprite in collisions:
 					if target_sprite.sprite_type == 'grass':
 						target_sprite.kill()
 					elif target_sprite.sprite_type == 'enemy':
-						target_sprite.kill()
+						target_sprite.get_damage(self.player, attack.sprite_type)
 
 	def run(self):
 		# update and draw the game
