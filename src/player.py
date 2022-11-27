@@ -24,8 +24,10 @@ class Player(Entity):
 
         self.weapon_index = 0 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
+        self.weapon_time = None
+        self.weapon_standby = False
 
-        self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 6}
+        self.stats = {"health": 100, "energy": 60, "magic": 4, "speed": 6}
         self.health = self.stats["health"]
         self.energy = self.stats["energy"]
         self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
@@ -72,13 +74,15 @@ class Player(Entity):
                 self.direction.x = 0
 
         # Now defining the attack input
-        if keys[pg.K_SPACE] and not self.attacking:
+        if keys[pg.K_SPACE] and not self.attacking and not self.weapon_standby:
             self.attacking = True
+            self.weapon_standby = True
             self.attack_time = pg.time.get_ticks()
+            self.weapon_time = pg.time.get_ticks()
             self.create_attack()
 
         # And now the magic input
-        if keys[pg.K_SPACE] and not self.attacking:
+        if keys[pg.K_LCTRL] and not self.attacking:
             self.attacking = True
             self.attack_time = pg.time.get_ticks()
             print("Magic!")
@@ -92,6 +96,10 @@ class Player(Entity):
                 self.attacking = False
                 self.end_attack()
 
+        if self.weapon_standby:
+            if current_time - self.weapon_time >= weapon_data[self.weapon]["cooldown"]:
+                self.weapon_standby = False
+        
 
      # Gets the player status to apply the correct animation
     def get_status(self):
@@ -126,8 +134,6 @@ class Player(Entity):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
-    def get_full_weapon_damage(self):
-        pass
     def update(self):
         self.input()
         self.move(self.speed)
