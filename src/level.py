@@ -71,15 +71,15 @@ class YsortCameraGroup(pygame.sprite.Group):
 		super().__init__()
 
 		self.display_surface = pygame.display.get_surface()
+		self.half_width = self.display_surface.get_size()[0] // 2
+		self.half_height = self.display_surface.get_size()[1] // 2
 		self.offset = pygame.math.Vector2()
 
 	def custom_draw(self, player):
 
-		# Getting the Offset to move the camera every time the player crosses the map border
-		screenx = self.display_surface.get_size()[0]
-		screeny = self.display_surface.get_size()[1]
-		self.offset.x = (player.rect.centerx // screenx) * screenx
-		self.offset.y = (player.rect.centery // screeny) * screeny
+		# getting the offset
+		self.offset.x = player.rect.centerx - self.half_width
+		self.offset.y = player.rect.centery - self.half_height
 
 		for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery): # This line sorts the hitboxes so the sprite with the higher y position appears over the others during the sprite overlap
 			offset_pos = sprite.rect.topleft - self.offset
