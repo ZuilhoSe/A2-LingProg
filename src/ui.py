@@ -3,18 +3,34 @@ from settings import *
 
 class UI:
 	def __init__(self,player):
+		"""Initializes the UI
+
+		:param player: the player object
+		:type player: Player
+		"""		
+
 		self.display_surface=pg.display.get_surface()
 		self.font = pg.font.Font(UI_FONT,UI_FONT_SIZE)
 		self.max_health=player.max_health
 		self.health=player.health
-		self.max_mana=player.max_mana
-		self.mana=player.mana
+
+
 
 	def display(self,player):
+		"""Displays the UI
+
+		:param player: the player object
+		:type player: Player
+		"""		
 		self.hearts(player)
-		self.player_mana(player)
 
 	def hearts(self,player):
+		"""Displays the player's health
+
+		:param player: the player object
+		:type player: Player
+		"""        
+
 		total_hearts=self.max_health//4
 		total_full_hearts=self.health//4
 		empty_hearts=total_hearts-total_full_hearts
@@ -36,15 +52,3 @@ class UI:
 		elif wich_quarter_heart==3:
 			self.display_surface.blit(pg.transform.scale(pg.image.load(QUARTER_3_HEART).
 			convert_alpha(),(48,48)),((total_full_hearts)*75+30,25))
-
-
-	def player_mana(self,player):	
-		total_mana=self.max_mana
-		total_full_mana=self.mana
-		empty_mana=total_mana-total_full_mana
-		for empty in range(empty_mana):
-			self.display_surface.blit(pg.transform.scale(pg.image.load(EMPTY_MANA).
-			convert_alpha(),(36,44)),((empty+total_full_mana)*75+285,25))
-		for mana in range(total_full_mana):
-			self.display_surface.blit(pg.transform.scale(pg.image.load(FULL_MANA).
-			convert_alpha(),(36,44)),(mana*75+285,25))
