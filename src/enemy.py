@@ -132,7 +132,13 @@ class Enemy(Entity):
             
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
-        
+
+        if not self.vulnerable:
+            alpha = self.variable_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
+
     def cooldowns(self):
         """Attack cooldown timer of the enemy
         """        
@@ -147,6 +153,7 @@ class Enemy(Entity):
                 
     def get_damage(self, player, attack_type):
         if self.vulnerable:
+            self.direction = self.get_player_distance_direction(player)[1]
             if attack_type == "weapon":
                 self.health -= settings.weapon_data[player.weapon]["damage"]
             else:
@@ -155,6 +162,10 @@ class Enemy(Entity):
             self.hit_time = pygame.time.get_ticks()
             self.vulnerable = False
 
+    def knockback_resistance(self):
+        if not self.vulnerable:
+            self.direction *= -self.resistance
+
     def die(self):
         if self.health <= 0:
             self.kill()
@@ -162,6 +173,7 @@ class Enemy(Entity):
     def update(self):
         """Updates the enemy
         """        
+        self.knockback_resistance()
         self.move(self.speed)
         self.animate()
         self.cooldowns()

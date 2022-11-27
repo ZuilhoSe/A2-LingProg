@@ -42,8 +42,7 @@ class Level:
 				if col == 'e':
 					Enemy('squid',(x,y),
            				  [self.visible_sprites,self.attackable_sprites],
-                 		  self.obstacle_sprites)
-					
+                 		  self.obstacle_sprites)				
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
