@@ -42,7 +42,9 @@ class Level:
 				if col == 'e':
 					Enemy('squid',(x,y),
            				  [self.visible_sprites,self.attackable_sprites],
-                 		  self.obstacle_sprites)				
+                 		  self.obstacle_sprites,
+                     	  self.damage_player)
+					
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
@@ -63,6 +65,15 @@ class Level:
 						target_sprite.kill()
 					elif target_sprite.sprite_type == 'enemy':
 						target_sprite.get_damage(self.player, attack.sprite_type)
+    
+    
+	def damage_player(self, amount, atttack_type):
+
+		if self.player.vulnerable:
+			self.player.get_damage(amount)
+			self.player.vulnerable = False
+			self.player.hurt_time = pygame.time.get_ticks()
+			print('Player health:', self.player.health)
 
 	def run(self):
 		# update and draw the game
@@ -92,9 +103,6 @@ class YsortCameraGroup(pygame.sprite.Group):
 			self.display_surface.blit(sprite.image, offset_pos)
 	
 	def enemy_update(self,player):
-		enemy_sprites=[]
-		for sprite in self.sprites():
-			if hasattr(sprite,'sprite_type') and sprite.sprite_type == 'enemy':
-					enemy_sprites.append(sprite)
+		enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite,'sprite_type') and sprite.sprite_type == 'enemy']
 		for enemy in enemy_sprites:
 			enemy.enemy_update(player)

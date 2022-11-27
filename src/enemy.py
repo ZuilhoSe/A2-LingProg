@@ -10,7 +10,9 @@ class Enemy(Entity):
     :param Entity: Enemy class inherits from Entity class
     :type Entity: Entity
     """    
-    def __init__(self, monster_name: str, pos: tuple[int], groups, obstacle_sprites: pygame.sprite.Group()):
+    def __init__(self, monster_name: str,
+                 pos: tuple[int], groups,
+                 obstacle_sprites: pygame.sprite.Group(), damage_player):
         """
         :param monster_name: name of the enemy so that it's attributes can be searched
         :type monster_name: str
@@ -52,6 +54,7 @@ class Enemy(Entity):
         self.can_attack = True
         self.attack_time = None
         self.attack_cooldown = 400
+        self.damage_player = damage_player
 
         # Invincibility cooldown
         self.vulnerable = True
@@ -60,7 +63,6 @@ class Enemy(Entity):
         
     def import_graphics(self, name: str):
         """Stores the animations of the enemy in a dictionay
-
         :param name: name of the enemy
         :type name: str
         """ 
@@ -72,7 +74,6 @@ class Enemy(Entity):
     
     def get_player_distance_direction(self, player):
         """Gets the postion of the enemy relative to the player
-
         :param player: the player
         :type player: Player
         """     
@@ -89,7 +90,6 @@ class Enemy(Entity):
     
     def get_status(self, player):
         """Define the status of the enemy based on it's distance to the player
-
         :param player: the player
         :type player: Player
         """   
@@ -107,12 +107,12 @@ class Enemy(Entity):
             
     def actions(self,player):
         """Define what the enemy does based on it's status
-
         :param player: hte playable character
         :type player: Player
         """        
         if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
+            self.damage_player(self.attack_damage, self.attack_type)
         elif self.status == 'move':
             self.direction = self.get_player_distance_direction(player)[1]
         else:
@@ -132,13 +132,14 @@ class Enemy(Entity):
             
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
-
+        
         if not self.vulnerable:
             alpha = self.variable_value()
             self.image.set_alpha(alpha)
         else:
             self.image.set_alpha(255)
 
+        
     def cooldowns(self):
         """Attack cooldown timer of the enemy
         """        
@@ -165,7 +166,7 @@ class Enemy(Entity):
     def knockback_resistance(self):
         if not self.vulnerable:
             self.direction *= -self.resistance
-
+            
     def die(self):
         if self.health <= 0:
             self.kill()
@@ -181,7 +182,6 @@ class Enemy(Entity):
         
     def enemy_update(self,player):
         """updates the enemy
-
         :param player: the playable character
         :type player: Player
         """        

@@ -34,6 +34,11 @@ class Player(Entity):
         self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
+        
+        #damage timer
+        self.vulnerable = True
+        self.hurt_time = None
+        self.invulnerability_duration = 500
 
     # Gets the assets to animate the player
     def player_assets(self):
@@ -99,6 +104,10 @@ class Player(Entity):
         if self.weapon_standby:
             if current_time - self.weapon_time >= weapon_data[self.weapon]["cooldown"]:
                 self.weapon_standby = False
+                
+        if not self.vulnerable:
+            if current_time - self.hurt_time >= self.invulnerability_duration:
+                self.vulnerable = True
         
 
      # Gets the player status to apply the correct animation
