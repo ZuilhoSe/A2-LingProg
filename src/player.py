@@ -31,7 +31,6 @@ class Player(Entity):
         self.health = self.stats["health"]
         self.energy = self.stats["energy"]
         self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
-    
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
 
@@ -133,6 +132,19 @@ class Player(Entity):
         # Set the image
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
+
+
+    #this method should be called when the player is hit by an enemy
+    def get_damage(self,dmg):
+        """This method should be called when the player is hit by an enemy
+
+        :param dmg: the damage the player will take
+        :type dmg: int
+        """        
+
+        if self.health>0:
+            self.health-=dmg
+
 
     def update(self):
         self.input()
