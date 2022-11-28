@@ -9,6 +9,8 @@ from ui import UI
 
 
 class Level:
+	"""Setting up the map and the sprites
+	"""
 	def __init__(self):
 		# get the display surface 
 		self.display_surface = pygame.display.get_surface()
@@ -29,7 +31,7 @@ class Level:
 		self.ui=UI(self.player)
   
 	def create_map(self):
-		"""_summary_: Create the map and the player"""
+		"""Create the map and the player"""
 
 		#Importing the layouts
 		layout = {
