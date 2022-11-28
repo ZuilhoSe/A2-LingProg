@@ -50,7 +50,8 @@ class Level:
 			'boxes': support.import_csv_layout('../layouts/mapa_boxes.csv'),
 			'nature': support.import_csv_layout('../layouts/mapa_nature.csv'),
 			'door': support.import_csv_layout('../layouts/mapa_door.csv'),
-			'houses': support.import_csv_layout('../layouts/mapa_houses.csv'),			
+			'houses': support.import_csv_layout('../layouts/mapa_houses.csv'),
+			'entities': support.import_csv_layout('../layouts/mapa_entities.csv'),
 		}
 
 		#Creating the sprites
@@ -68,7 +69,6 @@ class Level:
 			'fireable_tileset': support.import_tiles('../graphics/objects/fireable/fireable.png'),
 			'iceable_tileset': support.import_tiles('../graphics/objects/iceable/iceable.png'),
 		}
-		
 		#Iterating over each layout and positioning the sprites
 		for style, layout in layout.items():
 			for row_index, row in enumerate(layout):
@@ -117,13 +117,33 @@ class Level:
 						if style == 'iceable':
 							iceable_tile = graphics['iceable_tileset'][int(col)]
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'iceable', iceable_tile)
-
-		# Create the player
-		self.player = Player((3000,3000), [self.visible_sprites],
+						if style == 'entities':
+							if col == '4': #Player
+								print('Player')
+								self.player = Player((x,y), [self.visible_sprites],
                           				self.obstacle_sprites, 
                               			self.create_attack, 
                                  		self.end_attack)
+							else:
+								if col == '0':
+									monsters_name = 'raccoon'
+								elif col == '1':
+									monsters_name = 'flam'
+								elif col == '2':
+									monsters_name = 'snake'
+								elif col == '3':
+									monsters_name = 'squid'
+								# elif col == '5':
+								# 	monsters_name = 'giant_flam'
+								# elif col == '6':
+								# 	monsters_name = 'giant_raccoon'
+								Enemy(monsters_name,(x,y),
+									[self.visible_sprites,self.attackable_sprites],
+									self.obstacle_sprites,
+									self.damage_player)
 
+
+		# Create the player
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
 		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])

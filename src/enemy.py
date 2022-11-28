@@ -30,8 +30,9 @@ class Enemy(Entity):
         
         #graphics setup
         self.status = 'idle'
+        self.animation_state = 'down'
         self.import_graphics(monster_name)
-        self.image= self.animations[self.status][self.frame_index]
+        self.image= self.animations[self.animation_state][self.frame_index]
         
         # movement
         self.rect = self.image.get_rect(topleft = pos)
@@ -61,17 +62,20 @@ class Enemy(Entity):
         self.hit_time = None
         self.invincibility_duration = 400
         
+    
     def import_graphics(self, name: str):
-        """Stores the animations of the enemy in a dictionay
+        """Stores the animations of the enemy in a list
         :param name: name of the enemy
         :type name: str
         """ 
-               
-        self.animations = {'idle':[],'move':[],'attack':[]}
-        main_path =f'../graphics/monster/{name}/'
-        for animation in self.animations.keys():
-            self.animations[animation] = support.import_folder(main_path + animation)
-    
+        animations = support.import_tiles(f'../graphics/monster/{name}.png')
+        self.animations = {'down': [],'up': [],'left': [],'right': []}
+        for i in range(0,13,4):
+            self.animations['down'].append(animations[i])
+            self.animations['up'].append(animations[i+1])
+            self.animations['left'].append(animations[i+2])
+            self.animations['right'].append(animations[i+3])
+        
     def get_player_distance_direction(self, player):
         """Gets the postion of the enemy relative to the player
         :param player: the player
@@ -84,6 +88,7 @@ class Enemy(Entity):
         
         if distance > 0:
             direction = (player_vec - enemy_vec).normalize()
+            
         else:
             direction = pygame.math.Vector2()
         return (distance, direction)
@@ -94,7 +99,7 @@ class Enemy(Entity):
         :type player: Player
         """   
                 
-        distance = self.get_player_distance_direction(player)[0]
+        distance, direction = self.get_player_distance_direction(player)
         
         if distance <= self.attack_radius and self.can_attack:
             if self.status != 'attack':
@@ -102,6 +107,16 @@ class Enemy(Entity):
             self.status = 'attack'
         elif distance <= self.notice_radius:
             self.status = 'move'
+            if abs(direction[0])>abs(direction[1]):
+                if direction[0]>0:
+                    self.animation_state = 'right'
+                else:
+                    self.animation_state = 'left'
+            else:
+                if direction[1]>0:
+                    self.animation_state = 'down'
+                else:
+                    self.animation_state = 'up'
         else:
             self.status = 'idle'
             
@@ -122,7 +137,7 @@ class Enemy(Entity):
         """Draws the enemy animations
         """
                 
-        animation = self.animations[self.status]
+        animation = self.animations[self.animation_state]
         
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):

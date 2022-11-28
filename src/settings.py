@@ -58,10 +58,13 @@ WORLD_MAP = [
 
 # Weapon Data:
 weapon_data = {
-    "Stick": {"cooldown": 1000, "damage": 15, "graphic": "..graphics/weapons/Stick/SpriteInHand.png"},
-    "Katana": {"cooldown": 800, "damage": 25, "graphic": "..graphics/weapons/Katana/SpriteInHand.png"}
+    "Stick": {"cooldown": 1000, "damage": 1, "graphic": "..graphics/weapons/Stick/SpriteInHand.png"},
+    "Katana": {"cooldown": 800, "damage": 2, "graphic": "..graphics/weapons/Katana/SpriteInHand.png"}
 }
 
 monsters_data = {
-    'squid': {'health': 100,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360}
+    'squid': {'health': 3,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'flam': {'health': 2,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/attack/slash.wav', 'speed': 5, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'raccoon': {'health': 4,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav', 'speed': 4, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'snake': {'health': 2,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
 }
