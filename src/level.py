@@ -6,7 +6,8 @@ from player import Player
 from weapon import Weapon
 from enemy import Enemy
 from ui import UI
-
+from particles import AnimationPlayer
+from random import randint
 
 class Level:
 	def __init__(self):
@@ -27,6 +28,9 @@ class Level:
   
 		# UI setup
 		self.ui=UI(self.player)
+
+		# Particles setup
+		self.animation_player = AnimationPlayer()
   
 	def create_map(self):
 		"""_summary_: Create the map and the player"""
@@ -134,15 +138,20 @@ class Level:
 			for attack in self.attack_sprites:
 				# Check if the attack is colliding with an enemy
 				collisions = pygame.sprite.spritecollide(attack, self.attackable_sprites, False)
+				
 				for target_sprite in collisions:
 					if target_sprite.sprite_type == 'grass':
+						pos = target_sprite.rect.center
+						offset = pygame.math.Vector2(0,75)
+						for leaf in range(randint(3,6)):
+							self.animation_player.create_grass_particles(pos - offset, [self.visible_sprites])
 						target_sprite.kill()
+					
 					elif target_sprite.sprite_type == 'enemy':
 						target_sprite.get_damage(self.player, attack.sprite_type)
     
     
 	def damage_player(self, amount, atttack_type):
-
 		if self.player.vulnerable and not self.player.dashing:
 			self.player.get_damage(amount)
 			self.player.vulnerable = False
