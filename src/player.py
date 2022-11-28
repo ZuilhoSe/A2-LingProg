@@ -24,14 +24,23 @@ class Player(Entity):
 
         self.weapon_index = 0 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
+        self.weapon_time = None
+        self.weapon_standby = False
 
         self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 30}
         self.health = self.stats["health"]
+        self.stats = {"health": 100, "energy": 60, "magic": 4, "speed": 6}
+        self.health = 7
+        self.max_health=12
         self.energy = self.stats["energy"]
         self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
-    
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
+        
+        #damage timer
+        self.vulnerable = True
+        self.hurt_time = None
+        self.invulnerability_duration = 500
 
     # Gets the assets to animate the player
     def player_assets(self):
@@ -72,13 +81,15 @@ class Player(Entity):
                 self.direction.x = 0
 
         # Now defining the attack input
-        if keys[pg.K_SPACE] and not self.attacking:
+        if keys[pg.K_SPACE] and not self.attacking and not self.weapon_standby:
             self.attacking = True
+            self.weapon_standby = True
             self.attack_time = pg.time.get_ticks()
+            self.weapon_time = pg.time.get_ticks()
             self.create_attack()
 
         # And now the magic input
-        if keys[pg.K_SPACE] and not self.attacking:
+        if keys[pg.K_LCTRL] and not self.attacking:
             self.attacking = True
             self.attack_time = pg.time.get_ticks()
             print("Magic!")
@@ -92,6 +103,14 @@ class Player(Entity):
                 self.attacking = False
                 self.end_attack()
 
+        if self.weapon_standby:
+            if current_time - self.weapon_time >= weapon_data[self.weapon]["cooldown"]:
+                self.weapon_standby = False
+                
+        if not self.vulnerable:
+            if current_time - self.hurt_time >= self.invulnerability_duration:
+                self.vulnerable = True
+        
 
      # Gets the player status to apply the correct animation
     def get_status(self):
@@ -125,6 +144,19 @@ class Player(Entity):
         # Set the image
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
+
+
+    #this method should be called when the player is hit by an enemy
+    def get_damage(self,dmg):
+        """This method should be called when the player is hit by an enemy
+
+        :param dmg: the damage the player will take
+        :type dmg: int
+        """        
+
+        if self.health>0:
+            self.health-=dmg
+
 
     def update(self):
         self.input()

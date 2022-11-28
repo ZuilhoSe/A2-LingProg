@@ -1,4 +1,5 @@
 import pygame as pg
+from math import sin
 
 class Entity(pg.sprite.Sprite):
     def __init__(self, groups):
@@ -8,7 +9,7 @@ class Entity(pg.sprite.Sprite):
         self.animation_speed = 0.15
         self.direction = pg.math.Vector2() # This is a vector representing the sprite's movement direction
 
-        # Defining how the vector and the speed interact to create movement
+    # Defining how the vector and the speed interact to create movement
     def move(self, speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize() # Here we normalize the vector, so if you go in two simultaneous directions, you don't become The Flash
@@ -38,3 +39,11 @@ class Entity(pg.sprite.Sprite):
                         self.hitbox.bottom = obstacle.hitbox.top
                     if self.direction.y < 0: # The player is moving up, so we have a collision to the top
                         self.hitbox.top = obstacle.hitbox.bottom
+
+    # Method to get a value that varies between positive and negative as time passes
+    def variable_value(self):
+        value = sin(pg.time.get_ticks())
+        if value >= 0:
+            return 255
+        else:
+            return 0

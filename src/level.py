@@ -4,6 +4,8 @@ from settings import *
 from tile import Tile
 from player import Player
 from weapon import Weapon
+from enemy import Enemy
+from ui import UI
 
 
 class Level:
@@ -19,89 +21,76 @@ class Level:
 		self.current_attack = None
 		self.attack_sprites = pygame.sprite.Group()
 		self.attackable_sprites = pygame.sprite.Group()
-
+  
 		# sprite setup
 		self.create_map()
-
+  
+		# UI setup
+		self.ui=UI(self.player)
+  
 	def create_map(self):
-		maps_csv = {
-			'border': support.import_csv_layout('../layouts/mapa_border.csv'),
-			'boxes': support.import_csv_layout('../layouts/mapa_boxes.csv'),
-			'door': support.import_csv_layout('../layouts/mapa_door.csv'),
-			'dungeon_wall': support.import_csv_layout('../layouts/mapa_dungeon_wall.csv'),
-			'dungeon': support.import_csv_layout('../layouts/mapa_dungeon.csv'),
-			'fireable': support.import_csv_layout('../layouts/mapa_fireable.csv'),
-			'grass': support.import_csv_layout('../layouts/mapa_grass.csv'),
-			'house_tiles': support.import_csv_layout('../layouts/mapa_house_tiles.csv'),
-			'houses': support.import_csv_layout('../layouts/mapa_houses.csv'),
-			'iceable': support.import_csv_layout('../layouts/mapa_iceable.csv'),
-			'nature': support.import_csv_layout('../layouts/mapa_nature.csv'),
-			'rockable': support.import_csv_layout('../layouts/mapa_rockable.csv'),
-			'spiritable': support.import_csv_layout('../layouts/mapa_spiritable.csv'),
-		}
-		tiles_graphics = {
-			'grass': support.import_tiles('../graphics/grass/grass.png'),
-			'boxes': support.import_tiles('../graphics/objects/boxes/boxes.png'),
-			'door': support.import_tiles('../graphics/objects/door/door.png'),
-			'fireable': support.import_tiles('../graphics/objects/fireable/fireable.png'),
-			'iceable': support.import_tiles('../graphics/objects/iceable/iceable.png'),
-			'rockable': support.import_tiles('../graphics/objects/rockable/rockable.png'),
-			'spiritable': support.import_tiles('../graphics/objects/spiritable/spiritable.png'),
-			'nature': support.import_tiles('../graphics/tilemap/TilesetNature.png'),
-			'house': support.import_tiles('../graphics/tilemap/TilesetHouse.png'),
-		}
-
-		print(tiles_graphics['grass'][0])
-
-		for style, layout in maps_csv.items():
-			for row_index, row in enumerate(layout):
-				for col_index, col in enumerate(row):
-					x = col_index * TILESIZE
-					y = row_index * TILESIZE
-					if col != '-1':
-						#if style == 'border':
-							#Tile((x,y), [self.visible_sprites,self.obstacle_sprites], 'obstacle')
-						if style == 'grass':
-							Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'grass', tiles_graphics['grass'][int(col)])
-						if style == 'boxes':
-							Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'object', tiles_graphics['boxes'][int(col)])
-						if style == 'fireable':
-							Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'object', tiles_graphics['fireable'][int(col)])
-						if style == 'iceable':
-							Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'object', tiles_graphics['iceable'][int(col)])
-						if style == 'rockable':
-							Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'object', tiles_graphics['rockable'][int(col)])
-						if style == 'spiritable':
-							Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'object', tiles_graphics['spiritable'][int(col)])
-						if style == 'nature':
-							Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'nature', tiles_graphics['nature'][int(col)])
-						if style == 'houses':
-							Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house', tiles_graphics['house'][int(col)])
-						if style == 'house_tiles':
-							Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house', tiles_graphics['house'][int(col)])
-						
-
-		self.player = Player((3000,2000),[self.visible_sprites],self.obstacle_sprites, self.create_attack, self.end_attack())
+		for row_index, row in enumerate(WORLD_MAP):
+			for col_index, col in enumerate(row):
+				x = col_index * TILESIZE
+				y = row_index * TILESIZE
+				if col == 'x':
+					Tile((x,y), [self.visible_sprites, self.obstacle_sprites])
+				if col == 'p':
+					self.player = Player((x,y), [self.visible_sprites],
+                          				self.obstacle_sprites, 
+                              			self.create_attack, 
+                                 		self.end_attack)
+				if col == 'e':
+					Enemy('squid',(x,y),
+           				  [self.visible_sprites,self.attackable_sprites],
+                 		  self.obstacle_sprites,
+                     	  self.damage_player)
+					
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
-		self.current_attack = Weapon(self.player, [self.visible_sprites])
+		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
 
 	def end_attack(self):
 		if self.current_attack:
 			self.current_attack.kill()
 		self.current_attack = None
+  
+	def player_attack(self):
+		if self.attack_sprites:
+			for attack in self.attack_sprites:
+				# Check if the attack is colliding with an enemy
+				collisions = pygame.sprite.spritecollide(attack, self.attackable_sprites, False)
+				for target_sprite in collisions:
+					if target_sprite.sprite_type == 'grass':
+						target_sprite.kill()
+					elif target_sprite.sprite_type == 'enemy':
+						target_sprite.get_damage(self.player, attack.sprite_type)
+    
+    
+	def damage_player(self, amount, atttack_type):
+
+		if self.player.vulnerable:
+			self.player.get_damage(amount)
+			self.player.vulnerable = False
+			self.player.hurt_time = pygame.time.get_ticks()
+			print('Player health:', self.player.health)
 
 	def run(self):
 		# update and draw the game
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.update()
+		self.visible_sprites.enemy_update(self.player)
+		self.player_attack()
+		self.ui.display(self.player)
 
 class YsortCameraGroup(pygame.sprite.Group):
 	def __init__(self):
 		super().__init__()
 
 		self.display_surface = pygame.display.get_surface()
+		self.half_width = self.display_surface.get_size()[0] // 2
+		self.half_height = self.display_surface.get_size()[1] // 2
 		self.offset = pygame.math.Vector2()
 
 		# creating the floor
@@ -113,11 +102,9 @@ class YsortCameraGroup(pygame.sprite.Group):
 
 	def custom_draw(self, player):
 
-		# Getting the Offset to move the camera every time the player crosses the map border
-		screenx = self.display_surface.get_size()[0]
-		screeny = self.display_surface.get_size()[1]
-		self.offset.x = (player.rect.centerx // screenx) * screenx
-		self.offset.y = (player.rect.centery // screeny) * screeny
+		# getting the offset
+		self.offset.x = player.rect.centerx - self.half_width
+		self.offset.y = player.rect.centery - self.half_height
 
 		# drawing the floor
 		floor_offset_pos = self.floor_rect.topleft - self.offset
@@ -126,3 +113,8 @@ class YsortCameraGroup(pygame.sprite.Group):
 		for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery): # This line sorts the hitboxes so the sprite with the higher y position appears over the others during the sprite overlap
 			offset_pos = sprite.rect.topleft - self.offset
 			self.display_surface.blit(sprite.image, offset_pos)
+	
+	def enemy_update(self,player):
+		enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite,'sprite_type') and sprite.sprite_type == 'enemy']
+		for enemy in enemy_sprites:
+			enemy.enemy_update(player)
