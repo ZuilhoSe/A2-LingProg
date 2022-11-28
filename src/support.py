@@ -38,16 +38,18 @@ def import_folder(path):
 
 def import_tiles(path):
 	surface = pygame.image.load(path).convert_alpha()
-	tile_x = surface.get_size()[0] // 16
-	tile_y = surface.get_size()[1] // 16
-
+	surface_x = surface.get_width()
+	surface_y = surface.get_height()
+	surface = pygame.transform.scale(surface, (surface_x*4,surface_y*4))
+	tile_x = surface.get_size()[0] // 64
+	tile_y = surface.get_size()[1] // 64
 	tiles = []
 	for row in range(tile_y):
 		for col in range(tile_x):
 			x = col * 64
 			y = row * 64
-			new_surface = pygame.Surface((64,64))
-			new_surface.blit(surface, (0,0), pygame.Rect(x,y,64,64))
+			new_surface = pygame.Surface((64,64), flags = pygame.SRCALPHA)
+			new_surface.blit(surface,(0,0),pygame.Rect(x,y,64,64))
 			tiles.append(new_surface)
 			
 	return tiles

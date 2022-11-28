@@ -29,23 +29,96 @@ class Level:
 		self.ui=UI(self.player)
   
 	def create_map(self):
-		for row_index, row in enumerate(WORLD_MAP):
-			for col_index, col in enumerate(row):
-				x = col_index * TILESIZE
-				y = row_index * TILESIZE
-				if col == 'x':
-					Tile((x,y), [self.visible_sprites, self.obstacle_sprites])
-				if col == 'p':
-					self.player = Player((x,y), [self.visible_sprites],
+		"""_summary_: Create the map and the player"""
+
+		#Importing the layouts
+		layout = {
+			'border': support.import_csv_layout('../layouts/mapa_border.csv'),
+			'iceable': support.import_csv_layout('../layouts/mapa_iceable.csv'),
+			'fireable': support.import_csv_layout('../layouts/mapa_fireable.csv'),
+			'rockable': support.import_csv_layout('../layouts/mapa_rockable.csv'),
+			'spiritable': support.import_csv_layout('../layouts/mapa_spiritable.csv'),
+			'grass': support.import_csv_layout('../layouts/mapa_grass.csv'),
+			'house_elements': support.import_csv_layout('../layouts/mapa_house_elements.csv'),
+			'dungeon_wall': support.import_csv_layout('../layouts/mapa_dungeon_wall.csv'),
+			'dungeon': support.import_csv_layout('../layouts/mapa_dungeon.csv'),
+			'house_tiles': support.import_csv_layout('../layouts/mapa_house_tiles.csv'),
+			'boxes': support.import_csv_layout('../layouts/mapa_boxes.csv'),
+			'nature': support.import_csv_layout('../layouts/mapa_nature.csv'),
+			'door': support.import_csv_layout('../layouts/mapa_door.csv'),
+			'houses': support.import_csv_layout('../layouts/mapa_houses.csv'),			
+		}
+
+		#Creating the sprites
+		graphics = {
+			'grass': support.import_tiles('../graphics/grass/grass.png'),
+			'house_tileset': support.import_tiles('../graphics/tilemap/TilesetHouse.png'),
+			'nature_tileset': support.import_tiles('../graphics/tilemap/TilesetNature.png'),
+			'element_tileset': support.import_tiles('../graphics/tilemap/TilesetElement.png'),
+			'box_tileset': support.import_tiles('../graphics/objects/boxes/boxes.png'),
+			'door_tileset': support.import_tiles('../graphics/objects/door/door.png'),
+			'dungeon_tileset': support.import_tiles('../graphics/tilemap/TilesetDungeon.png'),
+			'dungeon_interior_tileset': support.import_tiles('../graphics/tilemap/TilesetInterior.png'),
+			'spiritable_tileset': support.import_tiles('../graphics/objects/spiritable/spiritable.png'),
+			'rockable_tileset': support.import_tiles('../graphics/objects/rockable/rockable.png'),
+			'fireable_tileset': support.import_tiles('../graphics/objects/fireable/fireable.png'),
+			'iceable_tileset': support.import_tiles('../graphics/objects/iceable/iceable.png'),
+		}
+		
+		#Iterating over each layout and positioning the sprites
+		for style, layout in layout.items():
+			for row_index, row in enumerate(layout):
+				for col_index, col in enumerate(row):
+					if col != '-1': #Case where the tile is not empty
+						x = col_index * TILESIZE
+						y = row_index * TILESIZE
+						if style == 'border':
+							Tile((x,y), [self.obstacle_sprites],'invisible')
+						if style == 'grass':
+							grass_tile = graphics['grass'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites, self.attackable_sprites],'grass', grass_tile)
+						if style == 'nature':
+							nature_tile = graphics['nature_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'nature', nature_tile)
+						if style == 'house_elements':
+							house_tile = graphics['element_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house_element', house_tile)
+						if style == 'house_tiles':
+							house_tile = graphics['house_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house_tile', house_tile)
+						if style == 'houses':
+							house_tile = graphics['house_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house', house_tile)
+						if style == 'boxes':
+							box_tile = graphics['box_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'box', box_tile)
+						if style == 'door':
+							door_tile = graphics['door_tileset'][0]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'door', door_tile)
+						if style == 'dungeon':
+							dungeon_tile = graphics['dungeon_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'dungeon', dungeon_tile)
+						if style == 'dungeon_wall':
+							dungeon_tile = graphics['dungeon_interior_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'dungeon_wall', dungeon_tile)
+						if style == 'spiritable':
+							spiritable_tile = graphics['spiritable_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'spiritable', spiritable_tile)
+						if style == 'rockable':
+							rockable_tile = graphics['rockable_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'rockable', rockable_tile)
+						if style == 'fireable':
+							fireable_tile = graphics['fireable_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'fireable', fireable_tile)
+						if style == 'iceable':
+							iceable_tile = graphics['iceable_tileset'][int(col)]
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'iceable', iceable_tile)
+
+		# Create the player
+		self.player = Player((3000,3000), [self.visible_sprites],
                           				self.obstacle_sprites, 
                               			self.create_attack, 
                                  		self.end_attack)
-				if col == 'e':
-					Enemy('squid',(x,y),
-           				  [self.visible_sprites,self.attackable_sprites],
-                 		  self.obstacle_sprites,
-                     	  self.damage_player)
-					
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
@@ -74,7 +147,6 @@ class Level:
 			self.player.get_damage(amount)
 			self.player.vulnerable = False
 			self.player.hurt_time = pygame.time.get_ticks()
-			print('Player health:', self.player.health)
 
 	def run(self):
 		# update and draw the game
