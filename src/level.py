@@ -143,7 +143,7 @@ class Level:
     
 	def damage_player(self, amount, atttack_type):
 
-		if self.player.vulnerable:
+		if self.player.vulnerable and not self.player.dashing:
 			self.player.get_damage(amount)
 			self.player.vulnerable = False
 			self.player.hurt_time = pygame.time.get_ticks()
