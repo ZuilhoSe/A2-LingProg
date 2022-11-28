@@ -51,8 +51,8 @@ class Player(Entity):
         #Importing Sounds
         self.sword_attack = pg.mixer.Sound("../audio/sword.wav")
         self.stick_attack = pg.mixer.Sound("../audio/stick.wav")
-        self.sword_attack.set_volume(0.4)
-        self.stick_attack.set_volume(0.4)
+        self.sword_attack.set_volume(0.2)
+        self.stick_attack.set_volume(0.2)
 
     # Gets the assets to animate the player
     def player_assets(self):
