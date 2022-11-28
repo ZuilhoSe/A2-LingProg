@@ -129,11 +129,11 @@ class Level:
 									monsters_name = 'snake'
 								elif col == '3':
 									monsters_name = 'squid'
-								elif col == '5':
-									monsters_name = 'giant_flam'
-								elif col == '6':
-									monsters_name = 'giant_raccoon'
-								Enemy('squid',(x,y),
+								# elif col == '5':
+								# 	monsters_name = 'giant_flam'
+								# elif col == '6':
+								# 	monsters_name = 'giant_raccoon'
+								Enemy(monsters_name,(x,y),
 									[self.visible_sprites,self.attackable_sprites],
 									self.obstacle_sprites,
 									self.damage_player)

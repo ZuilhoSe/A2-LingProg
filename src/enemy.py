@@ -31,7 +31,7 @@ class Enemy(Entity):
         #graphics setup
         self.status = 'idle'
         self.import_graphics(monster_name)
-        self.image= self.animations[self.status][self.frame_index]
+        self.image= self.animations[self.frame_index]
         
         # movement
         self.rect = self.image.get_rect(topleft = pos)
@@ -61,17 +61,17 @@ class Enemy(Entity):
         self.hit_time = None
         self.invincibility_duration = 400
         
+    
     def import_graphics(self, name: str):
-        """Stores the animations of the enemy in a dictionay
+        """Stores the animations of the enemy in a list
         :param name: name of the enemy
         :type name: str
         """ 
-               
-        self.animations = {'idle':[],'move':[],'attack':[]}
-        main_path =f'../graphics/monster/{name}/'
-        for animation in self.animations.keys():
-            self.animations[animation] = support.import_folder(main_path + animation)
-    
+        animations = support.import_tiles(f'../graphics/monster/{name}.png')
+        self.animations = []
+        for i in range(0,13,4):
+            self.animations.append(animations[i])
+        
     def get_player_distance_direction(self, player):
         """Gets the postion of the enemy relative to the player
         :param player: the player
@@ -122,7 +122,7 @@ class Enemy(Entity):
         """Draws the enemy animations
         """
                 
-        animation = self.animations[self.status]
+        animation = self.animations
         
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
