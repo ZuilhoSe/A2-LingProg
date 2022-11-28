@@ -22,7 +22,14 @@ class Player(Entity):
         self.attack_cooldown = 400
         self.attack_time = None
 
-        self.weapon_index = 0 #IMPORTANT to change the weapon
+        self.dashing = False
+        self.dash_wait = False
+        self.dash_time = None
+        self.dash_cooldown = 1000
+        self.dash_duration = 200
+        self.dash_speed = 12
+
+        self.weapon_index = 1 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.weapon_time = None
         self.weapon_standby = False
@@ -47,7 +54,8 @@ class Player(Entity):
         self.animations = { 
             "up": [], "down": [], "left": [], "right": [], 
             "up_idle": [], "down_idle": [], "left_idle": [], "right_idle": [], 
-            "up_attack": [], "down_attack": [], "left_attack": [], "right_attack": [] 
+            "up_attack": [], "down_attack": [], "left_attack": [], "right_attack": [],
+            "up_dash": [], "down_dash": [], "left_dash": [], "right_dash": []
         }
 
         for animation in self.animations.keys():
@@ -58,7 +66,7 @@ class Player(Entity):
     def input(self):
         keys = pg.key.get_pressed()
 
-        if not self.attacking:
+        if not self.attacking and not self.dashing:
             # First for up and down movement
             if keys[pg.K_UP]:
                 self.direction.y = -1
@@ -87,11 +95,18 @@ class Player(Entity):
             self.weapon_time = pg.time.get_ticks()
             self.create_attack()
 
-        # And now the magic input
-        if keys[pg.K_LCTRL] and not self.attacking:
-            self.attacking = True
-            self.attack_time = pg.time.get_ticks()
+        # And the magic input
+        # if keys[pg.K_LCTRL] and not self.attacking:
+        #     self.attacking = True
+        #     self.attack_time = pg.time.get_ticks()
 
+        # Defining the dash input
+        if keys[pg.K_LSHIFT] and not self.attacking and not self.dash_wait and not "idle" in self.status:
+            self.dashing = True
+            self.dash_wait = True
+            self.speed += self.dash_speed          
+            self.dash_time = pg.time.get_ticks()
+ 
     #Defining some action's cooldowns
     def cooldowns(self):
         current_time = pg.time.get_ticks()
@@ -109,6 +124,14 @@ class Player(Entity):
             if current_time - self.hurt_time >= self.invulnerability_duration:
                 self.vulnerable = True
         
+        if self.dashing:
+            if current_time - self.dash_time >= self.dash_duration:
+                self.speed = self.stats["speed"]
+                self.dashing = False
+
+        if self.dash_wait:
+            if current_time - self.dash_time >= self.dash_cooldown:
+                self.dash_wait = False
 
      # Gets the player status to apply the correct animation
     def get_status(self):
@@ -117,7 +140,9 @@ class Player(Entity):
         if self.direction.x == 0 and self.direction.y == 0 and not "idle" in self.status:
             if "attack" in self.status:
                 self.status = self.status.replace("_attack","_idle")
-            elif not self.attacking:
+            elif "dash" in self.status:
+                    self.status = self.status.replace("_dash","_idle")
+            elif not self.attacking and not self.dashing:
                 self.status = self.status + "_idle"
 
         # Attacking
@@ -127,8 +152,19 @@ class Player(Entity):
             if not "attack" in self.status:
                 if "idle" in self.status:
                     self.status = self.status.replace("_idle","_attack")
+                elif "dash" in self.status:
+                    self.status = self.status.replace("_dash","_attack")
                 else:
                     self.status = self.status + "_attack"
+
+        # Dash
+        if self.dashing and not "dash" in self.status:
+            if "attack" in self.status:
+                self.status = self.status.replace("_attack","_dash")
+            elif "idle" in self.status:
+                self.status = self.status.replace("_idle","_dash")
+            else:
+                self.status = self.status + "_dash"
 
     # Animates the player according to it's status
     def animate(self):
