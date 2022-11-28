@@ -5,12 +5,15 @@ from random import choice
 class AnimationPlayer:
     def __init__(self):
         self.frames = {
+            # player attack
+            "attack": import_folder('../graphics/particles/attack', rescale=False),
+
             # magic
             'flame': import_folder('../graphics/particles/flame/frames', rescale=False),
             'aura': import_folder('../graphics/particles/aura', rescale=False),
             'heal': import_folder('../graphics/particles/heal/frames', rescale=False),
             
-            # attacks 
+            # monster attacks 
             'claw': import_folder('../graphics/particles/claw', rescale=False),
             'slash': import_folder('../graphics/particles/slash', rescale=False),
             'sparkle': import_folder('../graphics/particles/sparkle', rescale=False),
@@ -50,6 +53,14 @@ class AnimationPlayer:
 
     def create_grass_particles(self, pos, groups):
         animation_frames = choice(self.frames["leaf"])
+        ParticleEffect(pos, animation_frames, groups)
+
+    def create_enemy_attack_particles(self, attack_type, pos, groups):
+        animation_frames = self.frames[attack_type]
+        ParticleEffect(pos, animation_frames, groups)
+
+    def create_player_attack_particles(self, pos, groups):
+        animation_frames = self.frames["attack"]
         ParticleEffect(pos, animation_frames, groups)
 
 class ParticleEffect(pg.sprite.Sprite):
