@@ -5,38 +5,42 @@ from random import choice
 class AnimationPlayer:
     def __init__(self):
         self.frames = {
+            # player attack
+            # "attack": import_folder('../graphics/particles/attack', rescale=1),
+
             # magic
-            'flame': import_folder('../graphics/particles/flame/frames', rescale=False),
-            'aura': import_folder('../graphics/particles/aura', rescale=False),
-            'heal': import_folder('../graphics/particles/heal/frames', rescale=False),
+            # 'flame': import_folder('../graphics/particles/flame/frames', rescale=1),
+            # 'aura': import_folder('../graphics/particles/aura', rescale=1),
+            # 'heal': import_folder('../graphics/particles/heal/frames', rescale=1),
             
-            # attacks 
-            'claw': import_folder('../graphics/particles/claw', rescale=False),
-            'slash': import_folder('../graphics/particles/slash', rescale=False),
-            'sparkle': import_folder('../graphics/particles/sparkle', rescale=False),
-            'leaf_attack': import_folder('../graphics/particles/leaf_attack', rescale=False),
-            'thunder': import_folder('../graphics/particles/thunder', rescale=False),
+            # monster attacks 
+            # 'claw': import_folder('../graphics/particles/claw', rescale=1),
+            'slash': import_folder('../graphics/particles/slash', rescale=1),
+            'fire': import_folder('../graphics/particles/fire', rescale=2),
+            # 'sparkle': import_folder('../graphics/particles/sparkle', rescale=1),
+            # 'leaf_attack': import_folder('../graphics/particles/leaf_attack', rescale=1),
+            # 'thunder': import_folder('../graphics/particles/thunder', rescale=1),
  
-            # monster deaths
-            'squid': import_folder('../graphics/particles/smoke_orange', rescale=False),
-            'raccoon': import_folder('../graphics/particles/raccoon', rescale=False),
-            'spirit': import_folder('../graphics/particles/nova', rescale=False),
-            'bamboo': import_folder('../graphics/particles/bamboo', rescale=False),
+            # # monster deaths
+            # 'squid': import_folder('../graphics/particles/smoke_orange', rescale=1),
+            # 'raccoon': import_folder('../graphics/particles/raccoon', rescale=1),
+            # 'spirit': import_folder('../graphics/particles/nova', rescale=1),
+            # 'bamboo': import_folder('../graphics/particles/bamboo', rescale=1),
             
             # leafs 
             'leaf': (
-                import_folder('../graphics/particles/leaf1', rescale=False),
-                import_folder('../graphics/particles/leaf2', rescale=False),
-                import_folder('../graphics/particles/leaf3', rescale=False),
-                import_folder('../graphics/particles/leaf4', rescale=False),
-                import_folder('../graphics/particles/leaf5', rescale=False),
-                import_folder('../graphics/particles/leaf6', rescale=False),
-                self.reflect_images(import_folder('../graphics/particles/leaf1', rescale=False)),
-                self.reflect_images(import_folder('../graphics/particles/leaf2', rescale=False)),
-                self.reflect_images(import_folder('../graphics/particles/leaf3', rescale=False)),
-                self.reflect_images(import_folder('../graphics/particles/leaf4', rescale=False)),
-                self.reflect_images(import_folder('../graphics/particles/leaf5', rescale=False)),
-                self.reflect_images(import_folder('../graphics/particles/leaf6', rescale=False))
+                import_folder('../graphics/particles/leaf1', rescale=1),
+                import_folder('../graphics/particles/leaf2', rescale=1),
+                import_folder('../graphics/particles/leaf3', rescale=1),
+                import_folder('../graphics/particles/leaf4', rescale=1),
+                import_folder('../graphics/particles/leaf5', rescale=1),
+                import_folder('../graphics/particles/leaf6', rescale=1),
+                self.reflect_images(import_folder('../graphics/particles/leaf1', rescale=1)),
+                self.reflect_images(import_folder('../graphics/particles/leaf2', rescale=1)),
+                self.reflect_images(import_folder('../graphics/particles/leaf3', rescale=1)),
+                self.reflect_images(import_folder('../graphics/particles/leaf4', rescale=1)),
+                self.reflect_images(import_folder('../graphics/particles/leaf5', rescale=1)),
+                self.reflect_images(import_folder('../graphics/particles/leaf6', rescale=1))
                 )
             }
 
@@ -50,6 +54,10 @@ class AnimationPlayer:
 
     def create_grass_particles(self, pos, groups):
         animation_frames = choice(self.frames["leaf"])
+        ParticleEffect(pos, animation_frames, groups)
+
+    def create_default_particles(self, particle_type, pos, groups):
+        animation_frames = self.frames[particle_type]
         ParticleEffect(pos, animation_frames, groups)
 
 class ParticleEffect(pg.sprite.Sprite):

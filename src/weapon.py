@@ -1,10 +1,21 @@
 import pygame as pg
 
 class Weapon(pg.sprite.Sprite):
-    def __init__(self, player, groups):
-        super().__init__(groups)
+    """This class carries the assets to correctly create a weapon in the player's hand during an attack. It inherits from pygame.sprite.Sprite class.
+    """
 
+    def __init__(self, player, groups):
+        """A Weapon is created every time the player cast a basic attack, and is soon deleted when the attack is over.
+
+        :param player: The class must receive the Player object to know it's position and direction
+        :type player: Player
+        :param groups: List of tile groups the Weapon will belong
+        :type groups: list
+        """
+
+        super().__init__(groups)
         self.sprite_type = 'weapon'
+
         # Getting the player's direction
         direction = player.status.split("_")[0]
     
