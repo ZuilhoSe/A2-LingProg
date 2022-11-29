@@ -17,19 +17,21 @@ class Menus:
         while True:
             main_menu_screen = self.screen
 
+            main_menu_screen.fill("Black")
+
             menu_mouse_position = pg.mouse.get_pos()
-            menu_text = self.get_font(100).render("MAIN MENU", True, "#b68f40")
-            menu_rect = menu_text.get_rect(center=(640, 100))
+            menu_text = self.get_font(MENU_FONT_SIZE).render("MAIN MENU", True, "#b68f40")
+            menu_rect = menu_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
 
             
-            play_button = Button(image=pg.image.load("../graphics/HUD/Play Rect.png"), pos=(640, 250), 
-                            text_input="PLAY", font=self.get_font(75), 
+            play_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.35)), 
+                            text_input="PLAY", font=self.get_font(MENU_FONT_SIZE), 
                             base_color="#d7fcd4", hovering_color="White")
-            options_button = Button(image=None, pos=(640, 400), 
-                            text_input="OPTIONS", font=self.get_font(75), 
+            options_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.55)), 
+                            text_input="OPTIONS", font=self.get_font(MENU_FONT_SIZE), 
                             base_color="#d7fcd4", hovering_color="White")
-            quit_button = Button(image=None, pos=(640, 550), 
-                            text_input="QUIT", font=self.get_font(75), 
+            quit_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.75)), 
+                            text_input="QUIT", font=self.get_font(MENU_FONT_SIZE), 
                             base_color="#d7fcd4", hovering_color="White")
 
             main_menu_screen.blit(menu_text, menu_rect)
@@ -62,13 +64,13 @@ class Menus:
             options_menu_screen.fill("Black")
 
             options_menu_mouse_position = pg.mouse.get_pos()
-            options_text = self.get_font(100).render("OPTIONS", True, "#b68f40")
-            options_rect = options_text.get_rect(center=(640, 100))
+            options_text = self.get_font(MENU_FONT_SIZE).render("OPTIONS", True, "#b68f40")
+            options_rect = options_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.2)))
 
             options_menu_screen.blit(options_text, options_rect)
 
-            back_button = Button(image=None, pos=(640, 550), 
-                            text_input="BACK", font=self.get_font(75), 
+            back_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.8)), 
+                            text_input="BACK", font=self.get_font(MENU_FONT_SIZE), 
                             base_color="#d7fcd4", hovering_color="White")
 
             for button in [back_button]:
@@ -90,11 +92,10 @@ class Menus:
 
         pause_menu_screen.fill("Black")
 
-        pause_menu_mouse_position = pg.mouse.get_pos()
-        pause_text = self.get_font(100).render("PAUSE", True, "#b68f40")
-        pause_rect = pause_text.get_rect(center=(640, 300))
-        resume_text = self.get_font(50).render("Press    ENTER   to  resume", True, "#b68f40")
-        resume_rect = resume_text.get_rect(center=(640, 500))
+        pause_text = self.get_font(MENU_FONT_SIZE).render("PAUSE", True, "#b68f40")
+        pause_rect = pause_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.5)))
+        resume_text = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ENTER   to  resume", True, "#b68f40")
+        resume_rect = resume_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.6)))
 
         pause_menu_screen.blit(pause_text, pause_rect)
         pause_menu_screen.blit(resume_text, resume_rect)
