@@ -4,7 +4,24 @@ from support import import_folder
 from entity import Entity
 
 class Player(Entity):
+    """This class carries most of the important properties and methods to the player's controls and functionalities. It inherits from the class Entity, in the entity module.
+    """
+
     def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack):
+        """The class Player is created inside the class Level, and most of it's interactions come from it. The init method carries most of player's important varaiables, such as stats and cooldown values.
+
+        :param pos: Receives coordinates where the player's tile will be spawned in the map, in the format: (x,y)
+        :type pos: tuple
+        :param groups: List of tile groups the Player will belong
+        :type groups: list
+        :param obstacle_sprites: Group of sprites the player will interact through collision
+        :type obstacle_sprites: pg.sprite.Group
+        :param create_attack: Method the Level uses to create a Weapon in the player's hand. The Player must know this method to call it through the Level class.
+        :type create_attack: method
+        :param end_attack: Method the Level uses to delete the Weapon sprite once an attack is over. The Player must know this method to call it through the Level class.
+        :type end_attack: method
+        """
+
         super().__init__(groups)
         self.image = pg.image.load("../graphics/test/player.png").convert_alpha() #Path de TESTE, não está pronto
         self.rect = self.image.get_rect(topleft = pos)
@@ -48,8 +65,10 @@ class Player(Entity):
         self.hurt_time = None
         self.invulnerability_duration = 500
 
-    # Gets the assets to animate the player
     def player_assets(self):
+        """Import the assets to animate the player, such as walking and attacking sprites.
+        """
+
         character_path = "../graphics/player/"
         self.animations = { 
             "up": [], "down": [], "left": [], "right": [], 
@@ -62,8 +81,10 @@ class Player(Entity):
             full_path = character_path + animation
             self.animations[animation] = import_folder(full_path)
 
-    # Defining how our inputs afect the characters movement vector
     def input(self):
+        """Defines how player's keyboard inputs affects the character, with movement and attack comands.
+        """
+
         keys = pg.key.get_pressed()
 
         if not self.attacking and not self.dashing:
@@ -107,8 +128,10 @@ class Player(Entity):
             self.speed += self.dash_speed          
             self.dash_time = pg.time.get_ticks()
  
-    #Defining some action's cooldowns
     def cooldowns(self):
+        """Defines the player's cooldowns behaviour, such as attack, dash and vulnerability cooldowns.
+        """
+
         current_time = pg.time.get_ticks()
 
         if self.attacking:
@@ -133,8 +156,9 @@ class Player(Entity):
             if current_time - self.dash_time >= self.dash_cooldown:
                 self.dash_wait = False
 
-     # Gets the player status to apply the correct animation
     def get_status(self):
+        """This method sets the character self.status property according to the action in course.
+        """
 
         # Idle
         if self.direction.x == 0 and self.direction.y == 0 and not "idle" in self.status:
@@ -166,8 +190,10 @@ class Player(Entity):
             else:
                 self.status = self.status + "_dash"
 
-    # Animates the player according to it's status
     def animate(self):
+        """Uses the self.status property to correctly set the character's animation sprites. 
+        """
+
         animation = self.animations[self.status]
 
         # Loops over the frames
@@ -179,20 +205,20 @@ class Player(Entity):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
-
-    #this method should be called when the player is hit by an enemy
-    def get_damage(self,dmg):
-        """This method should be called when the player is hit by an enemy
+    def get_damage(self, dmg):
+        """ This method should be called when the player is hit by an enemy.
 
         :param dmg: the damage the player will take
         :type dmg: int
-        """        
+        """  
 
-        if self.health>0:
-            self.health-=dmg
-
+        if self.health > 0:
+            self.health -= dmg
 
     def update(self):
+        """This method sets what will be called everytime the game completes a main loop. Basically, it says what will be "updated" in each frame. 
+        """
+
         self.input()
         self.move(self.speed)
         self.get_status()
