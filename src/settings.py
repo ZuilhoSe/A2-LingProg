@@ -67,8 +67,8 @@ weapon_data = {
 }
 
 monsters_data = {
-    'squid': {'health': 3,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
-    'flam': {'health': 2,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/attack/slash.wav', 'speed': 5, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
-    'raccoon': {'health': 4,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav', 'speed': 4, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
-    'snake': {'health': 2,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'squid': {'health': 3,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'flam': {'health': 2,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 5, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'raccoon': {'health': 4,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 4, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'snake': {'health': 2,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
 }

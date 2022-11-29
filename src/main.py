@@ -13,11 +13,16 @@ class Game:
 		self.clock = pygame.time.Clock()
 		self.level = Level()
 		self.is_paused=False
+		#Village music
+		pygame.mixer.music.load("../audio/village.ogg")
+		pygame.mixer.music.set_volume(0.2)
+		pygame.mixer.music.play(-1)
 
 	def menu(self):
 		self.menu=Menus()
 		if self.menu.main_menu() == "play":
 			self.run()
+
 
 	def run(self):
 		while True:
