@@ -17,7 +17,7 @@ def import_csv_layout(path):
 			terrain_map.append(list(row))
 		return terrain_map
 
-def import_folder(path, rescale=True):
+def import_folder(path, rescale=4):
 	"""Function to import all the images from a folder
 
 	:param path: Path to the folder
@@ -31,10 +31,9 @@ def import_folder(path, rescale=True):
 		for image in img_files:
 			full_path = path + '/' + image
 			image_surf = pygame.image.load(full_path).convert_alpha()
-			if rescale:
-				x = image_surf.get_width()
-				y = image_surf.get_height()
-				image_surf = pygame.transform.scale(image_surf, (4*x, 4*y))
+			x = image_surf.get_width()
+			y = image_surf.get_height()
+			image_surf = pygame.transform.scale(image_surf, (rescale*x, rescale*y))
 			surface_list.append(image_surf)
 
 	return surface_list

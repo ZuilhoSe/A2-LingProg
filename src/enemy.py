@@ -12,7 +12,8 @@ class Enemy(Entity):
     """    
     def __init__(self, monster_name: str,
                  pos: tuple[int], groups,
-                 obstacle_sprites: pygame.sprite.Group(), damage_player):
+                 obstacle_sprites: pygame.sprite.Group(), 
+                 damage_player, death_particles):
         """
         :param monster_name: name of the enemy so that it's attributes can be searched
         :type monster_name: str
@@ -56,6 +57,9 @@ class Enemy(Entity):
         self.attack_time = None
         self.attack_cooldown = 400
         self.damage_player = damage_player
+
+        # Particles
+        self.death_particles = death_particles
 
         # Invincibility cooldown
         self.vulnerable = True
@@ -184,6 +188,7 @@ class Enemy(Entity):
             
     def die(self):
         if self.health <= 0:
+            # self.death_particles(self.monster_name, self.rect.center)
             self.kill()
     
     def update(self):
