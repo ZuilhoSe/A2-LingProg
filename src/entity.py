@@ -2,15 +2,29 @@ import pygame as pg
 from math import sin
 
 class Entity(pg.sprite.Sprite):
+    """This class carries the methods and properties that are common to all entities spawned in the game. It inherits from pygame.sprite.Sprite class.
+    """
+
     def __init__(self, groups):
+        """The Entity is an abstract class, and will never be called in the game. The init method has some important properties for entitie's movements.
+
+        :param groups: List of tile groups the Entity will belong
+        :type groups: list
+        """
+
         super().__init__(groups)
 
         self.frame_index = 0
         self.animation_speed = 0.15
         self.direction = pg.math.Vector2() # This is a vector representing the sprite's movement direction
 
-    # Defining how the vector and the speed interact to create movement
     def move(self, speed):
+        """This defines how changes in the movement vector combines with entities speed to create movement.
+
+        :param speed: Entity's speed of movement.
+        :type speed: int
+        """
+
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize() # Here we normalize the vector, so if you go in two simultaneous directions, you don't become The Flash
 
@@ -22,8 +36,13 @@ class Entity(pg.sprite.Sprite):
 
         self.rect.center = self.hitbox.center   
 
-    # Defining the collision behaviour
     def collision(self, direction):
+        """The collision method defines the entitie's behaviour when they touch each other.
+
+        :param direction: "x" if the collision is happening in the horizontal. "y" if a collision is happening in the vertical.
+        :type direction: str
+        """
+
         if direction == "x":
             for obstacle in self.obstacle_sprites:
                 if obstacle.hitbox.colliderect(self.hitbox):
@@ -40,8 +59,13 @@ class Entity(pg.sprite.Sprite):
                     if self.direction.y < 0: # The player is moving up, so we have a collision to the top
                         self.hitbox.top = obstacle.hitbox.bottom
 
-    # Method to get a value that varies between positive and negative as time passes
     def variable_value(self):
+        """This method works simply to return a variable value as time passes.
+
+        :return: Varies between returning 0 or 255 as time passes.
+        :rtype: int
+        """
+
         value = sin(pg.time.get_ticks())
         if value >= 0:
             return 255
