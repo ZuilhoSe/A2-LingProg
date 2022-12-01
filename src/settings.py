@@ -2,8 +2,8 @@
 STANDARD_WIDTH=1280
 STANDARD_HEIGTH=720
 STANDARD_FONT_SIZE=100
-WIDTH    = 1920	
-HEIGTH   = 1080
+WIDTH    = 1280	
+HEIGTH   = 720
 MENU_FONT_SIZE=STANDARD_FONT_SIZE*(int(WIDTH/STANDARD_WIDTH))
 FPS      = 60
 TILESIZE = 64
@@ -72,3 +72,6 @@ monsters_data = {
     'raccoon': {'health': 4,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 4, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
     'snake': {'health': 2,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
 }
+
+
+VOLUME=1
