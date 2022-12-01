@@ -8,6 +8,7 @@ from enemy import Enemy
 from ui import UI
 from particles import AnimationPlayer
 from random import randint
+from villagers import Villager
 
 class Level:
 	"""Setting up the map and the sprites
@@ -121,11 +122,19 @@ class Level:
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'iceable', iceable_tile)
 						if style == 'entities':
 							if col == '4': #Player
-								print('Player')
 								self.player = Player((x,y), [self.visible_sprites],
                           				self.obstacle_sprites, 
                               			self.create_attack, 
                                  		self.end_attack)
+							elif col == '7':
+								image = pygame.image.load('../graphics/entities/007.png').convert_alpha()
+								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player)
+							elif col == '8':
+								image = pygame.image.load('../graphics/entities/008.png').convert_alpha()
+								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player)
+							elif col == '9':
+								image = pygame.image.load('../graphics/entities/009.png').convert_alpha()
+								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player)							
 							else:
 								if col == '0':
 									monsters_name = 'raccoon'
