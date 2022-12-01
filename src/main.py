@@ -15,14 +15,14 @@ class Game:
 		self.is_paused=False
 		#Village music
 		pygame.mixer.music.load("../audio/village.ogg")
-		pygame.mixer.music.set_volume(0.2)
+		pygame.mixer.music.set_volume(VOLUME/10)
 		pygame.mixer.music.play(-1)
 
 	def menu(self):
 		self.menu=Menus()
+		# print(self.menu.main_menu())
 		if self.menu.main_menu() == "play":
 			self.run()
-
 
 	def run(self):
 		while True:
@@ -32,7 +32,7 @@ class Game:
 					sys.exit()
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_RETURN:
-						self.is_paused = True
+						self.is_paused = not self.is_paused
 						self.pause=Menus()
 						self.pause.pause_menu()	
 			while self.is_paused:
@@ -42,7 +42,7 @@ class Game:
 						sys.exit()
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_RETURN:
-							self.is_paused = False
+							self.is_paused = not self.is_paused
 
 			self.screen.fill('black')
 			self.level.run()
