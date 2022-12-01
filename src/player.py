@@ -51,7 +51,7 @@ class Player(Entity):
         self.weapon_time = None
         self.weapon_standby = False
 
-        self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 30}
+        self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 6}
         self.health = self.stats["health"]
         self.health = 7
         self.max_health=12
