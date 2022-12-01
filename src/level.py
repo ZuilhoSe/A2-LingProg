@@ -128,13 +128,16 @@ class Level:
                                  		self.end_attack)
 							elif col == '7':
 								image = pygame.image.load('../graphics/entities/007.png').convert_alpha()
-								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player)
+								speech = support.import_text('../data/girl.txt')
+								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)
 							elif col == '8':
 								image = pygame.image.load('../graphics/entities/008.png').convert_alpha()
-								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player)
+								speech = support.import_text('../data/old.txt')
+								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)
 							elif col == '9':
 								image = pygame.image.load('../graphics/entities/009.png').convert_alpha()
-								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player)							
+								speech = support.import_text('../data/vendor.txt')
+								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)							
 							else:
 								if col == '0':
 									monsters_name = 'raccoon'
