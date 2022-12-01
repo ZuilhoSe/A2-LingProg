@@ -143,11 +143,11 @@ class Level:
 									[self.visible_sprites,self.attackable_sprites],
 									self.obstacle_sprites,
 									self.damage_player,
-									self.death_particles)
+									self.create_particles)
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
-		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
+		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites], self.create_particles)
 
 	def end_attack(self):
 		if self.current_attack:
@@ -178,7 +178,7 @@ class Level:
 			self.player.hurt_time = pygame.time.get_ticks()
 			self.animation_player.create_default_particles(attack_type, self.player.rect.center, [self.visible_sprites])
 
-	def death_particles(self, particle_type, pos):
+	def create_particles(self, particle_type, pos):
 		self.animation_player.create_default_particles(particle_type, pos, self.visible_sprites)
 
 	def run(self):

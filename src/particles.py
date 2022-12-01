@@ -6,7 +6,10 @@ class AnimationPlayer:
     def __init__(self):
         self.frames = {
             # player attack
-            # "attack": import_folder('../graphics/particles/attack', rescale=1),
+            "attack_x": import_folder('../graphics/particles/attack_x', rescale=2),
+            "flip_attack_x": self.reflect_images(import_folder('../graphics/particles/attack_x', rescale=2)),
+            "attack_y": self.reflect_images(import_folder('../graphics/particles/attack_y', rescale=2)),
+            "flip_attack_y": self.reflect_images(import_folder('../graphics/particles/attack_y', rescale=2), y=True),
 
             # magic
             # 'flame': import_folder('../graphics/particles/flame/frames', rescale=1),
@@ -45,10 +48,10 @@ class AnimationPlayer:
                 )
             }
 
-    def reflect_images(self, frames):
+    def reflect_images(self, frames, x = True, y = False):
         new_frames = []
         for frame in frames:
-            flipped_frame = pg.transform.flip(frame, True, False)
+            flipped_frame = pg.transform.flip(frame, x, y)
             new_frames.append(flipped_frame)
         
         return new_frames
