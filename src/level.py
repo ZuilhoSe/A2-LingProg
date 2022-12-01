@@ -1,13 +1,14 @@
 import pygame
 import support
 from settings import *
-from tile import Tile
+from tile import Tile, Box
 from player import Player
 from weapon import Weapon
 from enemy import Enemy
 from ui import UI
 from particles import AnimationPlayer
 from random import randint
+from villagers import Villager
 
 class Level:
 	"""Setting up the map and the sprites
@@ -97,7 +98,7 @@ class Level:
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house', house_tile)
 						if style == 'boxes':
 							box_tile = graphics['box_tileset'][int(col)]
-							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'box', box_tile)
+							Box((x,y), [self.visible_sprites, self.obstacle_sprites],'box', box_tile)
 						if style == 'door':
 							door_tile = graphics['door_tileset'][0]
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'door', door_tile)
@@ -121,11 +122,22 @@ class Level:
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'iceable', iceable_tile)
 						if style == 'entities':
 							if col == '4': #Player
-								print('Player')
 								self.player = Player((x,y), [self.visible_sprites],
                           				self.obstacle_sprites, 
                               			self.create_attack, 
                                  		self.end_attack)
+							elif col == '7':
+								image = pygame.image.load('../graphics/entities/007.png').convert_alpha()
+								speech = support.import_text('../data/girl.txt')
+								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)
+							elif col == '8':
+								image = pygame.image.load('../graphics/entities/008.png').convert_alpha()
+								speech = support.import_text('../data/old.txt')
+								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)
+							elif col == '9':
+								image = pygame.image.load('../graphics/entities/009.png').convert_alpha()
+								speech = support.import_text('../data/vendor.txt')
+								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)							
 							else:
 								if col == '0':
 									monsters_name = 'raccoon'
@@ -143,11 +155,11 @@ class Level:
 									[self.visible_sprites,self.attackable_sprites],
 									self.obstacle_sprites,
 									self.damage_player,
-									self.death_particles)
+									self.create_particles)
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
-		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
+		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites], self.create_particles)
 
 	def end_attack(self):
 		if self.current_attack:
@@ -161,7 +173,7 @@ class Level:
 				collisions = pygame.sprite.spritecollide(attack, self.attackable_sprites, False)
 				
 				for target_sprite in collisions:
-					if target_sprite.sprite_type == 'grass':
+					if target_sprite.sprite_type == 'grass' and self.player.weapon_index == 1:
 						pos = target_sprite.rect.center
 						offset = pygame.math.Vector2(0,75)
 						for leaf in range(randint(3,6)):
@@ -178,7 +190,7 @@ class Level:
 			self.player.hurt_time = pygame.time.get_ticks()
 			self.animation_player.create_default_particles(attack_type, self.player.rect.center, [self.visible_sprites])
 
-	def death_particles(self, particle_type, pos):
+	def create_particles(self, particle_type, pos):
 		self.animation_player.create_default_particles(particle_type, pos, self.visible_sprites)
 
 	def run(self):

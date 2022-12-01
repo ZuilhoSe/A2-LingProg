@@ -66,3 +66,18 @@ def import_tiles(path):
 			tiles.append(new_surface)
 			
 	return tiles
+
+def import_text(path):
+	"""Function to read the speech from a txt file
+
+	:param path: Path to the txt file
+	:type path: str
+	:return: List with the speech
+	:rtype: list
+	"""
+	speech = []
+	with open(path) as speech_file:
+		for line in speech_file:
+			speech.append(line)
+	return speech
+

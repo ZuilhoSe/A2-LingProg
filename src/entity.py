@@ -46,6 +46,14 @@ class Entity(pg.sprite.Sprite):
         if direction == "x":
             for obstacle in self.obstacle_sprites:
                 if obstacle.hitbox.colliderect(self.hitbox):
+                    
+                    #Check if the obstacle is on the left or right of the box
+                    if obstacle.sprite_type == "box" and self.__class__.__name__ == "Player":
+                        if self.direction.x > 0: # The player is moving right, slides the box the right
+                            obstacle.slide("right")
+                        if self.direction.x < 0: # The player is moving left, slides the box the left
+                            obstacle.slide("left")
+                    
                     if self.direction.x > 0: # The player is moving right, so we have a collision to the right
                         self.hitbox.right = obstacle.hitbox.left
                     if self.direction.x < 0: # The player is moving left, so we have a collision to the left
@@ -54,6 +62,14 @@ class Entity(pg.sprite.Sprite):
         if direction == "y":
             for obstacle in self.obstacle_sprites:
                 if obstacle.hitbox.colliderect(self.hitbox):
+                    
+                    #Check if the player is on top or bottom of the box
+                    if obstacle.sprite_type == "box" and self.__class__.__name__ == "Player":
+                        if self.direction.y > 0:
+                            obstacle.slide("down") # The player is moving down, slides the box down
+                        if self.direction.y < 0:
+                            obstacle.slide("up") # The player is moving up, slides the box up
+
                     if self.direction.y > 0: # The player is moving down, so we have a collision at the bottom
                         self.hitbox.bottom = obstacle.hitbox.top
                     if self.direction.y < 0: # The player is moving up, so we have a collision to the top
