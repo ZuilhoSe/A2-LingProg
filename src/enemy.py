@@ -198,7 +198,7 @@ class Enemy(Entity):
             
     def die(self):
         if self.health <= 0:
-            # self.death_particles(self.monster_name, self.rect.center)
+            self.death_particles(self.monster_name, self.rect.center)
             self.kill()
             self.death_sound.play()
     

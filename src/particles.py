@@ -21,10 +21,11 @@ class AnimationPlayer:
             # 'leaf_attack': import_folder('../graphics/particles/leaf_attack', rescale=1),
             # 'thunder': import_folder('../graphics/particles/thunder', rescale=1),
  
-            # # monster deaths
-            # 'squid': import_folder('../graphics/particles/smoke_orange', rescale=1),
-            # 'raccoon': import_folder('../graphics/particles/raccoon', rescale=1),
-            # 'spirit': import_folder('../graphics/particles/nova', rescale=1),
+            # monster deaths
+            'snake': import_folder('../graphics/particles/smoke', rescale=1),
+            'squid': import_folder('../graphics/particles/smoke_orange', rescale=1),
+            'raccoon': import_folder('../graphics/particles/smoke', rescale=1),
+            'flam': import_folder('../graphics/particles/sparkle', rescale=1),
             # 'bamboo': import_folder('../graphics/particles/bamboo', rescale=1),
             
             # leafs 
