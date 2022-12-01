@@ -26,19 +26,22 @@ class Weapon(pg.sprite.Sprite):
         self.image = pg.transform.scale(not_image, (not_width*4, not_height*4))
         self.attack_particles = attack_particles
         
-        # Setting the direction of the attack
+        # Setting the direction and the particle animation of the attack
         if direction == "right":
             self.rect = self.image.get_rect(midleft = player.rect.midright + pg.math.Vector2(0, 16))
             if player.weapon_index == 1:
                 self.attack_particles("attack_x", self.rect.center)
+
         elif direction == "left":
             self.rect = self.image.get_rect(midright = player.rect.midleft + pg.math.Vector2(0, 16))
             if player.weapon_index == 1:
                 self.attack_particles("flip_attack_x", self.rect.center)
+
         elif direction == "up":
             self.rect = self.image.get_rect(midbottom = player.rect.midtop + pg.math.Vector2(-12, 0))
             if player.weapon_index == 1:    
                 self.attack_particles("attack_y", self.rect.center)
+
         elif direction == "down":
             self.rect = self.image.get_rect(midtop = player.rect.midbottom + pg.math.Vector2(-10, 0))
             if player.weapon_index == 1:
