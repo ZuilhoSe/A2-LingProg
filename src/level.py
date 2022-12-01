@@ -1,7 +1,7 @@
 import pygame
 import support
 from settings import *
-from tile import Tile
+from tile import Tile, Box
 from player import Player
 from weapon import Weapon
 from enemy import Enemy
@@ -97,7 +97,7 @@ class Level:
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house', house_tile)
 						if style == 'boxes':
 							box_tile = graphics['box_tileset'][int(col)]
-							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'box', box_tile)
+							Box((x,y), [self.visible_sprites, self.obstacle_sprites],'box', box_tile)
 						if style == 'door':
 							door_tile = graphics['door_tileset'][0]
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'door', door_tile)
@@ -126,7 +126,7 @@ class Level:
                           				self.obstacle_sprites, 
                               			self.create_attack, 
                                  		self.end_attack)
-							else:
+							"""else:
 								if col == '0':
 									monsters_name = 'raccoon'
 								elif col == '1':
@@ -143,7 +143,7 @@ class Level:
 									[self.visible_sprites,self.attackable_sprites],
 									self.obstacle_sprites,
 									self.damage_player,
-									self.death_particles)
+									self.death_particles)"""
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):

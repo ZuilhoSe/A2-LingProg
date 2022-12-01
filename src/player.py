@@ -46,7 +46,7 @@ class Player(Entity):
         self.dash_duration = 200
         self.dash_speed = 12
 
-        self.weapon_index = 1 #IMPORTANT to change the weapon
+        self.weapon_index = 0 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.weapon_time = None
         self.weapon_standby = False
@@ -65,6 +65,13 @@ class Player(Entity):
         self.hurt_time = None
         self.invulnerability_duration = 500
 
+        #Importing Sounds
+        self.sword_attack = pg.mixer.Sound("../audio/sword.wav")
+        self.stick_attack = pg.mixer.Sound("../audio/stick.wav")
+        self.sword_attack.set_volume(0.2)
+        self.stick_attack.set_volume(0.2)
+
+    # Gets the assets to animate the player
     def player_assets(self):
         """Import the assets to animate the player, such as walking and attacking sprites.
         """
@@ -115,6 +122,10 @@ class Player(Entity):
             self.attack_time = pg.time.get_ticks()
             self.weapon_time = pg.time.get_ticks()
             self.create_attack()
+            if self.weapon_index == 0:
+                self.stick_attack.play()
+            elif self.weapon_index == 1:
+                self.sword_attack.play()
 
         # And the magic input
         # if keys[pg.K_LCTRL] and not self.attacking:
@@ -224,3 +235,4 @@ class Player(Entity):
         self.get_status()
         self.animate()
         self.cooldowns()
+    

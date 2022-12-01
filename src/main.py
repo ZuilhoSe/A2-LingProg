@@ -10,7 +10,12 @@ class Game:
 		pygame.display.set_caption('Joguinho de testes que não está pronto')
 		self.clock = pygame.time.Clock()
 		self.level = Level()
-	
+
+		#Village music
+		pygame.mixer.music.load("../audio/village.ogg")
+		pygame.mixer.music.set_volume(0.2)
+		pygame.mixer.music.play(-1)
+
 	def run(self):
 		while True:
 			for event in pygame.event.get():
