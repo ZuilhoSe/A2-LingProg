@@ -126,7 +126,7 @@ class Level:
                           				self.obstacle_sprites, 
                               			self.create_attack, 
                                  		self.end_attack)
-							"""else:
+							else:
 								if col == '0':
 									monsters_name = 'raccoon'
 								elif col == '1':
@@ -143,7 +143,7 @@ class Level:
 									[self.visible_sprites,self.attackable_sprites],
 									self.obstacle_sprites,
 									self.damage_player,
-									self.death_particles)"""
+									self.death_particles)
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
