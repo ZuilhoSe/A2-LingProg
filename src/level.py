@@ -161,7 +161,7 @@ class Level:
 				collisions = pygame.sprite.spritecollide(attack, self.attackable_sprites, False)
 				
 				for target_sprite in collisions:
-					if target_sprite.sprite_type == 'grass':
+					if target_sprite.sprite_type == 'grass' and self.player.weapon_index == 1:
 						pos = target_sprite.rect.center
 						offset = pygame.math.Vector2(0,75)
 						for leaf in range(randint(3,6)):
