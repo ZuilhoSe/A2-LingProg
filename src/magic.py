@@ -33,19 +33,19 @@ class Projectile(Entity):
 
         # Defining the projectile direction
         if self.facing == "right": 
-            direction = pg.math.Vector2(1,0)
+            self.direction = pg.math.Vector2(1,0)
             self.rect = self.image.get_rect(midleft = caster_rect.midright)
 
         elif self.facing == "left": 
-            direction = pg.math.Vector2(-1,0)
+            self.direction = pg.math.Vector2(-1,0)
             self.rect = self.image.get_rect(midright = caster_rect.midleft)
 
         elif self.facing == "up":
-            direction = pg.math.Vector2(0,-1)
+            self.direction = pg.math.Vector2(0,-1)
             self.rect = self.image.get_rect(midbottom = caster_rect.midtop) 
         
         elif self.facing == "down": 
-            direction = pg.math.Vector2(0,1)
+            self.direction = pg.math.Vector2(0,1)
             self.rect = self.image.get_rect(midtop = caster_rect.midbottom)
 
         self.hitbox = self.rect.inflate(10, 10)
