@@ -38,31 +38,37 @@ def import_folder(path, rescale=4):
 
 	return surface_list
 
-def import_tiles(path):
+def import_tiles(path, w_tile = 64, h_tile = 64, rescale=4):
 	"""Function to import the tiles from a single spritesheet
 
 	:param path: Path to the spritesheet
 	:type path: str
+	:param w_tile: Width of the tile
+	:type w_tile: int
+	:param h_tile: Height of the tile
+	:type h_tile: int
+	:param rescale: Rescale factor
+	:type rescale: int
 	:return: List with the tiles in the spritesheet
 	:rtype: list
 	"""
 	surface = pygame.image.load(path).convert_alpha()
 	surface_x = surface.get_width()
 	surface_y = surface.get_height()
-	surface = pygame.transform.scale(surface, (surface_x*4,surface_y*4)) #Necessary to resize the tiles to the 64x64 format
+	surface = pygame.transform.scale(surface, (surface_x*rescale,surface_y*rescale)) #Necessary to resize the tiles to the 64x64 format
 
-	tile_x = surface.get_size()[0] // 64 #Number of tiles in the x axis
-	tile_y = surface.get_size()[1] // 64 #Number of tiles in the y axis
-	
+	tile_x = surface.get_size()[0] // w_tile #Number of tiles in the x axis
+	tile_y = surface.get_size()[1] // h_tile #Number of tiles in the y axis
+ 
 	tiles = []
 
 	#Iterate through the spritesheet and append the tiles to the list
 	for row in range(tile_y):
 		for col in range(tile_x):
-			x = col * 64
-			y = row * 64
-			new_surface = pygame.Surface((64,64), flags = pygame.SRCALPHA)
-			new_surface.blit(surface,(0,0),pygame.Rect(x,y,64,64))
+			x = col * w_tile
+			y = row * h_tile
+			new_surface = pygame.Surface((w_tile,h_tile), flags = pygame.SRCALPHA)
+			new_surface.blit(surface,(0,0),pygame.Rect(x,y,w_tile,h_tile))
 			tiles.append(new_surface)
 			
 	return tiles
