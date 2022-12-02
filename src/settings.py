@@ -62,8 +62,13 @@ WORLD_MAP = [
 
 # Weapon Data:
 weapon_data = {
-    "Stick": {"cooldown": 1000, "damage": 1, "graphic": "..graphics/weapons/Stick/SpriteInHand.png"},
-    "Katana": {"cooldown": 800, "damage": 2, "graphic": "..graphics/weapons/Katana/SpriteInHand.png"}
+    "Stick": {"cooldown": 1000, "damage": 1, "graphic": "../graphics/weapons/Stick/Sprite.png"},
+    "Katana": {"cooldown": 800, "damage": 2, "graphic": "../graphics/weapons/Katana/Sprite.png"}
+}
+
+# Magic Data:
+magic_data = {
+    "fireball": {"strength": 3, "cost": 20, "graphic": "../graphics/particles/fireball/fire.png", "frames": "../graphics/particles/fireball/"}
 }
 
 monsters_data = {

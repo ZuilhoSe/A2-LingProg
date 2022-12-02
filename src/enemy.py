@@ -185,11 +185,13 @@ class Enemy(Entity):
         if self.vulnerable:
             self.hit_sound.play()
             self.direction = self.get_player_distance_direction(player)[1]
+
             if attack_type == "weapon":
                 self.health -= settings.weapon_data[player.weapon]["damage"]
-            else:
-                pass # For future implementation of magic
-            
+
+            elif attack_type == "fireball":
+                self.health -= settings.magic_data[attack_type]["strength"]
+
             self.hit_time = pygame.time.get_ticks()
             self.vulnerable = False
 

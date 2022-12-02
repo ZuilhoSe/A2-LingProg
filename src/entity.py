@@ -42,6 +42,10 @@ class Entity(pg.sprite.Sprite):
         :param direction: "x" if the collision is happening in the horizontal. "y" if a collision is happening in the vertical.
         :type direction: str
         """
+        if self.__class__.__name__ == "Projectile":
+            for obstacle in self.obstacle_sprites:
+                if obstacle.hitbox.colliderect(self.hitbox):
+                    self.die()
 
         if direction == "x":
             for obstacle in self.obstacle_sprites:
