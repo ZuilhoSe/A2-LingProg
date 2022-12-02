@@ -38,7 +38,6 @@ class Player(Entity):
         self.create_attack = create_attack
         self.end_attack = end_attack
         self.create_magic = create_magic
-        # self.end_magic = end_magic
         self.attacking = False
         self.attack_cooldown = 400
         self.attack_time = None
@@ -57,11 +56,12 @@ class Player(Entity):
 
         self.magic_index = 0 #IMPORTANT to change the magic equipped
         self.magic = list(magic_data.keys())[self.magic_index]
+        self.magic_time = None
+        self.magic_standby = False
 
-        self.stats = {"health": 100, "mana": 60, "speed": 6}
+        self.stats = {"health": 12, "mana": 10, "speed": 6}
         self.health = self.stats["health"]
-        self.health = 7
-        self.max_health = 12
+        self.max_health = self.stats["health"]
         self.mana = self.stats["mana"]
         self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
@@ -125,20 +125,28 @@ class Player(Entity):
         if keys[pg.K_SPACE] and not self.attacking and not self.weapon_standby:
             self.attacking = True
             self.weapon_standby = True
+
             self.attack_time = pg.time.get_ticks()
             self.weapon_time = pg.time.get_ticks()
+
             self.create_attack()
+
             if self.weapon_index == 0:
                 self.stick_attack.play()
             elif self.weapon_index == 1:
                 self.sword_attack.play()
 
         # And the magic input
-        if keys[pg.K_LCTRL] and not self.attacking:
+        if keys[pg.K_LCTRL] and not self.attacking and not self.magic_standby:
             self.attacking = True
+            self.magic_standby = True
+
             self.attack_time = pg.time.get_ticks()
+            self.magic_time = pg.time.get_ticks()
+
             strength = magic_data[self.magic]["strength"]
             cost = magic_data[self.magic]["cost"]
+
             self.create_magic(strength, cost)
 
         # For switching magics:
@@ -171,6 +179,10 @@ class Player(Entity):
             if current_time - self.weapon_time >= weapon_data[self.weapon]["cooldown"]:
                 self.weapon_standby = False
                 
+        if self.magic_standby:
+            if current_time - self.magic_time >= magic_data[self.magic]["cooldown"]:
+                self.magic_standby = False
+
         if not self.vulnerable:
             if current_time - self.hurt_time >= self.invulnerability_duration:
                 self.vulnerable = True

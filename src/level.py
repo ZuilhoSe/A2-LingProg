@@ -173,7 +173,6 @@ class Level:
 		if self.player.magic == "fireball":
 			self.magic_player.fireball(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
 
-
 	def player_attack(self):
 		if self.attack_sprites:
 			for attack in self.attack_sprites:

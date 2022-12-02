@@ -10,18 +10,18 @@ class MagicPlayer:
     def fireball(self, player, cost, groups, obstacle_sprites, attackable_sprites):
         if player.mana >= cost:
             player.mana -= cost
-        
-        type = player.magic
-        facing = player.status.split("_")[0]
-        caster_rect = player.rect
-        Projectile(type, facing, caster_rect, groups, 6, obstacle_sprites, attackable_sprites, self.animation_player)
+    
+            type = player.magic
+            facing = player.status.split("_")[0]
+            caster_rect = player.rect
+            Projectile(type, facing, caster_rect, groups, 6, obstacle_sprites, attackable_sprites, self.animation_player)
 
 class Projectile(Entity):
     def __init__(self, type, facing, caster_rect, groups, speed, obstacle_sprites, attackable_sprites, animation_player):
         
         super().__init__(groups)
         self.creation_time = pg.time.get_ticks()
-        self.life_expectancy = 1000
+        self.life_expectancy = 1200
         self.visible_sprites = groups[0]
         self.sprite_type = type
         self.facing = facing
@@ -58,7 +58,7 @@ class Projectile(Entity):
         # Loops over the frames
         self.frame_index += self.animation_speed
         if self.frame_index >= len(self.animation):
-            self.frame_index = 0
+            self.frame_index = 1
 
         # Set the image
         self.image = self.animation[int(self.frame_index)]
