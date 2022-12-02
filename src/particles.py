@@ -39,6 +39,7 @@ class AnimationPlayer:
             'squid': import_folder('../graphics/particles/smoke_orange', rescale=1),
             'raccoon': import_folder('../graphics/particles/smoke', rescale=1),
             'flam': import_folder('../graphics/particles/sparkle', rescale=1),
+            'giant_flam': import_folder('../graphics/particles/sparkle', rescale=4),
             # 'bamboo': import_folder('../graphics/particles/bamboo', rescale=1),
             
             # leafs 

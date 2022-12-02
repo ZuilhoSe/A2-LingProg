@@ -9,6 +9,7 @@ from ui import UI
 from particles import AnimationPlayer
 from random import randint
 from villagers import Villager
+from boss import Boss
 
 class Level:
 	"""Setting up the map and the sprites
@@ -138,7 +139,7 @@ class Level:
 								image = pygame.image.load('../graphics/entities/009.png').convert_alpha()
 								speech = support.import_text('../data/vendor.txt')
 								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)							
-							else:
+							elif int(col)<5:
 								if col == '0':
 									monsters_name = 'raccoon'
 								elif col == '1':
@@ -147,11 +148,17 @@ class Level:
 									monsters_name = 'snake'
 								elif col == '3':
 									monsters_name = 'squid'
-								# elif col == '5':
-								# 	monsters_name = 'giant_flam'
+								Enemy(monsters_name,(x,y),
+									[self.visible_sprites,self.attackable_sprites],
+									self.obstacle_sprites,
+									self.damage_player,
+									self.create_particles)
+							else:
+								if col == '5':
+									monsters_name = 'giant_flam'
 								# elif col == '6':
 								# 	monsters_name = 'giant_raccoon'
-								Enemy(monsters_name,(x,y),
+								Boss(monsters_name,(x,y),
 									[self.visible_sprites,self.attackable_sprites],
 									self.obstacle_sprites,
 									self.damage_player,

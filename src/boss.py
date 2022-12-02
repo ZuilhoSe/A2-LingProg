@@ -4,7 +4,7 @@ import settings
 from entity import Entity
 import support
 
-class Enemy(Entity):
+class Boss(Entity):
     """Enemy class responsible for the enemy's behaviour
 
     :param Entity: Enemy class inherits from Entity class
@@ -31,7 +31,7 @@ class Enemy(Entity):
         
         #graphics setup
         self.status = 'idle'
-        self.animation_state = 'down'
+        self.animation_state = 'idle'
         self.import_graphics(monster_name)
         self.image= self.animations[self.animation_state][self.frame_index]
         
@@ -80,14 +80,11 @@ class Enemy(Entity):
         :param name: name of the enemy
         :type name: str
         """ 
-    
-        animations = support.import_tiles(f'../graphics/monster/{name}.png')
-        self.animations = {'down': [],'up': [],'left': [],'right': []}
-        for i in range(0,13,4):
-            self.animations['down'].append(animations[i])
-            self.animations['up'].append(animations[i+1])
-            self.animations['left'].append(animations[i+2])
-            self.animations['right'].append(animations[i+3])
+        animations = support.import_tiles(f'../graphics/monster/{name}.png',64,64,64/50)
+        self.animations = {'idle': [],}
+        for i in range(len(animations)):
+            self.animations['idle'].append(animations[i])
+
         
     def get_player_distance_direction(self, player):
         """Gets the postion of the enemy relative to the player
@@ -118,18 +115,11 @@ class Enemy(Entity):
             if self.status != 'attack':
                 self.frame_index = 0
             self.status = 'attack'
+        elif distance <= self.attack_radius:
+            print('oi')
+            self.status = 'move_back'
         elif distance <= self.notice_radius:
             self.status = 'move'
-            if abs(direction[0])>abs(direction[1]):
-                if direction[0]>0:
-                    self.animation_state = 'right'
-                else:
-                    self.animation_state = 'left'
-            else:
-                if direction[1]>0:
-                    self.animation_state = 'down'
-                else:
-                    self.animation_state = 'up'
         else:
             self.status = 'idle'
             
@@ -144,6 +134,8 @@ class Enemy(Entity):
             self.attack_sound.play()
         elif self.status == 'move':
             self.direction = self.get_player_distance_direction(player)[1]
+        elif self.status == 'move_back':
+            self.direction = -self.get_player_distance_direction(player)[1]
         else:
             self.direction = pygame.math.Vector2()
     
