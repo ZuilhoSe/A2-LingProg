@@ -123,9 +123,9 @@ class Level:
 						if style == 'entities':
 							if col == '4': #Player
 								self.player = Player((x,y), [self.visible_sprites],
-                          				self.obstacle_sprites, 
-                              			self.create_attack, 
-                                 		self.end_attack)
+						  				self.obstacle_sprites, 
+							  			self.create_attack, 
+								 		self.end_attack)
 							elif col == '7':
 								image = pygame.image.load('../graphics/entities/007.png').convert_alpha()
 								speech = support.import_text('../data/girl.txt')
@@ -182,13 +182,15 @@ class Level:
 					
 					elif target_sprite.sprite_type == 'enemy':
 						target_sprite.get_damage(self.player, attack.sprite_type)
-    
+	
 	def damage_player(self, amount, attack_type):
 		if self.player.vulnerable and not self.player.dashing:
 			self.player.get_damage(amount)
 			self.player.vulnerable = False
 			self.player.hurt_time = pygame.time.get_ticks()
 			self.animation_player.create_default_particles(attack_type, self.player.rect.center, [self.visible_sprites])
+		if self.player.health == 0:
+			self.player.alive=False
 
 	def create_particles(self, particle_type, pos):
 		self.animation_player.create_default_particles(particle_type, pos, self.visible_sprites)
@@ -215,7 +217,7 @@ class YsortCameraGroup(pygame.sprite.Group):
 		self.floor_surf = pygame.transform.scale(self.floor_surf, (7680,5760))
 		self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
-	    
+		
 
 	def custom_draw(self, player):
 

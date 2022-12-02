@@ -105,12 +105,10 @@ class Menus:
 					if music_button_up.checkForInput(options_menu_mouse_position):
 						if self.volume<10:
 							self.volume+=1
-							print(self.volume/10)
 							pg.mixer.music.set_volume(self.volume/10)
 					if music_button_down.checkForInput(options_menu_mouse_position):
 						if self.volume>0:	
 							self.volume-=1
-							print(self.volume/10)
 							pg.mixer.music.set_volume(self.volume/10)
 					if back_button.checkForInput(options_menu_mouse_position):
 						return self.main_menu()
@@ -169,5 +167,19 @@ class Menus:
 				if event.type == pg.MOUSEBUTTONDOWN:
 					if back_button.checkForInput(pg.mouse.get_pos()):
 						return self.main_menu()
+
+			pg.display.update()
+
+	def game_over_menu(self):
+			game_over_menu_screen = self.screen
+			game_over_menu_screen.fill("Black")
+
+			game_over_text = self.get_font(MENU_FONT_SIZE).render("GAME OVER", True, "#b68f40")
+			game_over_rect = game_over_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
+			game_over_text1 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ENTER   to  restart", True, "#b68f40")
+			game_over_rect1 = game_over_text1.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.6)))
+
+			game_over_menu_screen.blit(game_over_text, game_over_rect)
+			game_over_menu_screen.blit(game_over_text1, game_over_rect1)
 
 			pg.display.update()

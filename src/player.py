@@ -33,6 +33,8 @@ class Player(Entity):
 
         self.status = "down"
 
+        self.alive=True
+
         self.create_attack = create_attack
         self.end_attack = end_attack
         self.attacking = False
@@ -53,7 +55,7 @@ class Player(Entity):
 
         self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 6}
         self.health = self.stats["health"]
-        self.health = 7
+        self.health = 12
         self.max_health=12
         self.energy = self.stats["energy"]
         self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
