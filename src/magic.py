@@ -20,6 +20,8 @@ class Projectile(Entity):
     def __init__(self, type, facing, caster_rect, groups, speed, obstacle_sprites, attackable_sprites, animation_player):
         
         super().__init__(groups)
+        self.creation_time = pg.time.get_ticks()
+        self.life_expectancy = 1000
         self.visible_sprites = groups[0]
         self.sprite_type = type
         self.facing = facing
@@ -66,6 +68,12 @@ class Projectile(Entity):
         self.animation_player.create_default_particles(self.sprite_type + "_die", self.rect.center, [self.visible_sprites])
         self.kill()
 
+    def timer(self):
+        current_time = pg.time.get_ticks()
+        if current_time - self.creation_time >= self.life_expectancy:
+            self.die() 
+
     def update(self):
         self.move(self.speed)
         self.animate()
+        self.timer()
