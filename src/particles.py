@@ -26,6 +26,7 @@ class AnimationPlayer:
             'fireball_up': import_folder('../graphics/particles/fireball/up', rescale=1),
             'fireball_right': import_folder('../graphics/particles/fireball/right', rescale=1),
             'fireball_left': import_folder('../graphics/particles/fireball/left', rescale=1),
+            'fireball_die': import_folder('../graphics/particles/nova', rescale=0.5),
             # 'aura': import_folder('../graphics/particles/aura', rescale=1),
             # 'heal': import_folder('../graphics/particles/heal/frames', rescale=1),
             
@@ -33,6 +34,7 @@ class AnimationPlayer:
             # 'claw': import_folder('../graphics/particles/claw', rescale=1),
             'slash': import_folder('../graphics/particles/slash', rescale=1),
             'fire': import_folder('../graphics/particles/fire', rescale=2),
+            'nova': import_folder('../graphics/particles/nova', rescale=0.5),
             # 'sparkle': import_folder('../graphics/particles/sparkle', rescale=1),
             # 'leaf_attack': import_folder('../graphics/particles/leaf_attack', rescale=1),
             # 'thunder': import_folder('../graphics/particles/thunder', rescale=1),

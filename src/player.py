@@ -20,6 +20,8 @@ class Player(Entity):
         :type create_attack: method
         :param end_attack: Method the Level uses to delete the Weapon sprite once an attack is over. The Player must know this method to call it through the Level class.
         :type end_attack: method
+        :param create_magic: Method the Level uses to create the magic's sprites. The Player must know this method to call it through the Level class.
+        :type create_magic: method
         """
 
         super().__init__(groups)
@@ -48,7 +50,7 @@ class Player(Entity):
         self.dash_duration = 200
         self.dash_speed = 12
 
-        self.weapon_index = 0 #IMPORTANT to change the weapon
+        self.weapon_index = 1 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.weapon_time = None
         self.weapon_standby = False
