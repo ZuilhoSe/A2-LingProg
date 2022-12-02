@@ -7,7 +7,7 @@ class Player(Entity):
     """This class carries most of the important properties and methods to the player's controls and functionalities. It inherits from the class Entity, in the entity module.
     """
 
-    def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack):
+    def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack, create_magic):
         """The class Player is created inside the class Level, and most of it's interactions come from it. The init method carries most of player's important varaiables, such as stats and cooldown values.
 
         :param pos: Receives coordinates where the player's tile will be spawned in the map, in the format: (x,y)
@@ -20,6 +20,8 @@ class Player(Entity):
         :type create_attack: method
         :param end_attack: Method the Level uses to delete the Weapon sprite once an attack is over. The Player must know this method to call it through the Level class.
         :type end_attack: method
+        :param create_magic: Method the Level uses to create the magic's sprites. The Player must know this method to call it through the Level class.
+        :type create_magic: method
         """
 
         super().__init__(groups)
@@ -35,6 +37,8 @@ class Player(Entity):
 
         self.create_attack = create_attack
         self.end_attack = end_attack
+        self.create_magic = create_magic
+        # self.end_magic = end_magic
         self.attacking = False
         self.attack_cooldown = 400
         self.attack_time = None
@@ -46,16 +50,19 @@ class Player(Entity):
         self.dash_duration = 200
         self.dash_speed = 12
 
-        self.weapon_index = 0 #IMPORTANT to change the weapon
+        self.weapon_index = 1 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.weapon_time = None
         self.weapon_standby = False
 
-        self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 6}
+        self.magic_index = 0 #IMPORTANT to change the magic equipped
+        self.magic = list(magic_data.keys())[self.magic_index]
+
+        self.stats = {"health": 100, "mana": 60, "speed": 6}
         self.health = self.stats["health"]
         self.health = 7
-        self.max_health=12
-        self.energy = self.stats["energy"]
+        self.max_health = 12
+        self.mana = self.stats["mana"]
         self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
@@ -71,7 +78,6 @@ class Player(Entity):
         self.sword_attack.set_volume(0.2)
         self.stick_attack.set_volume(0.2)
 
-    # Gets the assets to animate the player
     def player_assets(self):
         """Import the assets to animate the player, such as walking and attacking sprites.
         """
@@ -128,9 +134,20 @@ class Player(Entity):
                 self.sword_attack.play()
 
         # And the magic input
-        # if keys[pg.K_LCTRL] and not self.attacking:
-        #     self.attacking = True
-        #     self.attack_time = pg.time.get_ticks()
+        if keys[pg.K_LCTRL] and not self.attacking:
+            self.attacking = True
+            self.attack_time = pg.time.get_ticks()
+            strength = magic_data[self.magic]["strength"]
+            cost = magic_data[self.magic]["cost"]
+            self.create_magic(strength, cost)
+
+        # For switching magics:
+        if keys[pg.K_e] and not self.attacking:
+            self.magic_index += 1
+            if self.magic_index >= len(magic_data):
+                self.magic_index = 0
+
+            self.magic = list(magic_data.keys())[self.magic_index]
 
         # Defining the dash input
         if keys[pg.K_LSHIFT] and not self.attacking and not self.dash_wait and not "idle" in self.status:
@@ -226,6 +243,12 @@ class Player(Entity):
         if self.health > 0:
             self.health -= dmg
 
+    def mana_regen(self):
+        if self.mana < self.stats["mana"]:
+            self.mana += 0.01
+        else:
+            self.mana = self.stats["mana"]
+
     def update(self):
         """This method sets what will be called everytime the game completes a main loop. Basically, it says what will be "updated" in each frame. 
         """
@@ -235,4 +258,4 @@ class Player(Entity):
         self.get_status()
         self.animate()
         self.cooldowns()
-    
+        self.mana_regen()

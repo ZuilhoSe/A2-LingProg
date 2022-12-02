@@ -9,6 +9,7 @@ from ui import UI
 from particles import AnimationPlayer
 from random import randint
 from villagers import Villager
+from magic import MagicPlayer, Projectile
 
 class Level:
 	"""Setting up the map and the sprites
@@ -34,6 +35,7 @@ class Level:
 
 		# Particles setup
 		self.animation_player = AnimationPlayer()
+		self.magic_player = MagicPlayer(self.animation_player)
   
 	def create_map(self):
 		"""Create the map and the player"""
@@ -125,7 +127,8 @@ class Level:
 								self.player = Player((x,y), [self.visible_sprites],
                           				self.obstacle_sprites, 
                               			self.create_attack, 
-                                 		self.end_attack)
+                                 		self.end_attack,
+										self.create_magic)
 							elif col == '7':
 								image = pygame.image.load('../graphics/entities/007.png').convert_alpha()
 								speech = support.import_text('../data/girl.txt')
@@ -166,6 +169,11 @@ class Level:
 			self.current_attack.kill()
 		self.current_attack = None
   
+	def create_magic(self, strenght, cost):
+		if self.player.magic == "fireball":
+			self.magic_player.fireball(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
+
+
 	def player_attack(self):
 		if self.attack_sprites:
 			for attack in self.attack_sprites:
@@ -173,7 +181,7 @@ class Level:
 				collisions = pygame.sprite.spritecollide(attack, self.attackable_sprites, False)
 				
 				for target_sprite in collisions:
-					if target_sprite.sprite_type == 'grass' and self.player.weapon_index == 1:
+					if target_sprite.sprite_type == 'grass' and attack.sprite_type == "weapon" and self.player.weapon_index == 1:
 						pos = target_sprite.rect.center
 						offset = pygame.math.Vector2(0,75)
 						for leaf in range(randint(3,6)):
@@ -182,6 +190,8 @@ class Level:
 					
 					elif target_sprite.sprite_type == 'enemy':
 						target_sprite.get_damage(self.player, attack.sprite_type)
+						if type(attack) == Projectile:
+							attack.die()
     
 	def damage_player(self, amount, attack_type):
 		if self.player.vulnerable and not self.player.dashing:
