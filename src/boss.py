@@ -115,9 +115,6 @@ class Boss(Entity):
             if self.status != 'attack':
                 self.frame_index = 0
             self.status = 'attack'
-        elif distance <= self.attack_radius:
-            print('oi')
-            self.status = 'move_back'
         elif distance <= self.notice_radius:
             self.status = 'move'
         else:
@@ -179,8 +176,8 @@ class Boss(Entity):
             self.direction = self.get_player_distance_direction(player)[1]
             if attack_type == "weapon":
                 self.health -= settings.weapon_data[player.weapon]["damage"]
-            else:
-                pass # For future implementation of magic
+            elif attack_type == "fireball":
+                self.health -= settings.magic_data[attack_type]["strength"]
             
             self.hit_time = pygame.time.get_ticks()
             self.vulnerable = False
