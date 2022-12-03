@@ -73,14 +73,14 @@ class Menus:
 
 			options_menu_screen.blit(options_text, options_rect)
 			options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
-									(768,144)), (int(WIDTH/5), int(HEIGTH*0.4)))
+									(6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.4)))
 
 			music_button_up = Button(image=pg.transform.scale(pg.transform.rotate(
-							pg.image.load("../graphics/HUD/arrow.png"),180),(64,64)), 
+							pg.image.load("../graphics/HUD/arrow.png"),180),(int(0.9*(HEIGTH/10)),int(0.9*(HEIGTH/10)))), 
 							pos=(int(8.5*(WIDTH/10)), int(HEIGTH*0.5)),
 							text_input=None, font=self.get_font(int(MENU_FONT_SIZE/5)),
 							base_color="#d7fcd4", hovering_color="White")
-			music_button_down = Button(image=pg.transform.scale(pg.image.load("../graphics/HUD/arrow.png"),(64,64)), 
+			music_button_down = Button(image=pg.transform.scale(pg.image.load("../graphics/HUD/arrow.png"),(int(0.9*(HEIGTH/10)),int(0.9*(HEIGTH/10)))), 
 							pos=(int(1.5*(WIDTH/10)), int(HEIGTH*0.5)),
 							text_input=None, font=self.get_font(int(MENU_FONT_SIZE/5)),
 							base_color="#d7fcd4", hovering_color="White")
@@ -89,8 +89,8 @@ class Menus:
 							base_color="#d7fcd4", hovering_color="White")
 
 			for volume in range(0, self.volume):
-				options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/audio_icon/high_audio.png"),
-									(70,70)), (int(2.28*(WIDTH/10)+volume*67)+10, int(HEIGTH*0.45)))
+				options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/audio_icon/volume_bar.png"),
+									(1.15*(WIDTH/20),(HEIGTH/10))), (int(2.28*(WIDTH/10)+volume*(WIDTH/20))+(WIDTH/51), int(HEIGTH*0.45)))
 
 
 			for button in [music_button_up, music_button_down, back_button]:
@@ -112,6 +112,15 @@ class Menus:
 							pg.mixer.music.set_volume(self.volume/10)
 					if back_button.checkForInput(options_menu_mouse_position):
 						return self.main_menu()
+				if event.type == pg.KEYDOWN:
+					if event.key == pg.K_UP:
+						if self.volume<10:
+							self.volume+=1
+							pg.mixer.music.set_volume(self.volume/10)	
+					if event.key == pg.K_DOWN:
+						if self.volume>0:	
+							self.volume-=1
+							pg.mixer.music.set_volume(self.volume/10)
 				
 			pg.display.update()
 	   
