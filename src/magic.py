@@ -4,7 +4,6 @@ import pygame as pg
 from settings import *
 from entity import Entity
 from support import import_folder
-
 class MagicPlayer:
     """The MagicPlayer class import all the magics assets at once and calls the Projectile class to create the magics.
     """
@@ -69,9 +68,43 @@ class MagicPlayer:
             type = player.magic
             caster_rect = player.rect
             speed = 6
-            frames = self.frames[type]
-            Projectile(type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player)
+            Projectile(type, direction, caster_rect, self.frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player)
 
+class MagicBoss:
+    """The MagicPlayer class import all the magics assets at once and calls the Projectile class to create the magics.
+    """
+
+    def __init__(self, animation):
+        """Since it is created only once, the MagicPlayer doesn't need any specifications to be created, but it needs to know the AnimationPlayer class.
+
+        :param animation_player: Class used to animate basic particles for the magics
+        :type animation_player: particles.AnimationPlayer
+        """
+
+        self.animation = animation
+        self.frames = {
+            "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1)
+        }
+
+    def fireball(self, boss, groups, obstacle_sprites, player):
+        """Calls the Projectile class to create a fireball.
+        :param player: The Player object, so the method can know it's position and access it's mana
+        :type player: player.Player
+        :param cost: How much mana will be deducted from the player
+        :type cost: int
+        :param groups: Wich groups the magic particles belong
+        :type groups: list
+        :param obstacle_sprites: Sprite group that contains the obstacles in the scenery
+        :type obstacle_sprites: pygame.sprite.Group
+        :param attackable_sprites: Sprite group that contains the enemy's sprites
+        :type attackable_sprites: pygame.sprite.Group
+        """
+
+    
+        type = boss.magic_type
+        caster_rect = boss.rect
+        speed = boss.magic_speed
+        Projectile(type, boss.direction, caster_rect, self.frames, groups, speed, obstacle_sprites, player, self.animation)
 class Projectile(Entity):
     """This class creates a sprite in a certain direction, that moves at constant speed in that direction. This class inherits from the Entity class.
     """
@@ -115,11 +148,13 @@ class Projectile(Entity):
         self.animation_player = animation_player
 
         # Rotating and defining animation frames
-        self.direction = direction.normalize()
+        if direction != pg.math.Vector2(0,0):
+            self.direction = direction.normalize()
         self.animation = []
 
         rotation_angle = pg.math.Vector2(1,0).angle_to(self.direction)
-        for frame in frames:
+        for frame in frames[self.sprite_type]:
+    
             rotated_frame = pg.transform.rotate(frame, -rotation_angle)
             self.animation.append(rotated_frame)
 

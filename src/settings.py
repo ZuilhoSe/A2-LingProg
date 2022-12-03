@@ -1,5 +1,3 @@
-"""This module has essencial variables and info about many aspects of the game like configs, enemies, weapons and more."""
-
 # game setup
 STANDARD_WIDTH=1280
 STANDARD_HEIGTH=720
@@ -79,5 +77,5 @@ monsters_data = {
     'flam': {'health': 2,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 5, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
     'raccoon': {'health': 4,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 4, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
     'snake': {'health': 2,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
-    'giant_flam': {'health': 10,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 300, 'notice_radius': 360},
+    'giant_flam': {'health': 10,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360,'magic_radius':250,'magic_type':'fireball','magic_damage':1, 'magic_speed': 6},
 }

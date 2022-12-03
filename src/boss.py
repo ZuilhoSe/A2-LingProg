@@ -3,7 +3,6 @@ import pygame
 import settings
 from entity import Entity
 import support
-
 class Boss(Entity):
     """Enemy class responsible for the enemy's behaviour
 
@@ -13,7 +12,7 @@ class Boss(Entity):
     def __init__(self, monster_name: str,
                  pos: tuple[int], groups,
                  obstacle_sprites: pygame.sprite.Group(), 
-                 damage_player, death_particles):
+                 damage_player, death_particles, magic):
         """
         :param monster_name: name of the enemy so that it's attributes can be searched
         :type monster_name: str
@@ -51,12 +50,20 @@ class Boss(Entity):
         self.attack_radius = monster_info['attack_radius']
         self.notice_radius = monster_info['notice_radius']
         self.attack_type = monster_info['attack_type']
+        self.magic_radius = monster_info['magic_radius']
+        self.magic_damage = monster_info['magic_damage']
+        self.magic_type = monster_info['magic_type']
+        self.magic_speed = monster_info['magic_speed']
         
         #player interaction
         self.can_attack = True
+        self.can_magic = True
+        self.magic_time = None
+        self.magic_cooldown = 1500
         self.attack_time = None
         self.attack_cooldown = 400
         self.damage_player = damage_player
+        self.magic = magic
 
         # Particles
         self.death_particles = death_particles
@@ -115,8 +122,11 @@ class Boss(Entity):
             if self.status != 'attack':
                 self.frame_index = 0
             self.status = 'attack'
+        elif distance <= self.magic_radius and self.can_magic:
+            self.status = 'magic'
         elif distance <= self.notice_radius:
             self.status = 'move'
+        
         else:
             self.status = 'idle'
             
@@ -125,10 +135,16 @@ class Boss(Entity):
         :param player: hte playable character
         :type player: Player
         """        
-        if self.status == 'attack':
+        if self.status == 'attack' and self.can_attack:
             self.attack_time = pygame.time.get_ticks()
             self.damage_player(self.attack_damage, self.attack_type)
             self.attack_sound.play()
+            self.can_attack= False
+        elif self.status == 'magic' and self.can_magic:
+            self.magic_time = pygame.time.get_ticks()
+            self.direction = self.get_player_distance_direction(player)[1]
+            self.magic(self)
+            self.can_magic = False
         elif self.status == 'move':
             self.direction = self.get_player_distance_direction(player)[1]
         elif self.status == 'move_back':
@@ -144,8 +160,6 @@ class Boss(Entity):
         
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
-            if self.status == 'attack':
-                self.can_attack = False
             self.frame_index = 0
             
         self.image = animation[int(self.frame_index)]
@@ -165,6 +179,10 @@ class Boss(Entity):
         if not self.can_attack:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.can_attack = True
+        
+        if not self.can_magic:
+            if current_time - self.magic_time >= self.magic_cooldown:
+                self.can_magic = True
 
         if not self.vulnerable:
             if current_time - self.hit_time >= self.invincibility_duration:
