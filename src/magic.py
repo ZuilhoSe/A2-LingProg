@@ -6,59 +6,83 @@ from support import import_folder
 class MagicPlayer:
     def __init__(self, animation_player):
         self.animation_player = animation_player
+        self.frames = {
+            "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1)
+        }
+
+    def heal(self, player, strength, cost, groups):
+        if player.mana >= cost:
+            player.mana -= cost
+            player.health += strength
+            offset = pg.math.Vector2(0,6)
+            self.animation_player.create_default_particles("aura", player.rect.center + offset, groups)
+            if player.health >= player.max_health:
+                player.health = player.max_health
 
     def fireball(self, player, cost, groups, obstacle_sprites, attackable_sprites):
         if player.mana >= cost:
             player.mana -= cost
+
+            facing = player.status.split("_")[0]
+            if facing == "right": direction = pg.math.Vector2(1,0)
+            elif facing == "left": direction = pg.math.Vector2(-1,0)
+            elif facing == "up": direction = pg.math.Vector2(0,-1)
+            elif facing == "down": direction = pg.math.Vector2(0,1)
         
-        type = player.magic
-        facing = player.status.split("_")[0]
-        caster_rect = player.rect
-        Projectile(type, facing, caster_rect, groups, 6, obstacle_sprites, attackable_sprites, self.animation_player)
+            type = player.magic
+            caster_rect = player.rect
+            speed = 6
+            Projectile(type, direction, caster_rect, self.frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player)
 
 class Projectile(Entity):
-    def __init__(self, type, facing, caster_rect, groups, speed, obstacle_sprites, attackable_sprites, animation_player):
+    def __init__(self, type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, animation_player):
         
         super().__init__(groups)
-        self.creation_time = pg.time.get_ticks()
-        self.life_expectancy = 1000
-        self.visible_sprites = groups[0]
         self.sprite_type = type
-        self.facing = facing
-        self.speed = speed
+
+        # How long the projectile lasts
+        self.creation_time = pg.time.get_ticks()
+        self.life_expectancy = 1200
+
+        #Some important sprite groups
+        self.visible_sprites = groups[0]
         self.obstacle_sprites = obstacle_sprites
         self.attackable_sprites = attackable_sprites
-        self.image = pg.image.load(f"../graphics/particles/fireball/{self.facing}/0.png")
+        
+        #And an important method
         self.animation_player = animation_player
 
-        path = magic_data[self.sprite_type]["frames"]
-        full_path =  path + self.facing
-        self.animation = import_folder(full_path, rescale=1)
+        # Defining animation frames
+        self.direction = direction.normalize()
+        self.animation = []
 
-        # Defining the projectile direction
-        if self.facing == "right": 
-            self.direction = pg.math.Vector2(1,0)
-            self.rect = self.image.get_rect(midleft = caster_rect.midright)
+        rotation_angle = pg.math.Vector2(1,0).angle_to(self.direction)
+        for frame in frames[self.sprite_type]:
+            rotated_frame = pg.transform.rotate(frame, -rotation_angle)
+            self.animation.append(rotated_frame)
 
-        elif self.facing == "left": 
-            self.direction = pg.math.Vector2(-1,0)
-            self.rect = self.image.get_rect(midright = caster_rect.midleft)
+        self.image = self.animation[0]
 
-        elif self.facing == "up":
-            self.direction = pg.math.Vector2(0,-1)
-            self.rect = self.image.get_rect(midbottom = caster_rect.midtop) 
-        
-        elif self.facing == "down": 
-            self.direction = pg.math.Vector2(0,1)
-            self.rect = self.image.get_rect(midtop = caster_rect.midbottom)
+        # Defining movement direction
+        if abs(self.direction.x) >= abs(self.direction.y):
+            if self.direction.x > 0:
+                self.rect = self.image.get_rect(midleft = caster_rect.midright)
+            else:
+                self.rect = self.image.get_rect(midright = caster_rect.midleft)
+        else:
+            if self.direction.y > 0:
+                self.rect = self.image.get_rect(midtop = caster_rect.midbottom)
+            else:
+                self.rect = self.image.get_rect(midbottom = caster_rect.midtop) 
 
         self.hitbox = self.rect
+        self.speed = speed
 
     def animate(self):
         # Loops over the frames
         self.frame_index += self.animation_speed
         if self.frame_index >= len(self.animation):
-            self.frame_index = 0
+            self.frame_index = 1
 
         # Set the image
         self.image = self.animation[int(self.frame_index)]

@@ -23,7 +23,6 @@ class Game:
 		if self.menu.main_menu() == "play":
 			self.run()
 
-
 	def run(self):
 		while True:
 			for event in pygame.event.get():
