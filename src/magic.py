@@ -38,6 +38,7 @@ class MagicPlayer:
             player.mana -= cost
             player.health += strength
             offset = pg.math.Vector2(0,6)
+            pg.mixer.Sound("../audio/heal.wav").play()
             self.animation_player.create_default_particles(player.magic, player.rect.center + offset, groups)
             if player.health >= player.max_health:
                 player.health = player.max_health
@@ -70,6 +71,7 @@ class MagicPlayer:
             caster_rect = player.rect
             speed = 6
             frames = self.frames[type]
+            pg.mixer.Sound("../audio/flame_attack.wav").play()
             Projectile(type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player)
 
 class Projectile(Entity):
