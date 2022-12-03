@@ -22,10 +22,6 @@ class AnimationPlayer:
             "flip_attack_y": self.reflect_images(import_folder('../graphics/particles/attack_y', rescale=2), y=True),
 
             # magic
-            'fireball_down': import_folder('../graphics/particles/fireball/down', rescale=1),
-            'fireball_up': import_folder('../graphics/particles/fireball/up', rescale=1),
-            'fireball_right': import_folder('../graphics/particles/fireball/right', rescale=1),
-            'fireball_left': import_folder('../graphics/particles/fireball/left', rescale=1),
             'fireball_die': import_folder('../graphics/particles/nova', rescale=0.5),
             'aura': import_folder('../graphics/particles/aura', rescale=1),
             # 'heal': import_folder('../graphics/particles/heal/frames', rescale=1),
