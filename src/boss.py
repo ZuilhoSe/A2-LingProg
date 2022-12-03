@@ -89,7 +89,7 @@ class Boss(Entity):
         :param name: name of the enemy
         :type name: str
         """ 
-        animations = support.import_tiles(f'../graphics/monster/{name}.png',64*4,64*4,(64*4)/50)
+        animations = support.import_tiles(f'../graphics/monster/{name}.png',64*3,64*3,(64*3)/50)
         self.animations = {'idle': [],}
         for i in range(len(animations)):
             self.animations['idle'].append(animations[i])
