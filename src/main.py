@@ -12,16 +12,15 @@ class Game:
 		self.clock = pygame.time.Clock()
 		self.level = Level()
 		self.is_paused=False
-		self.volume=VOLUME
+		self.volume=pygame.mixer.music.set_volume(VOLUME/10)
 		self.game_over= False
 		#Village music
 		pygame.mixer.music.load("../audio/village.ogg")
-		pygame.mixer.music.set_volume(VOLUME/10)
 		pygame.mixer.music.play(-1)
 
 	def menu(self):
 		self.menu=Menus()
-		if self.menu.main_menu() == "play":
+		if self.menu.main_menu():
 			self.run()
 
 	def run(self):
@@ -58,8 +57,11 @@ class Game:
 							#set up initialy but that shouldn't be a problem
 							#since the player should start with full life
 							self.level.player.alive=True
+							volume=self.game_over_menu.game_over_menu()
 							new_game = Game()
+							new_game.volume=pygame.mixer.music.set_volume(volume/10)
 							new_game.run()
+
 
 
 			self.screen.fill('black')
