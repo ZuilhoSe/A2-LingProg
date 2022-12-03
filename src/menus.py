@@ -132,10 +132,19 @@ class Menus:
 		pause_text = self.get_font(MENU_FONT_SIZE).render("PAUSE", True, "#b68f40")
 		pause_rect = pause_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
 		resume_text = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ENTER   to  resume", True, "#b68f40")
-		resume_rect = resume_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.6)))
-		
+		resume_rect = resume_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.375)))
+		main_menu_text = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ESC   to  main menu", True, "#b68f40")
+		main_menu_rect = main_menu_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.5)))
+		restar_text = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    R   to  restart", True, "#b68f40")
+		restar_rect = restar_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.625)))
+		quit_text = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    Q   to  quit", True, "#b68f40")
+		quit_rect = quit_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.75)))
+
 		pause_menu_screen.blit(pause_text, pause_rect)
 		pause_menu_screen.blit(resume_text, resume_rect)
+		pause_menu_screen.blit(main_menu_text, main_menu_rect)
+		pause_menu_screen.blit(restar_text, restar_rect)
+		pause_menu_screen.blit(quit_text, quit_rect)
 		pg.display.update()
 
 	def credits_menu(self):
@@ -187,11 +196,18 @@ class Menus:
 			game_over_text = self.get_font(MENU_FONT_SIZE).render("GAME OVER", True, "#b68f40")
 			game_over_rect = game_over_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
 			game_over_text1 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ENTER   to  restart", True, "#b68f40")
-			game_over_rect1 = game_over_text1.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.6)))
+			game_over_rect1 = game_over_text1.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.375)))
+			game_over_text2 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ESC   to  main menu", True, "#b68f40")
+			game_over_rect2 = game_over_text2.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.5)))
+			game_over_text3 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    Q   to  quit", True, "#b68f40")
+			game_over_rect3 = game_over_text3.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.625)))
 
 			game_over_menu_screen.blit(game_over_text, game_over_rect)
 			game_over_menu_screen.blit(game_over_text1, game_over_rect1)
-
-
+			game_over_menu_screen.blit(game_over_text2, game_over_rect2)
+			game_over_menu_screen.blit(game_over_text3, game_over_rect3)
+			
 			pg.display.update()
-			return volum
+
+	def vol(self):
+		return volum
