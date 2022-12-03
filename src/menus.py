@@ -18,11 +18,11 @@ class Menus:
 			main_menu_screen.fill("Black")
 
 			menu_mouse_position = pg.mouse.get_pos()
-			menu_text = self.get_font(MENU_FONT_SIZE).render("MAIN MENU", True, "#b68f40")
+			menu_text = self.get_font(MENU_FONT_SIZE).render("THE  LEGEND  OF  OPHELIA", True, "#b68f40")
 			menu_rect = menu_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
 
 			
-			play_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.35)), 
+			play_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.3)), 
 							text_input="PLAY", font=self.get_font(MENU_FONT_SIZE), 
 							base_color="#d7fcd4", hovering_color="White")
 			options_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.5)),
@@ -152,28 +152,42 @@ class Menus:
 			credits_menu_screen = self.screen
 			credits_menu_screen.fill("Black")
 
-			credits_text = self.get_font(MENU_FONT_SIZE).render("CREDITS", True, "#b68f40")
-			credits_rect = credits_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
-			credits_text1 = self.get_font(int(MENU_FONT_SIZE/2)).render("Made by:  ", True, "#b68f40")
-			credits_rect1 = credits_text1.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.3)))
-			credits_text2 = self.get_font(int(MENU_FONT_SIZE/2)).render("Bruno Lunardon", True, "#b68f40")
-			credits_rect2 = credits_text2.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.4)))
-			credits_text3 = self.get_font(int(MENU_FONT_SIZE/2)).render("George", True, "#b68f40")
-			credits_rect3 = credits_text3.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.5)))
-			credits_text4 = self.get_font(int(MENU_FONT_SIZE/2)).render("Zuilho", True, "#b68f40")
-			credits_rect4 = credits_text4.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.6)))
-			credits_text5 = self.get_font(int(MENU_FONT_SIZE/2)).render("Vini", True, "#b68f40")
-			credits_rect5 = credits_text5.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.8)))
+			credits_text = self.get_font(int(8*(MENU_FONT_SIZE/10))).render("CREDITS", True, "#b68f40")
+			credits_rect = credits_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.05)))
+			made_by_text = self.get_font(int(MENU_FONT_SIZE/3)).render("MADE  BY:  ", True, "#b68f40")
+			made_by_rect = made_by_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.2)))
+			author1 = self.get_font(int(MENU_FONT_SIZE/3)).render("LUNAS", True, "#b68f40")
+			author1_rect = author1.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.25)))
+			author2 = self.get_font(int(MENU_FONT_SIZE/3)).render("JOOJ", True, "#b68f40")
+			author2_rect = author2.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.3)))
+			author3 = self.get_font(int(MENU_FONT_SIZE/3)).render("VINI", True, "#b68f40")
+			author3_rect = author3.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.35)))
+			author4 = self.get_font(int(MENU_FONT_SIZE/3)).render("ZUZU", True, "#b68f40")
+			author4_rect = author4.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.4)))
+			thanks_text = self.get_font(int(MENU_FONT_SIZE/2)).render("THANKS  TO:  ", True, "#b68f40")
+			thanks_rect = thanks_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.5)))
+			thanks1 = self.get_font(int(MENU_FONT_SIZE/3)).render("PIXEL  ARCHIPEL  FOR  THE  MAJORITY  OF  SPRITES", True, "#b68f40")
+			thanks1_rect = thanks1.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.575)))
+			patreon = self.get_font(int(MENU_FONT_SIZE/3)).render("PATREON:", True, "#b68f40")
+			patreon_rect = patreon.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.65)))
+			patreon_link = self.get_font(int(MENU_FONT_SIZE/3)).render("https://www.patreon.com/pixelarchipel", True, "#b68f40")
+			patreon_link_rect = patreon_link.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.725)))
+
+
 
 			credits_menu_screen.blit(credits_text, credits_rect)
-			credits_menu_screen.blit(credits_text1, credits_rect1)
-			credits_menu_screen.blit(credits_text2, credits_rect2)
-			credits_menu_screen.blit(credits_text3, credits_rect3)
-			credits_menu_screen.blit(credits_text4, credits_rect4)
-			credits_menu_screen.blit(credits_text5, credits_rect5)
+			credits_menu_screen.blit(made_by_text, made_by_rect)
+			credits_menu_screen.blit(author1, author1_rect)
+			credits_menu_screen.blit(author2, author2_rect)
+			credits_menu_screen.blit(author3, author3_rect)
+			credits_menu_screen.blit(author4, author4_rect)
+			credits_menu_screen.blit(thanks_text, thanks_rect)
+			credits_menu_screen.blit(thanks1, thanks1_rect)
+			credits_menu_screen.blit(patreon, patreon_rect)
+			credits_menu_screen.blit(patreon_link, patreon_link_rect)
 
 			back_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.9)),
-							text_input="BACK", font=self.get_font(MENU_FONT_SIZE),
+							text_input="BACK", font=self.get_font(int(7.5*(MENU_FONT_SIZE/10))),
 							base_color="#d7fcd4", hovering_color="White")
 
 			back_button.changeColor(pg.mouse.get_pos())
