@@ -1,3 +1,5 @@
+"""This module is dedicated to the class and methods involving the player and it's interactions."""
+
 import pygame as pg
 from settings import *
 from support import import_folder
@@ -134,7 +136,6 @@ class Player(Entity):
         if keys[pg.K_SPACE] and not self.attacking and not self.weapon_standby and not self.special:
             self.attacking = True
             self.weapon_standby = True
-
             self.attack_time = pg.time.get_ticks()
             self.weapon_time = pg.time.get_ticks()
 
@@ -150,7 +151,6 @@ class Player(Entity):
             
             if self.magic == "heal":
                 self.special = True
-
             else:
                 self.attacking = True
                 self.attack_time = pg.time.get_ticks()
@@ -160,7 +160,6 @@ class Player(Entity):
 
             strength = magic_data[self.magic]["strength"]
             cost = magic_data[self.magic]["cost"]
-
             self.create_magic(strength, cost)
 
         # For switching magics:
@@ -168,12 +167,10 @@ class Player(Entity):
             
             self.magic_switch_time = pg.time.get_ticks()
             self.magic_can_switch = False
-            print("mudei")
             
             self.magic_index += 1
             if self.magic_index >= len(magic_data):
                 self.magic_index = 0
-            
             self.magic = list(magic_data.keys())[self.magic_index]
 
         # Defining the dash input
@@ -292,6 +289,9 @@ class Player(Entity):
             self.health -= dmg
 
     def mana_regen(self):
+        """ Defines a passive mana regeneation for the player.
+        """
+
         if self.mana < self.stats["mana"]:
             self.mana += 0.005
         else:

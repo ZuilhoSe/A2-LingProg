@@ -1,3 +1,5 @@
+"""This module has essencial variables and info about many aspects of the game like configs, enemies, weapons and more."""
+
 # game setup
 STANDARD_WIDTH=1280
 STANDARD_HEIGTH=720
