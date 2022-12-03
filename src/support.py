@@ -1,3 +1,5 @@
+"""The support module has some important functions that are use in many other modules of the game."""
+
 from csv import reader
 from os import walk
 import pygame

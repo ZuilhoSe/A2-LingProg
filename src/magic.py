@@ -1,25 +1,62 @@
+"""This module stores the classes and methods needed to create magic sprites."""
+
 import pygame as pg
 from settings import *
 from entity import Entity
 from support import import_folder
 
 class MagicPlayer:
+    """The MagicPlayer class import all the magics assets at once and calls the Projectile class to create the magics.
+    """
+
     def __init__(self, animation_player):
+        """Since it is created only once, the MagicPlayer doesn't need any specifications to be created, but it needs to know the AnimationPlayer class.
+
+        :param animation_player: Class used to animate basic particles for the magics
+        :type animation_player: particles.AnimationPlayer
+        """
+
         self.animation_player = animation_player
         self.frames = {
             "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1)
         }
 
     def heal(self, player, strength, cost, groups):
+        """Calls the animation player to create healing particles, and increases player's health.
+
+        :param player: The player class, so the method can access health and know its position
+        :type player: player.Player
+        :param strength: How much health will be recovered
+        :type strength: int
+        :param cost: How much mana will be deducted from the player
+        :type cost: int
+        :param groups: Wich groups the magic particles belong
+        :type groups: list
+        """
+
         if player.mana >= cost:
             player.mana -= cost
             player.health += strength
             offset = pg.math.Vector2(0,6)
-            self.animation_player.create_default_particles("aura", player.rect.center + offset, groups)
+            self.animation_player.create_default_particles(player.magic, player.rect.center + offset, groups)
             if player.health >= player.max_health:
                 player.health = player.max_health
 
     def fireball(self, player, cost, groups, obstacle_sprites, attackable_sprites):
+        """Calls the Projectile class to create a fireball.
+
+        :param player: The Player object, so the method can know it's position and access it's mana
+        :type player: player.Player
+        :param cost: How much mana will be deducted from the player
+        :type cost: int
+        :param groups: Wich groups the magic particles belong
+        :type groups: list
+        :param obstacle_sprites: Sprite group that contains the obstacles in the scenery
+        :type obstacle_sprites: pygame.sprite.Group
+        :param attackable_sprites: Sprite group that contains the enemy's sprites
+        :type attackable_sprites: pygame.sprite.Group
+        """
+
         if player.mana >= cost:
             player.mana -= cost
 
@@ -32,11 +69,36 @@ class MagicPlayer:
             type = player.magic
             caster_rect = player.rect
             speed = 6
-            Projectile(type, direction, caster_rect, self.frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player)
+            frames = self.frames[type]
+            Projectile(type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player)
 
 class Projectile(Entity):
+    """This class creates a sprite in a certain direction, that moves at constant speed in that direction. This class inherits from the Entity class.
+    """
+
     def __init__(self, type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, animation_player):
-        
+        """The creation of a Projectile is kinda complex, due to the fact that the class is used by both the player and the enemies.
+
+        :param type: Type of the projectile. This is used to define the frames, the damage, among other things.
+        :type type: str
+        :param direction: This is the direction the projectile will move, and the rotation of the images
+        :type direction: pygame.math.Vector2
+        :param caster_rect: This is the rect property from the sprite where the projectile will be cast
+        :type caster_rect: pygame.sprite.Sprite.rect
+        :param frames: These are the frames used to animate the projectile. It must be a list with images pointing to the RIGHT.
+        :type frames: list
+        :param groups: Wich groups the magic particles belong
+        :type groups: list
+        :param speed: Movement speed of the projectile
+        :type speed: int
+        :param obstacle_sprites: Sprite group that contains the obstacles in the scenery, so the project explodes when it collides with them
+        :type obstacle_sprites: pygame.sprite.Group
+        :param attackable_sprites: Sprite group that contains the enemy's sprites, so the enemies get damaged when they collide with a Projectile
+        :type attackable_sprites: pygame.sprite.Group
+        :param animation_player: Class used to animate basic particles for the magics
+        :type animation_player: particles.AnimationPlayer
+        """
+
         super().__init__(groups)
         self.sprite_type = type
 
@@ -52,12 +114,12 @@ class Projectile(Entity):
         #And an important method
         self.animation_player = animation_player
 
-        # Defining animation frames
+        # Rotating and defining animation frames
         self.direction = direction.normalize()
         self.animation = []
 
         rotation_angle = pg.math.Vector2(1,0).angle_to(self.direction)
-        for frame in frames[self.sprite_type]:
+        for frame in frames:
             rotated_frame = pg.transform.rotate(frame, -rotation_angle)
             self.animation.append(rotated_frame)
 
@@ -79,6 +141,9 @@ class Projectile(Entity):
         self.speed = speed
 
     def animate(self):
+        """This method is called once per loop to animate the frames over the images in the self.animation list.
+        """
+
         # Loops over the frames
         self.frame_index += self.animation_speed
         if self.frame_index >= len(self.animation):
@@ -89,15 +154,24 @@ class Projectile(Entity):
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
     def die(self):
+        """This method is called when the Projectile must end.
+        """
+
         self.animation_player.create_default_particles(self.sprite_type + "_die", self.rect.center, [self.visible_sprites])
         self.kill()
 
     def timer(self):
+        """This method verifies how long the projectile lasts, and kills it once it reaches the limit time.
+        """
+
         current_time = pg.time.get_ticks()
         if current_time - self.creation_time >= self.life_expectancy:
             self.die() 
 
     def update(self):
+        """This method sets what will be called everytime the game completes a main loop. Basically, it says what will be "updated" in each frame. 
+        """
+
         self.move(self.speed)
         self.animate()
         self.timer()
