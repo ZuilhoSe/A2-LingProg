@@ -7,6 +7,15 @@ class MagicPlayer:
     def __init__(self, animation_player):
         self.animation_player = animation_player
 
+    def heal(self, player, strength, cost, groups):
+        if player.mana >= cost:
+            player.mana -= cost
+            player.health += strength
+            offset = pg.math.Vector2(0,6)
+            self.animation_player.create_default_particles("aura", player.rect.center + offset, groups)
+            if player.health >= player.max_health:
+                player.health = player.max_health
+
     def fireball(self, player, cost, groups, obstacle_sprites, attackable_sprites):
         if player.mana >= cost:
             player.mana -= cost

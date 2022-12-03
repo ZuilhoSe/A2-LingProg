@@ -27,7 +27,7 @@ class AnimationPlayer:
             'fireball_right': import_folder('../graphics/particles/fireball/right', rescale=1),
             'fireball_left': import_folder('../graphics/particles/fireball/left', rescale=1),
             'fireball_die': import_folder('../graphics/particles/nova', rescale=0.5),
-            # 'aura': import_folder('../graphics/particles/aura', rescale=1),
+            'aura': import_folder('../graphics/particles/aura', rescale=1),
             # 'heal': import_folder('../graphics/particles/heal/frames', rescale=1),
             
             # monster attacks 
