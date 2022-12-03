@@ -12,7 +12,8 @@ class Boss(Entity):
     def __init__(self, monster_name: str,
                  pos: tuple[int], groups,
                  obstacle_sprites: pygame.sprite.Group(), 
-                 damage_player, death_particles, magic):
+                 damage_player, death_particles, magic,
+                 obstacle_sprite_ignored_boss: pygame.sprite.Group()):
         """
         :param monster_name: name of the enemy so that it's attributes can be searched
         :type monster_name: str
@@ -38,6 +39,7 @@ class Boss(Entity):
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(0,-10)
         self.obstacle_sprites = obstacle_sprites
+        self.obstacle_sprite_ignored_boss = obstacle_sprite_ignored_boss
         
         # stats
         self.monster_name = monster_name
@@ -87,7 +89,7 @@ class Boss(Entity):
         :param name: name of the enemy
         :type name: str
         """ 
-        animations = support.import_tiles(f'../graphics/monster/{name}.png',64,64,64/50)
+        animations = support.import_tiles(f'../graphics/monster/{name}.png',64*4,64*4,(64*4)/50)
         self.animations = {'idle': [],}
         for i in range(len(animations)):
             self.animations['idle'].append(animations[i])

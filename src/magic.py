@@ -68,7 +68,7 @@ class MagicPlayer:
             type = player.magic
             caster_rect = player.rect
             speed = 6
-            Projectile(type, direction, caster_rect, self.frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player)
+            Projectile(type, direction, caster_rect, self.frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player, False)
 
 class MagicBoss:
     """The MagicPlayer class import all the magics assets at once and calls the Projectile class to create the magics.
@@ -104,12 +104,13 @@ class MagicBoss:
         type = boss.magic_type
         caster_rect = boss.rect
         speed = boss.magic_speed
-        Projectile(type, boss.direction, caster_rect, self.frames, groups, speed, obstacle_sprites, player, self.animation)
+        Projectile(type, boss.direction, caster_rect, self.frames, groups, speed, obstacle_sprites, player, self.animation, True)
+        
 class Projectile(Entity):
     """This class creates a sprite in a certain direction, that moves at constant speed in that direction. This class inherits from the Entity class.
     """
 
-    def __init__(self, type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, animation_player):
+    def __init__(self, type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, animation_player, cast_from_center):
         """The creation of a Projectile is kinda complex, due to the fact that the class is used by both the player and the enemies.
 
         :param type: Type of the projectile. This is used to define the frames, the damage, among other things.
@@ -130,6 +131,8 @@ class Projectile(Entity):
         :type attackable_sprites: pygame.sprite.Group
         :param animation_player: Class used to animate basic particles for the magics
         :type animation_player: particles.AnimationPlayer
+        :param cast_from_center: If True the projectile will be cast from the center of the caster_rect
+        :type cast_from_center: bool
         """
 
         super().__init__(groups)
@@ -161,7 +164,9 @@ class Projectile(Entity):
         self.image = self.animation[0]
 
         # Defining movement direction
-        if abs(self.direction.x) >= abs(self.direction.y):
+        if cast_from_center:
+            self.rect = self.image.get_rect(center=caster_rect.center)
+        elif abs(self.direction.x) >= abs(self.direction.y):
             if self.direction.x > 0:
                 self.rect = self.image.get_rect(midleft = caster_rect.midright)
             else:
