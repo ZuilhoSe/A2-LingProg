@@ -1,3 +1,5 @@
+"""The particles module has most of the important classes and methods to create and animate particles."""
+
 import pygame as pg
 from support import import_folder
 from random import choice
@@ -23,8 +25,8 @@ class AnimationPlayer:
 
             # magic
             'fireball_die': import_folder('../graphics/particles/nova', rescale=0.5),
-            'aura': import_folder('../graphics/particles/aura', rescale=1),
-            # 'heal': import_folder('../graphics/particles/heal/frames', rescale=1),
+            # 'aura': import_folder('../graphics/particles/aura', rescale=1),
+            'heal': import_folder('../graphics/particles/heal/frames', rescale=3),
             
             # monster attacks 
             # 'claw': import_folder('../graphics/particles/claw', rescale=1),

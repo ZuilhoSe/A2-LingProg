@@ -167,16 +167,29 @@ class Level:
 									self.damage_player,
 									self.create_particles)
 
-	# Methods to create and kill attack's sprites
 	def create_attack(self):
+		"""Method that call's a Weapon class whenever the player attacks, to create a weapon sprite.
+		"""
+
 		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites], self.create_particles)
 
 	def end_attack(self):
+		"""Method to kill a Weapon class once an attack is over.
+		"""
+
 		if self.current_attack:
 			self.current_attack.kill()
 		self.current_attack = None
   
 	def create_magic(self, strenght, cost):
+		"""Method to call the magic player whenever the player cast a magic.
+
+		:param strenght: The strenght stat of the magic
+		:type strenght: int
+		:param cost: The mana cost of the magic
+		:type cost: int
+		"""
+
 		if self.player.magic == "fireball":
 			self.magic_player.fireball(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
 		
@@ -184,6 +197,9 @@ class Level:
 			self.magic_player.heal(self.player, strenght, cost, [self.visible_sprites])
 
 	def player_attack(self):
+		"""Method that defines the logic behind player's attacks.
+		"""
+
 		if self.attack_sprites:
 			for attack in self.attack_sprites:
 				# Check if the attack is colliding with an enemy
@@ -203,6 +219,14 @@ class Level:
 							attack.die()
     
 	def damage_player(self, amount, attack_type):
+		"""Method to inflict damage in the player.
+
+		:param amount: Amount of health the player will lose
+		:type amount: int
+		:param attack_type: Type of the attack the player is suffering
+		:type attack_type: str
+		"""
+
 		if self.player.vulnerable and not self.player.dashing:
 			self.player.get_damage(amount)
 			self.player.vulnerable = False
@@ -210,6 +234,14 @@ class Level:
 			self.animation_player.create_default_particles(attack_type, self.player.rect.center, [self.visible_sprites])
 
 	def create_particles(self, particle_type, pos):
+		"""Method to use the AnimationPlayer's method create_default_particles inside Level class.
+
+		:param particle_type: Name of the wished particles
+		:type particle_type: str
+		:param pos: Position to create the particles 
+		:type pos: tuple
+		"""
+
 		self.animation_player.create_default_particles(particle_type, pos, self.visible_sprites)
 
 	def run(self):
