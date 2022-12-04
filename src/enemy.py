@@ -189,7 +189,7 @@ class Enemy(Entity):
             if attack_type == "weapon":
                 self.health -= settings.weapon_data[player.weapon]["damage"]
 
-            elif attack_type == "fireball":
+            elif attack_type == "fireball" or attack_type == "stone_edge" or attack_type == "ice_spike" or attack_type == "spirit_wind":
                 self.health -= settings.magic_data[attack_type]["strength"]
 
             self.hit_time = pygame.time.get_ticks()

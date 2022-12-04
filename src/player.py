@@ -60,8 +60,8 @@ class Player(Entity):
         self.weapon_standby = False
 
         self.magic_index = 0 #IMPORTANT to change the magic equipped
-        self.magic_list = []
-        self.magic = None
+        self.magic_list = list(magic_data.keys())
+        self.magic = self.magic_list[0]
         self.magic_time = None
         self.magic_standby = False
         
