@@ -318,9 +318,9 @@ class Player(Entity):
         """This method sets what will be called everytime the game completes a main loop. Basically, it says what will be "updated" in each frame. 
         """
 
+        self.cooldowns()
+        self.get_status()
         self.input()
         self.move(self.speed)
-        self.get_status()
         self.animate()
-        self.cooldowns()
         self.mana_regen()
