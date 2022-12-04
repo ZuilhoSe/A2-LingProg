@@ -36,6 +36,9 @@ EMPTY_HEART='../graphics/HUD/empty_heart.png'
 QUARTER_HEART='../graphics/HUD/quarter_heart.png'
 QUARTER_3_HEART='../graphics/HUD/quarter_3_heart.png'
 
+#mana
+FULL_MANA='../graphics/HUD/full_mana.png'
+EMPTY_MANA='../graphics/HUD/empty_mana.png'
 
 WORLD_MAP = [
 ['x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'],

@@ -25,6 +25,7 @@ class UI:
 		:type player: Player
 		"""		
 		self.hearts(player)
+		self.manas(player)
 
 	def hearts(self,player):
 		"""Displays the player's health
@@ -50,6 +51,20 @@ class UI:
 			self.display_surface.blit(pg.transform.scale(pg.image.load(HALF_HEART),(48,48)),((total_full_hearts)*75+30,25))
 		elif wich_quarter_heart==3:
 			self.display_surface.blit(pg.transform.scale(pg.image.load(QUARTER_3_HEART),(48,48)),((total_full_hearts)*75+30,25))
+
+	def manas(self,player):
+		total_mana=self.player.max_mana
+		total_full_mana=self.player.mana
+		empty_mana=total_mana-total_full_mana
+
+		for empty in range(empty_mana):
+			self.display_surface.blit(pg.transform.scale(pg.image.load(EMPTY_MANA),(32,32)),((empty+total_full_mana)
+			*75+30,75))
+		for mana in range(total_full_mana):
+			self.display_surface.blit(pg.transform.scale(pg.image.load(FULL_MANA),(32,32)),(mana*75+30,75))
+		
+		
+
 
 	def display_dialogue_box(self):
 		"""Displays the dialogue box
