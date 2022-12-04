@@ -150,7 +150,7 @@ class Boss(Entity):
             self.damage_player(self.attack_damage, self.attack_type)
             self.attack_sound.play()
             self.can_attack= False
-        elif self.status == 'magic' and self.can_magic:
+        elif self.status == 'magic' and self.can_magic and self.vulnerable:
             self.magic_time = pygame.time.get_ticks()
             self.direction = self.get_player_distance_direction(player)[1]
             self.magic(self)
