@@ -3,8 +3,7 @@ import pygame
 import settings
 from entity import Entity
 import support
-
-class Enemy(Entity):
+class Boss(Entity):
     """Enemy class responsible for the enemy's behaviour
 
     :param Entity: Enemy class inherits from Entity class
@@ -13,7 +12,8 @@ class Enemy(Entity):
     def __init__(self, monster_name: str,
                  pos: tuple[int], groups,
                  obstacle_sprites: pygame.sprite.Group(), 
-                 damage_player, death_particles):
+                 damage_player, death_particles, magic,
+                 obstacle_sprite_ignored_boss: pygame.sprite.Group()):
         """
         :param monster_name: name of the enemy so that it's attributes can be searched
         :type monster_name: str
@@ -31,7 +31,7 @@ class Enemy(Entity):
         
         #graphics setup
         self.status = 'idle'
-        self.animation_state = 'down'
+        self.animation_state = 'idle'
         self.import_graphics(monster_name)
         self.image= self.animations[self.animation_state][self.frame_index]
         
@@ -39,6 +39,7 @@ class Enemy(Entity):
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(0,-10)
         self.obstacle_sprites = obstacle_sprites
+        self.obstacle_sprite_ignored_boss = obstacle_sprite_ignored_boss
         
         # stats
         self.monster_name = monster_name
@@ -51,12 +52,20 @@ class Enemy(Entity):
         self.attack_radius = monster_info['attack_radius']
         self.notice_radius = monster_info['notice_radius']
         self.attack_type = monster_info['attack_type']
+        self.magic_radius = monster_info['magic_radius']
+        self.magic_damage = monster_info['magic_damage']
+        self.magic_type = monster_info['magic_type']
+        self.magic_speed = monster_info['magic_speed']
         
         #player interaction
         self.can_attack = True
+        self.can_magic = True
+        self.magic_time = None
+        self.magic_cooldown = 1500
         self.attack_time = None
         self.attack_cooldown = 400
         self.damage_player = damage_player
+        self.magic = magic
 
         # Particles
         self.death_particles = death_particles
@@ -80,14 +89,11 @@ class Enemy(Entity):
         :param name: name of the enemy
         :type name: str
         """ 
-    
-        animations = support.import_tiles(f'../graphics/monster/{name}.png')
-        self.animations = {'down': [],'up': [],'left': [],'right': []}
-        for i in range(0,13,4):
-            self.animations['down'].append(animations[i])
-            self.animations['up'].append(animations[i+1])
-            self.animations['left'].append(animations[i+2])
-            self.animations['right'].append(animations[i+3])
+        animations = support.import_tiles(f'../graphics/monster/{name}.png',64*3,64*3,(64*3)/50)
+        self.animations = {'idle': [],}
+        for i in range(len(animations)):
+            self.animations['idle'].append(animations[i])
+
         
     def get_player_distance_direction(self, player):
         """Gets the postion of the enemy relative to the player
@@ -118,18 +124,11 @@ class Enemy(Entity):
             if self.status != 'attack':
                 self.frame_index = 0
             self.status = 'attack'
+        elif distance <= self.magic_radius and self.can_magic:
+            self.status = 'magic'
         elif distance <= self.notice_radius:
             self.status = 'move'
-            if abs(direction[0])>abs(direction[1]):
-                if direction[0]>0:
-                    self.animation_state = 'right'
-                else:
-                    self.animation_state = 'left'
-            else:
-                if direction[1]>0:
-                    self.animation_state = 'down'
-                else:
-                    self.animation_state = 'up'
+        
         else:
             self.status = 'idle'
             
@@ -138,12 +137,20 @@ class Enemy(Entity):
         :param player: hte playable character
         :type player: Player
         """        
-        if self.status == 'attack':
+        if self.status == 'attack' and self.can_attack:
             self.attack_time = pygame.time.get_ticks()
             self.damage_player(self.attack_damage, self.attack_type)
             self.attack_sound.play()
+            self.can_attack= False
+        elif self.status == 'magic' and self.can_magic:
+            self.magic_time = pygame.time.get_ticks()
+            self.direction = self.get_player_distance_direction(player)[1]
+            self.magic(self)
+            self.can_magic = False
         elif self.status == 'move':
             self.direction = self.get_player_distance_direction(player)[1]
+        elif self.status == 'move_back':
+            self.direction = -self.get_player_distance_direction(player)[1]
         else:
             self.direction = pygame.math.Vector2()
     
@@ -155,8 +162,6 @@ class Enemy(Entity):
         
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
-            if self.status == 'attack':
-                self.can_attack = False
             self.frame_index = 0
             
         self.image = animation[int(self.frame_index)]
@@ -176,6 +181,10 @@ class Enemy(Entity):
         if not self.can_attack:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.can_attack = True
+        
+        if not self.can_magic:
+            if current_time - self.magic_time >= self.magic_cooldown:
+                self.can_magic = True
 
         if not self.vulnerable:
             if current_time - self.hit_time >= self.invincibility_duration:
@@ -185,13 +194,11 @@ class Enemy(Entity):
         if self.vulnerable:
             self.hit_sound.play()
             self.direction = self.get_player_distance_direction(player)[1]
-
             if attack_type == "weapon":
                 self.health -= settings.weapon_data[player.weapon]["damage"]
-
             elif attack_type == "fireball":
                 self.health -= settings.magic_data[attack_type]["strength"]
-
+            
             self.hit_time = pygame.time.get_ticks()
             self.vulnerable = False
 

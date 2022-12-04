@@ -1,3 +1,5 @@
+"""The particles module has most of the important classes and methods to create and animate particles."""
+
 import pygame as pg
 from support import import_folder
 from random import choice
@@ -22,14 +24,15 @@ class AnimationPlayer:
             "flip_attack_y": self.reflect_images(import_folder('../graphics/particles/attack_y', rescale=2), y=True),
 
             # magic
-            # 'flame': import_folder('../graphics/particles/flame/frames', rescale=1),
+            'fireball_die': import_folder('../graphics/particles/nova', rescale=0.5),
+            'heal': import_folder('../graphics/particles/heal/frames', rescale=1),
             # 'aura': import_folder('../graphics/particles/aura', rescale=1),
-            # 'heal': import_folder('../graphics/particles/heal/frames', rescale=1),
             
             # monster attacks 
             # 'claw': import_folder('../graphics/particles/claw', rescale=1),
             'slash': import_folder('../graphics/particles/slash', rescale=1),
             'fire': import_folder('../graphics/particles/fire', rescale=2),
+            'nova': import_folder('../graphics/particles/nova', rescale=0.5),
             # 'sparkle': import_folder('../graphics/particles/sparkle', rescale=1),
             # 'leaf_attack': import_folder('../graphics/particles/leaf_attack', rescale=1),
             # 'thunder': import_folder('../graphics/particles/thunder', rescale=1),
@@ -39,6 +42,7 @@ class AnimationPlayer:
             'squid': import_folder('../graphics/particles/smoke_orange', rescale=1),
             'raccoon': import_folder('../graphics/particles/smoke', rescale=1),
             'flam': import_folder('../graphics/particles/sparkle', rescale=1),
+            'giant_flam': import_folder('../graphics/particles/sparkle', rescale=4),
             # 'bamboo': import_folder('../graphics/particles/bamboo', rescale=1),
             
             # leafs 

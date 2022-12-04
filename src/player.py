@@ -1,3 +1,5 @@
+"""This module is dedicated to the class and methods involving the player and it's interactions."""
+
 import pygame as pg
 from settings import *
 from support import import_folder
@@ -7,7 +9,7 @@ class Player(Entity):
     """This class carries most of the important properties and methods to the player's controls and functionalities. It inherits from the class Entity, in the entity module.
     """
 
-    def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack):
+    def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack, create_magic):
         """The class Player is created inside the class Level, and most of it's interactions come from it. The init method carries most of player's important varaiables, such as stats and cooldown values.
 
         :param pos: Receives coordinates where the player's tile will be spawned in the map, in the format: (x,y)
@@ -20,6 +22,8 @@ class Player(Entity):
         :type create_attack: method
         :param end_attack: Method the Level uses to delete the Weapon sprite once an attack is over. The Player must know this method to call it through the Level class.
         :type end_attack: method
+        :param create_magic: Method the Level uses to create the magic's sprites. The Player must know this method to call it through the Level class.
+        :type create_magic: method
         """
 
         super().__init__(groups)
@@ -37,9 +41,13 @@ class Player(Entity):
 
         self.create_attack = create_attack
         self.end_attack = end_attack
+        self.create_magic = create_magic
         self.attacking = False
         self.attack_cooldown = 400
         self.attack_time = None
+
+        self.special = False
+        self.special_cooldown = 300
 
         self.dashing = False
         self.dash_wait = False
@@ -53,13 +61,24 @@ class Player(Entity):
         self.weapon_time = None
         self.weapon_standby = False
 
-        self.stats = {"health": 100, "energy": 60, "attack": 10, "magic": 4, "speed": 6}
+        self.magic_index = 0 #IMPORTANT to change the magic equipped
+        self.magic_list = []
+        self.magic = None
+        self.magic_time = None
+        self.magic_standby = False
+        
+        self.magic_can_switch = True
+        self.magic_switch_cooldown = 300
+        self.magic_switch_time = None
+
+        self.stats = {"health": 12, "mana": 10, "speed": 6}
         self.health = self.stats["health"]
         self.max_health=16
         self.health = self.max_health
         self.max_mana = 10
         self.mana = self.max_mana
         self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
+        
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
         
@@ -74,7 +93,6 @@ class Player(Entity):
         self.sword_attack.set_volume(0.2)
         self.stick_attack.set_volume(0.2)
 
-    # Gets the assets to animate the player
     def player_assets(self):
         """Import the assets to animate the player, such as walking and attacking sprites.
         """
@@ -84,7 +102,8 @@ class Player(Entity):
             "up": [], "down": [], "left": [], "right": [], 
             "up_idle": [], "down_idle": [], "left_idle": [], "right_idle": [], 
             "up_attack": [], "down_attack": [], "left_attack": [], "right_attack": [],
-            "up_dash": [], "down_dash": [], "left_dash": [], "right_dash": []
+            "up_dash": [], "down_dash": [], "left_dash": [], "right_dash": [],
+            "special": []
         }
 
         for animation in self.animations.keys():
@@ -97,7 +116,7 @@ class Player(Entity):
 
         keys = pg.key.get_pressed()
 
-        if not self.attacking and not self.dashing:
+        if not self.attacking and not self.dashing and not self.special:
             # First for up and down movement
             if keys[pg.K_UP]:
                 self.direction.y = -1
@@ -119,24 +138,48 @@ class Player(Entity):
                 self.direction.x = 0
 
         # Now defining the attack input
-        if keys[pg.K_SPACE] and not self.attacking and not self.weapon_standby:
+        if keys[pg.K_SPACE] and not self.attacking and not self.weapon_standby and not self.special:
             self.attacking = True
             self.weapon_standby = True
             self.attack_time = pg.time.get_ticks()
             self.weapon_time = pg.time.get_ticks()
+
             self.create_attack()
+
             if self.weapon_index == 0:
                 self.stick_attack.play()
             elif self.weapon_index == 1:
                 self.sword_attack.play()
 
         # And the magic input
-        # if keys[pg.K_LCTRL] and not self.attacking:
-        #     self.attacking = True
-        #     self.attack_time = pg.time.get_ticks()
+        if keys[pg.K_LCTRL] and self.magic and not self.attacking and not self.magic_standby and not self.special:
+            
+            if self.magic == "heal":
+                self.special = True
+            else:
+                self.attacking = True
+                self.attack_time = pg.time.get_ticks()
+    
+            self.magic_standby = True
+            self.magic_time = pg.time.get_ticks()
+
+            strength = magic_data[self.magic]["strength"]
+            cost = magic_data[self.magic]["cost"]
+            self.create_magic(strength, cost)
+
+        # For switching magics:
+        if keys[pg.K_e] and self.magic and self.magic_can_switch and not self.attacking and not self.special:
+            
+            self.magic_switch_time = pg.time.get_ticks()
+            self.magic_can_switch = False
+            
+            self.magic_index += 1
+            if self.magic_index >= len(self.magic_list):
+                self.magic_index = 0
+            self.magic = self.magic_list[self.magic_index]
 
         # Defining the dash input
-        if keys[pg.K_LSHIFT] and not self.attacking and not self.dash_wait and not "idle" in self.status:
+        if keys[pg.K_LSHIFT] and not self.attacking and not self.dash_wait and not "idle" in self.status and not self.special:
             self.dashing = True
             self.dash_wait = True
             self.speed += self.dash_speed          
@@ -157,6 +200,18 @@ class Player(Entity):
             if current_time - self.weapon_time >= weapon_data[self.weapon]["cooldown"]:
                 self.weapon_standby = False
                 
+        if self.magic_standby:
+            if current_time - self.magic_time >= magic_data[self.magic]["cooldown"]:
+                self.magic_standby = False
+                
+        if not self.magic_can_switch:
+            if current_time - self.magic_switch_time >= self.magic_switch_cooldown:
+                self.magic_can_switch = True
+
+        if self.special:
+            if current_time - self.magic_time >= self.special_cooldown:
+                self.special = False
+
         if not self.vulnerable:
             if current_time - self.hurt_time >= self.invulnerability_duration:
                 self.vulnerable = True
@@ -175,11 +230,13 @@ class Player(Entity):
         """
 
         # Idle
-        if self.direction.x == 0 and self.direction.y == 0 and not "idle" in self.status:
+        if self.direction.x == 0 and self.direction.y == 0 and not "idle" in self.status and not self.special:
             if "attack" in self.status:
                 self.status = self.status.replace("_attack","_idle")
             elif "dash" in self.status:
                     self.status = self.status.replace("_dash","_idle")
+            elif self.status == "special":
+                self.status = "down_idle"
             elif not self.attacking and not self.dashing:
                 self.status = self.status + "_idle"
 
@@ -187,13 +244,20 @@ class Player(Entity):
         if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
-            if not "attack" in self.status:
+            if not "attack" in self.status and self.status != "special":
                 if "idle" in self.status:
                     self.status = self.status.replace("_idle","_attack")
                 elif "dash" in self.status:
                     self.status = self.status.replace("_dash","_attack")
                 else:
                     self.status = self.status + "_attack"
+
+        # Special
+        if self.special:
+            self.direction.x = 0
+            self.direction.y = 0
+            if self.status != "special":
+                self.status = "special"
 
         # Dash
         if self.dashing and not "dash" in self.status:
@@ -229,6 +293,31 @@ class Player(Entity):
         if self.health > 0:
             self.health -= dmg
 
+    def mana_regen(self):
+        """ Defines a passive mana regeneation for the player.
+        """
+
+        if self.mana < self.stats["mana"]:
+            self.mana += 0.005
+        else:
+            self.mana = self.stats["mana"]
+
+    def level_up(self, level):
+        """This level gives the player new magics after certain events.
+
+        :param level: This parameter defines wich level the player is going to level up, and wich magic he will gain.
+        :type level: int
+        """
+        
+        if level == 0:
+            self.weapon_index = 1
+        
+        new_magic = list(magic_data.keys)[level]
+        if new_magic not in self.magic_list:
+            self.magic_list.append(new_magic)
+
+        self.magic = self.magic_list[0]
+
     def update(self):
         """This method sets what will be called everytime the game completes a main loop. Basically, it says what will be "updated" in each frame. 
         """
@@ -238,4 +327,4 @@ class Player(Entity):
         self.get_status()
         self.animate()
         self.cooldowns()
-    
+        self.mana_regen()

@@ -65,8 +65,14 @@ WORLD_MAP = [
 
 # Weapon Data:
 weapon_data = {
-    "Stick": {"cooldown": 1000, "damage": 1, "graphic": "..graphics/weapons/Stick/SpriteInHand.png"},
-    "Katana": {"cooldown": 800, "damage": 2, "graphic": "..graphics/weapons/Katana/SpriteInHand.png"}
+    "Stick": {"cooldown": 1000, "damage": 1, "graphic": "../graphics/weapons/Stick/Sprite.png"},
+    "Katana": {"cooldown": 800, "damage": 2, "graphic": "../graphics/weapons/Katana/Sprite.png"}
+}
+
+# Magic Data:
+magic_data = {
+    "heal": {"strength": 2, "cost": 1, "cooldown": 800, "graphic": "../graphics/particles/fireball/fire.png"},
+    "fireball": {"strength": 3, "cost": 2, "cooldown": 1200, "graphic": "../graphics/particles/fireball/fire.png"}
 }
 
 monsters_data = {
@@ -74,6 +80,7 @@ monsters_data = {
     'flam': {'health': 2,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 5, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
     'raccoon': {'health': 4,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 4, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
     'snake': {'health': 2,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
+    'giant_flam': {'health': 10,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360,'magic_radius':250,'magic_type':'fireball','magic_damage':1, 'magic_speed': 6},
 }
 
 
