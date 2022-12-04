@@ -191,6 +191,10 @@ class Level:
 			self.magic_player.heal(self.player, strenght, cost, [self.visible_sprites])
    
 	def create_boss_magic(self, boss):
+		"""Create a magic attack from a boss
+  		:param boss: the boss that create the magic attack
+    	:type boss: Boss
+     	"""
 		self.magic_boss.fireball(boss,[self.visible_sprites, self.enemy_attack_sprites], self.obstacle_sprites,self.player)
 
 
@@ -224,6 +228,12 @@ class Level:
 						self.magic_damage_player(1,attack)
       
 	def magic_damage_player(self, damage, attack):
+		"""Damage the player with magic attack
+		:param damage: the damage of the attack
+		:type damage: int
+		:param attack: the attack projectile
+		:type attack: Projectile
+		"""
 		if self.player.vulnerable and not self.player.dashing:
 			self.player.get_damage(damage)
 			self.player.vulnerable = False
