@@ -17,7 +17,10 @@ class MagicPlayer:
 
         self.animation_player = animation_player
         self.frames = {
-            "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1)
+            "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1),
+            "stone_edge": import_folder("../graphics/particles/stone_edge/frames", rescale=2),
+            "ice_spike": import_folder("../graphics/particles/ice_spike/frames", rescale=2),
+            "spirit_wind": import_folder("../graphics/particles/spirit/frames", rescale=2)
         }
 
     def heal(self, player, strength, cost, groups):
@@ -41,8 +44,8 @@ class MagicPlayer:
             if player.health >= player.max_health:
                 player.health = player.max_health
 
-    def fireball(self, player, cost, groups, obstacle_sprites, attackable_sprites):
-        """Calls the Projectile class to create a fireball.
+    def projectile(self, player, cost, groups, obstacle_sprites, attackable_sprites):
+        """Calls the Projectile class to create a projectile magic.
 
         :param player: The Player object, so the method can know it's position and access it's mana
         :type player: player.Player
@@ -67,7 +70,7 @@ class MagicPlayer:
         
             type = player.magic
             caster_rect = player.rect
-            speed = 6
+            speed = magic_data[player.magic]["speed"]
             Projectile(type, direction, caster_rect, self.frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player, False)
 
 class MagicBoss:
