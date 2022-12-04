@@ -61,7 +61,7 @@ class Game:
 					if event.type == pygame.QUIT:
 						pygame.quit()
 						sys.exit()
-					if event.type == pygame.KEYDOWN:
+					if event.type == pygame.KEYDOWN: 
 						if event.key == pygame.K_RETURN:
 							#Note the player restarts with the life you 
 							#set up initialy but that shouldn't be a problem

@@ -64,7 +64,7 @@ class Player(Entity):
         self.magic_index = 0 #IMPORTANT to change the magic equipped
         self.magic_list = ["heal","fireball"]
         #self.magic_list = []
-        self.magic = self.magic_list[0]
+        self.magic = self.magic_list[1]
         #self.magic = None
         self.magic_time = None
         self.magic_standby = False
