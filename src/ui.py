@@ -24,10 +24,11 @@ class UI:
 		:param player: the player object
 		:type player: Player
 		"""		
-		self.hearts(player)
-		self.manas(player)
+		self.hearts_draw(player)
+		self.mana_draw(player)
+		self.weapon_draw(player)
 
-	def hearts(self,player):
+	def hearts_draw(self,player):
 		"""Displays the player's health
 
 		:param player: the player object
@@ -52,9 +53,9 @@ class UI:
 		elif wich_quarter_heart==3:
 			self.display_surface.blit(pg.transform.scale(pg.image.load(QUARTER_3_HEART),(48,48)),((total_full_hearts)*75+30,25))
 
-	def manas(self,player):
+	def mana_draw(self,player):
 		total_mana=self.player.max_mana
-		total_full_mana=self.player.mana
+		total_full_mana=int(self.player.mana)
 		empty_mana=total_mana-total_full_mana
 
 		for empty in range(empty_mana):
@@ -92,3 +93,34 @@ class UI:
 			text = pg.transform.scale(text, (text_x*2, text_y*2))
 			self.display_surface.blit(text, text.get_rect(center=(int(WIDTH/2), begin_y)))
 			begin_y += text_y + 40
+
+	def weapon_draw(self,player):
+		"""Displays the player's weapon
+
+		:param player: the player object
+		:type player: Player
+		"""
+		icon_sprite = pg.image.load("../graphics/HUD/NinePathRect/DialogueBubble.png")
+		icon_sprite = pg.transform.scale(icon_sprite, (int(1.25*HEIGTH/10),int(1.25*HEIGTH/10)))
+		weapon_sprite=weapon_data[player.weapon]["graphic"]
+		weapon_sprite=pg.transform.scale(pg.image.load(weapon_sprite),(int(18*RATIO),int(42*RATIO)))
+		weapon_sprite=pg.transform.rotate(weapon_sprite,-45)
+		self.display_surface.blit(icon_sprite,(9*(WIDTH/10),(HEIGTH/40)))
+		self.display_surface.blit(weapon_sprite,(int(9.18*(WIDTH/10)),int(2.3*(HEIGTH/40))))
+		if player.weapon_standby:
+			cooldown=pg.image.load("../graphics/HUD/NinePathRect/cooldown_mask.png")
+			cooldown=pg.transform.scale(cooldown,(int(1.25*(HEIGTH/10)),int(1.25*(HEIGTH/10))))
+			cooldown.set_alpha(150)		
+			self.display_surface.blit(cooldown,(9*(WIDTH/10),(HEIGTH/40)))
+
+	def magic_draw(self,player):
+		"""Displays the player's magic
+
+		:param player: the player object
+		:type player: Player
+		"""		
+		if self.player.magic_standby:
+			cooldown=pg.image.load("../graphics/HUD/NinePathRect/cooldown_mask.png")
+			cooldown=pg.transform.scale(cooldown,(100,100))
+			cooldown.set_alpha(150)		
+			self.display_surface.blit(cooldown,(9*(WIDTH/10),(HEIGTH/40)))

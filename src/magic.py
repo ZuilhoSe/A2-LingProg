@@ -32,8 +32,7 @@ class MagicPlayer:
         :param groups: Wich groups the magic particles belong
         :type groups: list
         """
-
-        if player.mana >= cost:
+        if player.health < player.max_health and player.mana >= cost:
             player.mana -= cost
             player.health += strength
             offset = pg.math.Vector2(0,6)

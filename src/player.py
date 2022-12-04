@@ -62,8 +62,10 @@ class Player(Entity):
         self.weapon_standby = False
 
         self.magic_index = 0 #IMPORTANT to change the magic equipped
-        self.magic_list = []
-        self.magic = None
+        self.magic_list = ["heal","fireball"]
+        #self.magic_list = []
+        self.magic = self.magic_list[0]
+        #self.magic = None
         self.magic_time = None
         self.magic_standby = False
         
@@ -71,13 +73,12 @@ class Player(Entity):
         self.magic_switch_cooldown = 300
         self.magic_switch_time = None
 
-        self.stats = {"health": 12, "mana": 10, "speed": 6}
-        self.health = self.stats["health"]
+        #self.stats = {"health": 12, "mana": 10, "speed": 6}
         self.max_health=16
         self.health = self.max_health
         self.max_mana = 10
         self.mana = self.max_mana
-        self.speed = self.stats["speed"] # This will be used to define the speed movement in pixels/frame
+        self.speed = 6 # This will be used to define the speed movement in pixels/frame
         
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
@@ -218,7 +219,7 @@ class Player(Entity):
         
         if self.dashing:
             if current_time - self.dash_time >= self.dash_duration:
-                self.speed = self.stats["speed"]
+                self.speed = 6
                 self.dashing = False
 
         if self.dash_wait:
@@ -297,10 +298,10 @@ class Player(Entity):
         """ Defines a passive mana regeneation for the player.
         """
 
-        if self.mana < self.stats["mana"]:
+        if self.mana < self.max_mana:
             self.mana += 0.005
         else:
-            self.mana = self.stats["mana"]
+            self.mana = self.max_mana
 
     def level_up(self, level):
         """This level gives the player new magics after certain events.
