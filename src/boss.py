@@ -232,9 +232,9 @@ class Boss(Entity):
             self.kill()
             self.death_sound.play()
             if self.monster_name == 'giant_frog':
-                level =3
+                level = 3
             elif self.monster_name == 'giant_flam':
-                level =1
+                level = 1
             elif self.monster_name == 'giant_spirit':
                 level = 4
             player.level_up(level)

@@ -243,7 +243,7 @@ class Level:
                         target_sprite.kill()
                     
                     elif target_sprite.sprite_type == 'spiritable' and attack.sprite_type == "spirit_wind":
-                        self.player.level_up(4)
+                        self.player.level_up(2)
                         target_sprite.kill()
 
                     elif target_sprite.sprite_type == 'enemy':
