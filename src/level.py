@@ -117,16 +117,16 @@ class Level:
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'dungeon_wall', dungeon_tile)
 						if style == 'spiritable':
 							spiritable_tile = graphics['spiritable_tileset'][int(col)]
-							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'spiritable', spiritable_tile)
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites, self.attackable_sprites],'spiritable', spiritable_tile)
 						if style == 'rockable':
 							rockable_tile = graphics['rockable_tileset'][int(col)]
-							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'rockable', rockable_tile)
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites, self.attackable_sprites],'rockable', rockable_tile)
 						if style == 'fireable':
 							fireable_tile = graphics['fireable_tileset'][int(col)]
-							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'fireable', fireable_tile)
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites, self.attackable_sprites],'fireable', fireable_tile)
 						if style == 'iceable':
 							iceable_tile = graphics['iceable_tileset'][int(col)]
-							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'iceable', iceable_tile)
+							Tile((x,y), [self.visible_sprites, self.obstacle_sprites, self.attackable_sprites],'iceable', iceable_tile)
 						if style == 'entities':
 							if col == '4': #Player
 								self.player = Player((x,y), [self.visible_sprites],
@@ -204,11 +204,13 @@ class Level:
 
 	def player_attack(self):
 		if self.attack_sprites:
+			print(self.player.magic_index)
 			for attack in self.attack_sprites:
 				# Check if the attack is colliding with an enemy
 				collisions = pygame.sprite.spritecollide(attack, self.attackable_sprites, False)
 				
 				for target_sprite in collisions:
+					print(target_sprite.sprite_type)
 					if target_sprite.sprite_type == 'grass' and attack.sprite_type == "weapon" and self.player.weapon_index == 1:
 						pos = target_sprite.rect.center
 						offset = pygame.math.Vector2(0,75)
@@ -216,6 +218,18 @@ class Level:
 							self.animation_player.create_grass_particles(pos - offset, [self.visible_sprites])
 						target_sprite.kill()
 					
+					elif (target_sprite.sprite_type == 'fireable' or target_sprite.sprite_type == "iceable") and attack.sprite_type == "fireball":
+						target_sprite.kill()
+
+					elif target_sprite.sprite_type == 'iceable' and attack.sprite_type == "ice_spike":
+						target_sprite.kill()
+					
+					elif target_sprite.sprite_type == 'rockable' and attack.sprite_type == "stone_edge":
+						target_sprite.kill()
+					
+					elif target_sprite.sprite_type == 'spiritable' and attack.sprite_type == "spirit_wind":
+						target_sprite.kill()
+
 					elif target_sprite.sprite_type == 'enemy':
 						target_sprite.get_damage(self.player, attack.sprite_type)
 						if type(attack) == Projectile:
