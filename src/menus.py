@@ -64,7 +64,7 @@ class Menus:
 
             options_text = self.get_font(int(8*MENU_FONT_SIZE/10)).render("OPTIONS", True, "#b68f40")
             options_rect = options_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.05)))
-            back_text = self.get_font(int(8*MENU_FONT_SIZE/10)).render("BACK", True, "#b68f40")
+            back_text = self.get_font(int(8*MENU_FONT_SIZE/10)).render("\"B\"   -   BACK", True, "#b68f40")
             back_rect = back_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.95)))
             volume_text = self.get_font(int(MENU_FONT_SIZE/2)).render(f"VOLUME:  {self.volume}", True, "#b68f40")
             volume_rect = volume_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.15)))
@@ -83,8 +83,8 @@ class Menus:
             options_menu_screen.blit(sfx_control_text, sfx_control_rect)
             options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
                                     (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.2)))
-            # options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
-            #                         (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.6)))
+            options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
+                                    (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.6)))
 
 
             for volume in range(0, self.volume):
