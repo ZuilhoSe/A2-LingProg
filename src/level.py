@@ -170,11 +170,10 @@ class Level:
 									self.obstacle_sprites,
 									self.damage_player,
 									self.create_particles)
-							elif col == '5' or col == '11':
-								if col == '5':
-									monsters_name = 'giant_flam'
-								elif col == '11':
-    								monsters_name = 'giant_frog'
+							elif col in ('5','11','12'):
+								if col == '5': monsters_name = 'giant_flam'
+								elif col == '11':monsters_name = 'giant_frog'
+								elif col == '12':monsters_name = 'giant_spirit'
 								# elif col == '6':
 								# 	monsters_name = 'giant_raccoon'
 								Boss(monsters_name,(x,y),
@@ -195,17 +194,13 @@ class Level:
 		self.current_attack = None
   
 	def create_magic(self, strenght, cost):
-		if self.player.magic == "heal":
-			self.magic_player.heal(self.player, strenght, cost, [self.visible_sprites])
-		else:
-			self.magic_player.projectile(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
+		if self.player.magic == "fireball":
+			self.magic_player.fireball(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
 		
+		elif self.player.magic == "heal":
+			self.magic_player.heal(self.player, strenght, cost, [self.visible_sprites])
    
 	def create_boss_magic(self, boss):
-		"""Create a magic attack from a boss
-  		:param boss: the boss that create the magic attack
-    	:type boss: Boss
-     	"""
 		self.magic_boss.fireball(boss,[self.visible_sprites, self.enemy_attack_sprites], self.obstacle_sprites,self.player)
 
 
@@ -239,12 +234,6 @@ class Level:
 						self.magic_damage_player(1,attack)
       
 	def magic_damage_player(self, damage, attack):
-		"""Damage the player with magic attack
-		:param damage: the damage of the attack
-		:type damage: int
-		:param attack: the attack projectile
-		:type attack: Projectile
-		"""
 		if self.player.vulnerable and not self.player.dashing:
 			self.player.get_damage(damage)
 			self.player.vulnerable = False

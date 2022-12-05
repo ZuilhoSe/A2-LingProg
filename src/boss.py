@@ -97,8 +97,9 @@ class Boss(Entity):
         :param name: name of the boss
         :type name: str
         """ 
-        if self.monster_name == 'giant_frog': size = 40
-        elif self.monster_name == 'giant_flam': size = 50
+        print(name)
+        if name == 'giant_frog': size = 40
+        elif name == 'giant_flam' or name == 'giant_spirit': size = 50
         animations_idle = support.import_tiles(f'../graphics/monster/{name}_idle.png',64*3,64*3,(64*3)/size)
         animations_move = support.import_tiles(f'../graphics/monster/{name}_move.png',64*3,64*3,(64*3)/size)
         self.animations = {'idle': [],'move': []}
@@ -141,9 +142,11 @@ class Boss(Entity):
             self.status = 'magic'
         elif distance <= self.notice_radius:
             self.status = 'move'
+            self.animation_state = 'move'
         
         else:
             self.status = 'idle'
+            self.animation_state = 'idle'
             
     def actions(self,player):
         """Define what the boss does based on it's status

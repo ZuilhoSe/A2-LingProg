@@ -86,7 +86,10 @@ class MagicBoss:
 
         self.animation = animation
         self.frames = {
-            "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1)
+            "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1),
+            "stone_edge": import_folder("../graphics/particles/stone_edge/frames", rescale=2),
+            "ice_spike": import_folder("../graphics/particles/ice_spike/frames", rescale=2),
+            "spirit_wind": import_folder("../graphics/particles/spirit/frames", rescale=2)
         }
 
     def fireball(self, boss, groups, obstacle_sprites, player):
