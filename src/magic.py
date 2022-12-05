@@ -4,7 +4,6 @@ import pygame as pg
 from settings import *
 from entity import Entity
 from support import import_folder
-
 class MagicPlayer:
     """The MagicPlayer class import all the magics assets at once and calls the Projectile class to create the magics.
     """
@@ -18,7 +17,10 @@ class MagicPlayer:
 
         self.animation_player = animation_player
         self.frames = {
-            "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1)
+            "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1),
+            "stone_edge": import_folder("../graphics/particles/stone_edge/frames", rescale=2),
+            "ice_spike": import_folder("../graphics/particles/ice_spike/frames", rescale=2),
+            "spirit_wind": import_folder("../graphics/particles/spirit/frames", rescale=2)
         }
 
     def heal(self, player, strength, cost, groups):
@@ -33,8 +35,7 @@ class MagicPlayer:
         :param groups: Wich groups the magic particles belong
         :type groups: list
         """
-
-        if player.mana >= cost:
+        if player.health < player.max_health and player.mana >= cost:
             player.mana -= cost
             player.health += strength
             offset = pg.math.Vector2(0,6)
@@ -43,8 +44,8 @@ class MagicPlayer:
             if player.health >= player.max_health:
                 player.health = player.max_health
 
-    def fireball(self, player, cost, groups, obstacle_sprites, attackable_sprites):
-        """Calls the Projectile class to create a fireball.
+    def projectile(self, player, cost, groups, obstacle_sprites, attackable_sprites):
+        """Calls the Projectile class to create a projectile magic.
 
         :param player: The Player object, so the method can know it's position and access it's mana
         :type player: player.Player
@@ -69,16 +70,50 @@ class MagicPlayer:
         
             type = player.magic
             caster_rect = player.rect
-            speed = 6
-            frames = self.frames[type]
-            pg.mixer.Sound("../audio/flame_attack.wav").play()
-            Projectile(type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player)
+            speed = magic_data[player.magic]["speed"]
+            Projectile(type, direction, caster_rect, self.frames, groups, speed, obstacle_sprites, attackable_sprites, self.animation_player, False)
 
+class MagicBoss:
+    """The MagicPlayer class import all the magics assets at once and calls the Projectile class to create the magics.
+    """
+
+    def __init__(self, animation):
+        """Since it is created only once, the MagicPlayer doesn't need any specifications to be created, but it needs to know the AnimationPlayer class.
+
+        :param animation_player: Class used to animate basic particles for the magics
+        :type animation_player: particles.AnimationPlayer
+        """
+
+        self.animation = animation
+        self.frames = {
+            "fireball": import_folder("../graphics/particles/fireball/frames", rescale=1)
+        }
+
+    def fireball(self, boss, groups, obstacle_sprites, player):
+        """Calls the Projectile class to create a fireball.
+        :param player: The Player object, so the method can know it's position and access it's mana
+        :type player: player.Player
+        :param cost: How much mana will be deducted from the player
+        :type cost: int
+        :param groups: Wich groups the magic particles belong
+        :type groups: list
+        :param obstacle_sprites: Sprite group that contains the obstacles in the scenery
+        :type obstacle_sprites: pygame.sprite.Group
+        :param attackable_sprites: Sprite group that contains the enemy's sprites
+        :type attackable_sprites: pygame.sprite.Group
+        """
+
+    
+        type = boss.magic_type
+        caster_rect = boss.rect
+        speed = boss.magic_speed
+        Projectile(type, boss.direction, caster_rect, self.frames, groups, speed, obstacle_sprites, player, self.animation, True)
+        
 class Projectile(Entity):
     """This class creates a sprite in a certain direction, that moves at constant speed in that direction. This class inherits from the Entity class.
     """
 
-    def __init__(self, type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, animation_player):
+    def __init__(self, type, direction, caster_rect, frames, groups, speed, obstacle_sprites, attackable_sprites, animation_player, cast_from_center):
         """The creation of a Projectile is kinda complex, due to the fact that the class is used by both the player and the enemies.
 
         :param type: Type of the projectile. This is used to define the frames, the damage, among other things.
@@ -99,6 +134,8 @@ class Projectile(Entity):
         :type attackable_sprites: pygame.sprite.Group
         :param animation_player: Class used to animate basic particles for the magics
         :type animation_player: particles.AnimationPlayer
+        :param cast_from_center: If True the projectile will be cast from the center of the caster_rect
+        :type cast_from_center: bool
         """
 
         super().__init__(groups)
@@ -117,18 +154,22 @@ class Projectile(Entity):
         self.animation_player = animation_player
 
         # Rotating and defining animation frames
-        self.direction = direction.normalize()
+        if direction != pg.math.Vector2(0,0):
+            self.direction = direction.normalize()
         self.animation = []
 
         rotation_angle = pg.math.Vector2(1,0).angle_to(self.direction)
-        for frame in frames:
+        for frame in frames[self.sprite_type]:
+    
             rotated_frame = pg.transform.rotate(frame, -rotation_angle)
             self.animation.append(rotated_frame)
 
         self.image = self.animation[0]
 
         # Defining movement direction
-        if abs(self.direction.x) >= abs(self.direction.y):
+        if cast_from_center:
+            self.rect = self.image.get_rect(center=caster_rect.center)
+        elif abs(self.direction.x) >= abs(self.direction.y):
             if self.direction.x > 0:
                 self.rect = self.image.get_rect(midleft = caster_rect.midright)
             else:

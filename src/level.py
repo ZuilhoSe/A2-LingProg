@@ -9,7 +9,8 @@ from ui import UI
 from particles import AnimationPlayer
 from random import randint
 from villagers import Villager
-from magic import MagicPlayer, Projectile
+from magic import MagicPlayer, Projectile, MagicBoss
+from boss import Boss
 
 class Level:
 	"""Setting up the map and the sprites
@@ -21,10 +22,12 @@ class Level:
 		# sprite group setup
 		self.visible_sprites = YsortCameraGroup()
 		self.obstacle_sprites = pygame.sprite.Group()
+		self.obstacle_sprite_ignored_boss = pygame.sprite.Group()
 
 		# Attack sprites
 		self.current_attack = None
 		self.attack_sprites = pygame.sprite.Group()
+		self.enemy_attack_sprites = pygame.sprite.Group()
 		self.attackable_sprites = pygame.sprite.Group()
   
 		# sprite setup
@@ -36,7 +39,7 @@ class Level:
 		# Particles setup
 		self.animation_player = AnimationPlayer()
 		self.magic_player = MagicPlayer(self.animation_player)
-  
+		self.magic_boss = MagicBoss(self.animation_player)
 	def create_map(self):
 		"""Create the map and the player"""
 
@@ -94,7 +97,10 @@ class Level:
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house_element', house_tile)
 						if style == 'house_tiles':
 							house_tile = graphics['house_tileset'][int(col)]
-							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house_tile', house_tile)
+							if int(col) in (495,528,561,596):
+								Tile((x,y), [self.visible_sprites, self.obstacle_sprites, self.obstacle_sprite_ignored_boss],'house_tile', house_tile)
+							else:
+								Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house_tile', house_tile)
 						if style == 'houses':
 							house_tile = graphics['house_tileset'][int(col)]
 							Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house', house_tile)
@@ -141,7 +147,7 @@ class Level:
 								image = pygame.image.load('../graphics/entities/009.png').convert_alpha()
 								speech = support.import_text('../data/vendor.txt')
 								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)							
-							else:
+							elif int(col)<5:
 								if col == '0':
 									monsters_name = 'raccoon'
 								elif col == '1':
@@ -150,49 +156,49 @@ class Level:
 									monsters_name = 'snake'
 								elif col == '3':
 									monsters_name = 'squid'
-								# elif col == '5':
-								# 	monsters_name = 'giant_flam'
-								# elif col == '6':
-								# 	monsters_name = 'giant_raccoon'
 								Enemy(monsters_name,(x,y),
 									[self.visible_sprites,self.attackable_sprites],
 									self.obstacle_sprites,
 									self.damage_player,
 									self.create_particles)
+							else:
+								if col == '5':
+									monsters_name = 'giant_flam'
+								# elif col == '6':
+								# 	monsters_name = 'giant_raccoon'
+								Boss(monsters_name,(x,y),
+									[self.visible_sprites,self.attackable_sprites],
+									self.obstacle_sprites,
+									self.damage_player,
+									self.create_particles,
+         							self.create_boss_magic,
+                					self.obstacle_sprite_ignored_boss)
 
+	# Methods to create and kill attack's sprites
 	def create_attack(self):
-		"""Method that call's a Weapon class whenever the player attacks, to create a weapon sprite.
-		"""
-
 		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites], self.create_particles)
 
 	def end_attack(self):
-		"""Method to kill a Weapon class once an attack is over.
-		"""
-
 		if self.current_attack:
 			self.current_attack.kill()
 		self.current_attack = None
   
 	def create_magic(self, strenght, cost):
-		"""Method to call the magic player whenever the player cast a magic.
-
-		:param strenght: The strenght stat of the magic
-		:type strenght: int
-		:param cost: The mana cost of the magic
-		:type cost: int
-		"""
-
-		if self.player.magic == "fireball":
-			self.magic_player.fireball(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
-		
-		elif self.player.magic == "heal":
+		if self.player.magic == "heal":
 			self.magic_player.heal(self.player, strenght, cost, [self.visible_sprites])
+		else:
+			self.magic_player.projectile(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
+		
+   
+	def create_boss_magic(self, boss):
+		"""Create a magic attack from a boss
+  		:param boss: the boss that create the magic attack
+    	:type boss: Boss
+     	"""
+		self.magic_boss.fireball(boss,[self.visible_sprites, self.enemy_attack_sprites], self.obstacle_sprites,self.player)
+
 
 	def player_attack(self):
-		"""Method that defines the logic behind player's attacks.
-		"""
-
 		if self.attack_sprites:
 			for attack in self.attack_sprites:
 				# Check if the attack is colliding with an enemy
@@ -211,31 +217,41 @@ class Level:
 						if type(attack) == Projectile:
 							attack.die()
     
-	def damage_player(self, amount, attack_type):
-		"""Method to inflict damage in the player.
-
-		:param amount: Amount of health the player will lose
-		:type amount: int
-		:param attack_type: Type of the attack the player is suffering
-		:type attack_type: str
+	def enemy_attack(self):
+		if self.enemy_attack_sprites:
+			for attack in self.enemy_attack_sprites:
+				# Check if the attack is colliding with an enemy
+				collisions = pygame.sprite.spritecollide(attack, pygame.sprite.Group(self.player), False)
+				
+				for target_sprite in collisions:
+					if type(attack) == Projectile:
+						self.magic_damage_player(1,attack)
+      
+	def magic_damage_player(self, damage, attack):
+		"""Damage the player with magic attack
+		:param damage: the damage of the attack
+		:type damage: int
+		:param attack: the attack projectile
+		:type attack: Projectile
 		"""
-
+		if self.player.vulnerable and not self.player.dashing:
+			self.player.get_damage(damage)
+			self.player.vulnerable = False
+			self.player.hurt_time = pygame.time.get_ticks()
+			attack.die()
+       
+	def damage_player(self, amount, attack_type):
 		if self.player.vulnerable and not self.player.dashing:
 			self.player.get_damage(amount)
 			self.player.vulnerable = False
 			self.player.hurt_time = pygame.time.get_ticks()
 			self.animation_player.create_default_particles(attack_type, self.player.rect.center, [self.visible_sprites])
+		if self.player.health == 0:
+			self.player.alive=False
 
 	def create_particles(self, particle_type, pos):
-		"""Method to use the AnimationPlayer's method create_default_particles inside Level class.
-
-		:param particle_type: Name of the wished particles
-		:type particle_type: str
-		:param pos: Position to create the particles 
-		:type pos: tuple
-		"""
-
-		self.animation_player.create_default_particles(particle_type, pos, self.visible_sprites)
+		if self.player.vulnerable and not self.player.dashing:
+			self.animation_player.create_default_particles(particle_type, pos, self.visible_sprites)
 
 	def run(self):
 		# update and draw the game
@@ -243,6 +259,7 @@ class Level:
 		self.visible_sprites.update()
 		self.visible_sprites.enemy_update(self.player)
 		self.player_attack()
+		self.enemy_attack()
 		self.ui.display(self.player)
 
 class YsortCameraGroup(pygame.sprite.Group):
@@ -259,7 +276,7 @@ class YsortCameraGroup(pygame.sprite.Group):
 		self.floor_surf = pygame.transform.scale(self.floor_surf, (7680,5760))
 		self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
-	    
+		
 
 	def custom_draw(self, player):
 

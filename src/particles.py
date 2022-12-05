@@ -24,9 +24,11 @@ class AnimationPlayer:
             "flip_attack_y": self.reflect_images(import_folder('../graphics/particles/attack_y', rescale=2), y=True),
 
             # magic
+            'heal': import_folder('../graphics/particles/heal/frames', rescale=1),
             'fireball_die': import_folder('../graphics/particles/nova', rescale=0.5),
-            # 'aura': import_folder('../graphics/particles/aura', rescale=1),
-            'heal': import_folder('../graphics/particles/heal/frames', rescale=3),
+            "stone_edge_die": import_folder('../graphics/particles/stone_die', rescale=2),
+            "ice_spike_die": import_folder('../graphics/particles/ice_die', rescale=2),
+            "spirit_wind_die": import_folder('../graphics/particles/spirit_die', rescale=2),
             
             # monster attacks 
             # 'claw': import_folder('../graphics/particles/claw', rescale=1),
@@ -42,6 +44,7 @@ class AnimationPlayer:
             'squid': import_folder('../graphics/particles/smoke_orange', rescale=1),
             'raccoon': import_folder('../graphics/particles/smoke', rescale=1),
             'flam': import_folder('../graphics/particles/sparkle', rescale=1),
+            'giant_flam': import_folder('../graphics/particles/sparkle', rescale=4),
             # 'bamboo': import_folder('../graphics/particles/bamboo', rescale=1),
             
             # leafs 

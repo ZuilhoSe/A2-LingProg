@@ -19,10 +19,14 @@ class Enemy(Entity):
         :type monster_name: str
         :param pos: initial position of the enemy, measured in pixels
         :type pos: tuple[int]
-        :param groups: _description_
-        :type groups: _type_
-        :param obstacle_sprites: _description_
+        :param groups: List of tile groups the Enemy will belong
+        :type groups: pygame.sprite.Group()
+        :param obstacle_sprites: Group of sprites the Enemy will interact through collision
         :type obstacle_sprites: pygame.sprite.Group
+        :damage_player: method that deals damage to the player
+        :type damage_player: method
+        :death_particles: method that spawns particles when the enemy dies
+        :type death_particles: method
         """   
              
         #general setup
@@ -80,6 +84,7 @@ class Enemy(Entity):
         :param name: name of the enemy
         :type name: str
         """ 
+    
         animations = support.import_tiles(f'../graphics/monster/{name}.png')
         self.animations = {'down': [],'up': [],'left': [],'right': []}
         for i in range(0,13,4):
@@ -181,6 +186,12 @@ class Enemy(Entity):
                 self.vulnerable = True
                 
     def get_damage(self, player, attack_type):
+        """Calculates the damage the enemy takes
+        :param player: the player
+        :type player: Player
+        :param attack_type: the type of attack
+        :type attack_type: str
+        """
         if self.vulnerable:
             self.hit_sound.play()
             self.direction = self.get_player_distance_direction(player)[1]
@@ -188,17 +199,20 @@ class Enemy(Entity):
             if attack_type == "weapon":
                 self.health -= settings.weapon_data[player.weapon]["damage"]
 
-            elif attack_type == "fireball":
+            elif attack_type == "fireball" or attack_type == "stone_edge" or attack_type == "ice_spike" or attack_type == "spirit_wind":
                 self.health -= settings.magic_data[attack_type]["strength"]
 
             self.hit_time = pygame.time.get_ticks()
             self.vulnerable = False
 
     def knockback_resistance(self):
+        """Calculates the knockback resistance of the enemy	
+        """
         if not self.vulnerable:
             self.direction *= -self.resistance
             
     def die(self):
+        """Defines what happens when the enemy dies"""
         if self.health <= 0:
             self.death_particles(self.monster_name, self.rect.center)
             self.kill()
