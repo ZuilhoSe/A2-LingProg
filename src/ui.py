@@ -156,9 +156,10 @@ class UI:
 
 		icon_sprite = pg.image.load("../graphics/HUD/NinePathRect/DialogueBubble.png")
 		icon_sprite = pg.transform.scale(icon_sprite, (int(0.7*WIDTH/10),int(0.7*WIDTH/10)))
-		magic_sprite=magic_data[self.player.magic]["graphic"]
-		magic_sprite=pg.image.load(magic_sprite)
-		magic_sprite=pg.transform.scale(magic_sprite,(int(48*RATIO),int(48*RATIO)))
+		if self.player.magic: 
+			magic_sprite=magic_data[self.player.magic]["graphic"]
+			magic_sprite=pg.image.load(magic_sprite)
+			magic_sprite=pg.transform.scale(magic_sprite,(int(48*RATIO),int(48*RATIO)))
 		if self.player.magic!=None:
 			self.display_surface.blit(icon_sprite,(int(8*(WIDTH/10)),int((HEIGTH/40))))
 			self.display_surface.blit(magic_sprite,(int(8.18*(WIDTH/10)),int(2.3*(HEIGTH/40))))
