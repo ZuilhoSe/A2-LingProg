@@ -308,7 +308,7 @@ class Player(Entity):
         if level == 0:
             self.weapon_index = 1
         
-        new_magic = list(magic_data.keys)[level]
+        new_magic = list(magic_data.keys())[level]
         if new_magic not in self.magic_list:
             self.magic_list.append(new_magic)
 

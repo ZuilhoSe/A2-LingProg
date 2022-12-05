@@ -230,12 +230,19 @@ class Boss(Entity):
         if not self.vulnerable:
             self.direction *= -self.resistance
             
-    def die(self):
+    def die(self, player):
         """Defines what happens when the boss dies"""
         if self.health <= 0:
             self.death_particles(self.monster_name, self.rect.center)
             self.kill()
             self.death_sound.play()
+            if self.monster_name == 'giant_frog':
+                level=2
+            elif self.monster_name == 'giant_spirit':
+                level=4
+            elif self.monster_name == 'giant_flam':
+                level=1
+            player.level_up(level)
     
     def update(self):
         """Updates the boss
@@ -244,7 +251,6 @@ class Boss(Entity):
         self.move(self.speed)
         self.animate()
         self.cooldowns()
-        self.die()
         
     def enemy_update(self,player):
         """updates the boss
@@ -253,3 +259,4 @@ class Boss(Entity):
         """        
         self.get_status(player)
         self.actions(player)
+        self.die(player)
