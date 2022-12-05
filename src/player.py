@@ -177,6 +177,16 @@ class Player(Entity):
                 self.magic_index = 0
             self.magic = self.magic_list[self.magic_index]
 
+        if keys[pg.K_c] and self.magic and self.magic_can_switch and not self.attacking and not self.special:
+            
+            self.magic_switch_time = pg.time.get_ticks()
+            self.magic_can_switch = False
+            
+            self.magic_index -= 1
+            if self.magic_index < 0:
+                self.magic_index = len(self.magic_list)-1
+            self.magic = self.magic_list[self.magic_index]
+
         # Defining the dash input
         if keys[pg.K_LSHIFT] and not self.attacking and not self.dash_wait and not "idle" in self.status and not self.special:
             self.dashing = True
