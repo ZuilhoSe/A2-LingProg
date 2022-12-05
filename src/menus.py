@@ -64,11 +64,15 @@ class Menus:
             options_rect = options_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.05)))
             back_text = self.get_font(MENU_FONT_SIZE).render("BACK", True, "#b68f40")
             back_rect = back_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.9)))
-
+            volume_text = self.get_font(int(MENU_FONT_SIZE/2)).render(f"VOLUME:  {self.volume}", True, "#b68f40")
+            volume_rect = volume_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.35)))
+            control_text = self.get_font(int(MENU_FONT_SIZE/4)).render("\"CTRL+UP\"   OR   \"CTRL+DOWN\"   TO  CONTROL  VOLUME", True, "#b68f40")
+            control_rect = control_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.65)))
 
             options_menu_screen.blit(options_text, options_rect)
             options_menu_screen.blit(back_text, back_rect)
-
+            options_menu_screen.blit(volume_text, volume_rect)
+            options_menu_screen.blit(control_text, control_rect)
             options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
                                     (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.4)))
 
@@ -82,7 +86,6 @@ class Menus:
                     pg.quit()
                     sys.exit()
                 if event.type == pg.KEYDOWN:
-                    print(self.volume)
                     if event.key == pg.K_b:
                         return self.main_menu()
                     if event.key == pg.K_UP and pg.key.get_mods() & pg.KMOD_CTRL: 
