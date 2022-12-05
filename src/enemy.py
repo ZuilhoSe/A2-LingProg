@@ -207,12 +207,14 @@ class Enemy(Entity):
         if not self.vulnerable:
             self.direction *= -self.resistance
             
-    def die(self):
+    def die(self,player):
         """Defines what happens when the enemy dies"""
         if self.health <= 0:
             self.death_particles(self.monster_name, self.rect.center)
             self.kill()
             self.death_sound.play()
+            if self.monster_name == 'raccoon':
+                player.level_up(0)
     
     def update(self):
         """Updates the enemy
@@ -221,7 +223,6 @@ class Enemy(Entity):
         self.move(self.speed)
         self.animate()
         self.cooldowns()
-        self.die()
         
     def enemy_update(self,player):
         """updates the enemy
@@ -230,3 +231,4 @@ class Enemy(Entity):
         """        
         self.get_status(player)
         self.actions(player)
+        self.die(player)
