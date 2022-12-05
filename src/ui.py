@@ -98,9 +98,6 @@ class UI:
 			for mana in range(5):
 				self.display_surface.blit(empty_mana,((mana*75+30)*RATIO,((row+rows_of_full+there_is_remaining)*50+75)*RATIO))
 		
-		
-
-
 	def display_dialogue_box(self):
 		"""Displays the dialogue box
 		"""		
