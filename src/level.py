@@ -170,7 +170,6 @@ class Level:
                                     monsters_name = 'beast'
                                 elif col == '15':
                                     monsters_name = 'skull'
-                                print(menu.sfx_vol)
                                 a=Enemy(monsters_name,(x,y),
                                     [self.visible_sprites,self.attackable_sprites],
                                     self.obstacle_sprites,

@@ -83,8 +83,8 @@ class Menus:
             options_menu_screen.blit(sfx_control_text, sfx_control_rect)
             options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
                                     (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.2)))
-            options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
-                                    (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.6)))
+            # options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
+            #                         (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.6)))
 
 
             for volume in range(0, self.volume):
