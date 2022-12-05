@@ -85,10 +85,6 @@ class Boss(Entity):
         self.death_sound = pygame.mixer.Sound('../audio/death.wav')
         self.hit_sound = pygame.mixer.Sound('../audio/monster_hit.wav')
         self.attack_sound = pygame.mixer.Sound(monster_info['attack_sound'])
-        self.death_sound.set_volume(0.4)
-        self.hit_sound.set_volume(0.4)
-        self.attack_sound.set_volume(0.4)
-        
     
     def import_graphics(self, name: str):
         """Stores the animations of the bos in a dictionary
@@ -227,12 +223,21 @@ class Boss(Entity):
         if not self.vulnerable:
             self.direction *= -self.resistance
             
-    def die(self):
-        """Defines what happens when the boss dies"""
+    def die(self,player):
+        """Defines what happens when the boss dies
+        :param player: the player
+        :type player: Player"""
         if self.health <= 0:
             self.death_particles(self.monster_name, self.rect.center)
             self.kill()
             self.death_sound.play()
+            if self.monster_name == 'giant_frog':
+                level =3
+            elif self.monster_name == 'giant_flam':
+                level =1
+            elif self.monster_name == 'giant_spirit':
+                level = 4
+            player.level_up(level)
     
     def update(self):
         """Updates the boss
@@ -241,7 +246,7 @@ class Boss(Entity):
         self.move(self.speed)
         self.animate()
         self.cooldowns()
-        self.die()
+
         
     def enemy_update(self,player):
         """updates the boss
@@ -250,3 +255,4 @@ class Boss(Entity):
         """        
         self.get_status(player)
         self.actions(player)
+        self.die(player)

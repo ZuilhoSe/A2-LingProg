@@ -5,6 +5,7 @@ from settings import *
 from support import import_folder
 from entity import Entity
 
+
 class Player(Entity):
     """This class carries most of the important properties and methods to the player's controls and functionalities. It inherits from the class Entity, in the entity module.
     """
@@ -62,7 +63,7 @@ class Player(Entity):
         self.weapon_standby = False
 
         self.magic_index = 0 #IMPORTANT to change the magic equipped
-        self.magic_list = list(magic_data.keys())
+        self.magic_list = [list(magic_data.keys())[0]]
         self.magic = self.magic_list[0]
         self.magic_time = None
         self.magic_standby = False
@@ -76,7 +77,7 @@ class Player(Entity):
         self.health = self.max_health
         self.max_mana = 10
         self.mana = self.max_mana
-        self.speed = 6 # This will be used to define the speed movement in pixels/frame
+        self.speed = 12 # This will be used to define the speed movement in pixels/frame
         
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
@@ -89,8 +90,6 @@ class Player(Entity):
         #Importing Sounds
         self.sword_attack = pg.mixer.Sound("../audio/sword.wav")
         self.stick_attack = pg.mixer.Sound("../audio/stick.wav")
-        self.sword_attack.set_volume(0.2)
-        self.stick_attack.set_volume(0.2)
 
     def player_assets(self):
         """Import the assets to animate the player, such as walking and attacking sprites.
@@ -175,6 +174,16 @@ class Player(Entity):
             self.magic_index += 1
             if self.magic_index >= len(self.magic_list):
                 self.magic_index = 0
+            self.magic = self.magic_list[self.magic_index]
+
+        if keys[pg.K_c] and self.magic and self.magic_can_switch and not self.attacking and not self.special:
+            
+            self.magic_switch_time = pg.time.get_ticks()
+            self.magic_can_switch = False
+            
+            self.magic_index -= 1
+            if self.magic_index < 0:
+                self.magic_index = len(self.magic_list)-1
             self.magic = self.magic_list[self.magic_index]
 
         # Defining the dash input

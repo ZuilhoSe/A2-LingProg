@@ -159,10 +159,11 @@ class UI:
 		icon_sprite = pg.image.load("../graphics/HUD/NinePathRect/DialogueBubble.png")
 		icon_sprite = pg.transform.scale(icon_sprite, (int(0.7*WIDTH/10),int(0.7*WIDTH/10)))
 		magic_sprite=magic_data[self.player.magic]["graphic"]
-		magic_sprite=pg.transform.scale(pg.image.load(magic_sprite),(int(18*RATIO),int(42*RATIO)))
+		magic_sprite=pg.image.load(magic_sprite)
+		magic_sprite=pg.transform.scale(magic_sprite,(int(48*RATIO),int(48*RATIO)))
 		if self.player.magic!=None:
 			self.display_surface.blit(icon_sprite,(int(8*(WIDTH/10)),int((HEIGTH/40))))
-			self.display_surface.blit(magic_sprite,(int(8.3*(WIDTH/10)),int(2.3*(HEIGTH/40))))
+			self.display_surface.blit(magic_sprite,(int(8.18*(WIDTH/10)),int(2.3*(HEIGTH/40))))
 			if self.player.magic_standby and self.player.mana>=magic_data[self.player.magic]["cost"]:
 				cooldown=pg.image.load("../graphics/HUD/NinePathRect/cooldown_mask.png")
 				cooldown=pg.transform.scale(cooldown,(int(0.7*WIDTH/10),int(0.7*WIDTH/10)))

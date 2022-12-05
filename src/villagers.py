@@ -41,7 +41,6 @@ class Villager(Entity):
 
         #Importing Sounds
         self.voice = pg.mixer.Sound("../audio/voice.wav")
-        self.voice.set_volume(0.1)
 
     def check_talk(self):
         """Checks if the player is close enough to talk to the villager"""
