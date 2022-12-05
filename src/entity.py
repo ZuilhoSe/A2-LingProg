@@ -1,3 +1,5 @@
+"""Modeule with the superclass Entity."""
+
 import pygame as pg
 from math import sin
 

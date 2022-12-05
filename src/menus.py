@@ -1,3 +1,5 @@
+"""Menus creating classes."""
+
 import pygame as pg
 import enemy
 from settings import *

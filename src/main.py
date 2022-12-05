@@ -1,3 +1,5 @@
+"""Main module the package everything."""
+
 import pygame, sys
 from settings import *
 from level import Level

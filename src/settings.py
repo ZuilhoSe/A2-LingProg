@@ -1,3 +1,5 @@
+"""Settings for the project."""
+
 import pygame as pg
 
 # game setup
