@@ -22,42 +22,64 @@ class Menus:
 			menu_text = self.get_font(MENU_FONT_SIZE).render("THE  LEGEND  OF  OPHELIA", True, "#b68f40")
 			menu_rect = menu_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
 
+			play_text= self.get_font(int(MENU_FONT_SIZE/2)).render("PLAY", True, "#b68f40")
+			play_rect = play_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.3)))
+			options_text= self.get_font(int(MENU_FONT_SIZE/2)).render("OPTIONS", True, "#b68f40")
+			options_rect = options_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.5)))
+			credits_text= self.get_font(int(MENU_FONT_SIZE/2)).render("CREDITS", True, "#b68f40")
+			credits_rect = credits_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.7)))
+			quit_text= self.get_font(int(MENU_FONT_SIZE/2)).render("QUIT", True, "#b68f40")
+			quit_rect = quit_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.9)))
 			
-			play_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.3)), 
-							text_input="PLAY", font=self.get_font(MENU_FONT_SIZE), 
-							base_color="#d7fcd4", hovering_color="White")
-			options_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.5)),
-							text_input="OPTIONS", font=self.get_font(MENU_FONT_SIZE),
-							base_color="#d7fcd4", hovering_color="White")
-			credits_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.7)), 
-							text_input="CREDITS", font=self.get_font(MENU_FONT_SIZE), 
-							base_color="#d7fcd4", hovering_color="White")
-			quit_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.9)), 
-							text_input="QUIT", font=self.get_font(MENU_FONT_SIZE), 
-							base_color="#d7fcd4", hovering_color="White")
+			# play_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.3)), 
+			# 				text_input="PLAY", font=self.get_font(MENU_FONT_SIZE), 
+			# 				base_color="#d7fcd4", hovering_color="White")
+			# options_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.5)),
+			# 				text_input="OPTIONS", font=self.get_font(MENU_FONT_SIZE),
+			# 				base_color="#d7fcd4", hovering_color="White")
+			# credits_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.7)), 
+			# 				text_input="CREDITS", font=self.get_font(MENU_FONT_SIZE), 
+			# 				base_color="#d7fcd4", hovering_color="White")
+			# quit_button = Button(image=None, pos=(int(WIDTH/2), int(HEIGTH*0.9)), 
+			# 				text_input="QUIT", font=self.get_font(MENU_FONT_SIZE), 
+			# 				base_color="#d7fcd4", hovering_color="White")
 
 			main_menu_screen.blit(menu_text, menu_rect)
+			main_menu_screen.blit(play_text, play_rect)
+			main_menu_screen.blit(options_text, options_rect)
+			main_menu_screen.blit(credits_text, credits_rect)
+			main_menu_screen.blit(quit_text, quit_rect)
 
 			
 
-			for button in [play_button, options_button, credits_button, quit_button]:
-				button.changeColor(menu_mouse_position)
-				button.update(main_menu_screen)
+			# for button in [play_button, options_button, credits_button, quit_button]:
+			# 	button.changeColor(menu_mouse_position)
+			# 	button.update(main_menu_screen)
 
 			for event in pg.event.get():
 				if event.type == pg.QUIT:
 					pg.quit()
 					sys.exit()
-				if event.type == pg.MOUSEBUTTONDOWN:
-					if play_button.checkForInput(menu_mouse_position):
+				if event.type == pg.KEYDOWN:
+					if event.key == pg.K_p:
 						return True
-					if options_button.checkForInput(menu_mouse_position):
-						return self.options_menu()
-					if credits_button.checkForInput(menu_mouse_position):
-						return self.credits_menu()
-					if quit_button.checkForInput(menu_mouse_position):
+					if event.key == pg.K_o:
+						self.options_menu()
+					if event.key == pg.K_c:
+						self.credits_menu()
+					if event.key == pg.K_q:
 						pg.quit()
 						sys.exit()
+				# if event.type == pg.MOUSEBUTTONDOWN:
+				# 	if play_button.checkForInput(menu_mouse_position):
+				# 		return True
+				# 	if options_button.checkForInput(menu_mouse_position):
+				# 		return self.options_menu()
+				# 	if credits_button.checkForInput(menu_mouse_position):
+				# 		return self.credits_menu()
+				# 	if quit_button.checkForInput(menu_mouse_position):
+				# 		pg.quit()
+				# 		sys.exit()
 
 			pg.display.update()
 			
