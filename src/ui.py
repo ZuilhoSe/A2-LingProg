@@ -37,6 +37,7 @@ class UI:
 		:param player: the player object
 		:type player: Player
 		""" 
+		self.health=self.player.health
 		full_heart=pg.image.load(FULL_HEART)
 		empty_heart=pg.image.load(EMPTY_HEART)
 		half_heart=pg.image.load(HALF_HEART)
