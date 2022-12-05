@@ -192,11 +192,10 @@ class Level:
 		self.current_attack = None
   
 	def create_magic(self, strenght, cost):
-		if self.player.magic == "fireball":
-			self.magic_player.projectile(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
-		
-		elif self.player.magic == "heal":
+		if self.player.magic == "heal":
 			self.magic_player.heal(self.player, strenght, cost, [self.visible_sprites])
+		else:
+			self.magic_player.projectile(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
    
 	def create_boss_magic(self, boss):
 		self.magic_boss.fireball(boss,[self.visible_sprites, self.enemy_attack_sprites], self.obstacle_sprites,self.player)
