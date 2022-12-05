@@ -7,6 +7,7 @@ class Menus:
 	def __init__(self):
 		pg.init()
 		self.screen = pg.display.set_mode((WIDTH, HEIGTH))
+		self.volume=VOLUME
 
 	def get_font(self, size):
 		return pg.font.Font("../graphics/HUD/Font/NormalFont.ttf", size)
@@ -61,8 +62,6 @@ class Menus:
 			pg.display.update()
 			
 	def options_menu(self):
-		global volum
-		volum=VOLUME
 		while True:
 			options_menu_screen = self.screen
 
@@ -89,7 +88,7 @@ class Menus:
 							text_input="BACK", font=self.get_font(MENU_FONT_SIZE), 
 							base_color="#d7fcd4", hovering_color="White")
 
-			for volume in range(0, volum):
+			for volume in range(0, self.volume):
 				options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/audio_icon/volume_bar.png"),
 									(1.15*(WIDTH/20),(HEIGTH/10))), (int(2.28*(WIDTH/10)+volume*(WIDTH/20))+(WIDTH/51), int(HEIGTH*0.45)))
 
@@ -104,24 +103,24 @@ class Menus:
 					sys.exit()
 				if event.type == pg.MOUSEBUTTONDOWN:
 					if music_button_up.checkForInput(options_menu_mouse_position):
-						if volum<10:
-							volum+=1
-							pg.mixer.music.set_volume(volum/10)
+						if self.volume<10:
+							self.volume+=1
+							pg.mixer.music.set_volume(self.volume/10)
 					if music_button_down.checkForInput(options_menu_mouse_position):
-						if volum>0:	
-							volum-=1
-							pg.mixer.music.set_volume(volum/10)
+						if self.volume>0:	
+							self.volume-=1
+							pg.mixer.music.set_volume(self.volume/10)
 					if back_button.checkForInput(options_menu_mouse_position):
 						return self.main_menu()
 				if event.type == pg.KEYDOWN:
 					if event.key == pg.K_UP:
-						if volum<10:
-							volum+=1
-							pg.mixer.music.set_volume(volum/10)	
+						if self.volume<10:
+							self.volume+=1
+							pg.mixer.music.set_volume(self.volume/10)	
 					if event.key == pg.K_DOWN:
-						if volum>0:	
-							volum-=1
-							pg.mixer.music.set_volume(volum/10)
+						if self.volume>0:	
+							self.volume-=1
+							pg.mixer.music.set_volume(self.volume/10)
 				
 			pg.display.update()
 	   
@@ -222,6 +221,4 @@ class Menus:
 			game_over_menu_screen.blit(game_over_text3, game_over_rect3)
 			
 			pg.display.update()
-
-	def vol(self):
-		return volum
+menu=Menus()

@@ -1,7 +1,7 @@
 import pygame, sys
 from settings import *
 from level import Level
-from menus import Menus
+from menus import menu
 
 class Game:
 	def __init__(self):
@@ -11,7 +11,7 @@ class Game:
 		pygame.display.set_caption('Joguinho de testes que não está pronto')
 		self.clock = pygame.time.Clock()
 		self.level = Level()
-		self.menu=Menus()
+		self.menu=menu
 		self.is_paused=False
 		self.volume=pygame.mixer.music.set_volume(VOLUME/10)
 		#Village music
@@ -32,8 +32,7 @@ class Game:
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_RETURN:
 							self.is_paused = not self.is_paused
-							self.pause_menu=Menus()
-							self.pause_menu.pause_menu()
+							self.menu.pause_menu()
 				while self.is_paused:
 					for event in pygame.event.get():
 						if event.type == pygame.QUIT:
@@ -55,8 +54,7 @@ class Game:
 								new_game.run()
 							
 			while not self.level.player.alive:
-				self.game_over_menu=Menus()
-				self.game_over_menu.game_over_menu()
+				self.menu.game_over_menu()
 				for event in pygame.event.get():
 					if event.type == pygame.QUIT:
 						pygame.quit()
@@ -67,13 +65,13 @@ class Game:
 							#set up initialy but that shouldn't be a problem
 							#since the player should start with full life
 							self.level.player.alive=True
-							volume=self.game_over_menu.vol()
+							volume=self.menu.volume
 							new_game = Game()
 							new_game.volume=pygame.mixer.music.set_volume(volume/10)
 							new_game.run()
 						if event.key == pygame.K_ESCAPE:
 							self.level.player.alive=True
-							volume=self.game_over_menu.vol()
+							volume=self.menu.vol()
 							new_game = Game()
 							new_game.volume=pygame.mixer.music.set_volume(volume/10)
 							self.menu.main_menu()
