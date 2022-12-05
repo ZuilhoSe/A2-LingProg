@@ -5,6 +5,7 @@ from settings import *
 from support import import_folder
 from entity import Entity
 
+
 class Player(Entity):
     """This class carries most of the important properties and methods to the player's controls and functionalities. It inherits from the class Entity, in the entity module.
     """
@@ -89,8 +90,6 @@ class Player(Entity):
         #Importing Sounds
         self.sword_attack = pg.mixer.Sound("../audio/sword.wav")
         self.stick_attack = pg.mixer.Sound("../audio/stick.wav")
-        self.sword_attack.set_volume(0.2)
-        self.stick_attack.set_volume(0.2)
 
     def player_assets(self):
         """Import the assets to animate the player, such as walking and attacking sprites.

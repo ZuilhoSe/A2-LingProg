@@ -1,4 +1,5 @@
 import pygame as pg
+import enemy
 from settings import *
 import sys
 
@@ -7,6 +8,7 @@ class Menus:
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGTH))
         self.volume=VOLUME
+        self.sfx_vol=1
 
     def get_font(self, size):
         return pg.font.Font("../graphics/HUD/Font/NormalFont.ttf", size)
@@ -96,6 +98,11 @@ class Menus:
                             if self.volume>0:	
                                 self.volume-=1
                                 pg.mixer.music.set_volume(self.volume/10)
+                    if event.key == pg.K_s:
+                        self.sfx_vol+=1
+
+                    if event.key == pg.K_a:
+                        self.sfx_vol-=1
                 
             pg.display.update()
        
@@ -192,3 +199,4 @@ class Menus:
             
             pg.display.update()
 menu=Menus()
+SFX_VOLUME = menu.sfx_vol
