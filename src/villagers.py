@@ -1,3 +1,5 @@
+"""Module that creates the villagers."""
+
 import pygame as pg
 from settings import *
 from support import import_folder

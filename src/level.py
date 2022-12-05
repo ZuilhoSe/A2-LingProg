@@ -1,3 +1,5 @@
+"""Module that generates the level."""
+
 import pygame
 import support
 from settings import *
@@ -39,6 +41,7 @@ class Level:
 		self.animation_player = AnimationPlayer()
 		self.magic_player = MagicPlayer(self.animation_player)
 		self.magic_boss = MagicBoss(self.animation_player)
+
 	def create_map(self):
 		"""Create the map and the player"""
 
@@ -183,24 +186,37 @@ class Level:
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):
+		"""Creates an attack sprite and adds it to the attack_sprites group.
+		"""
 		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites], self.create_particles)
 
 	def end_attack(self):
+		"""Called when the player stops attacking. Removes the attack sprite from the attack_sprites group.
+		"""
 		if self.current_attack:
 			self.current_attack.kill()
 		self.current_attack = None
   
 	def create_magic(self, strenght, cost):
+		"""Creates a magic sprite and adds it to the magic_sprites group.
+
+		:param strenght: The strenght of the magic attack.
+		:type strenght: int
+		:param cost: The cost of the magic attack.
+		:type cost: int
+		"""
 		if self.player.magic == "heal":
 			self.magic_player.heal(self.player, strenght, cost, [self.visible_sprites])
 		else:
 			self.magic_player.projectile(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
    
 	def create_boss_magic(self, boss):
+		"""Creates a magic sprite and adds it to the magic_sprites group."""
 		self.magic_boss.fireball(boss,[self.visible_sprites, self.enemy_attack_sprites], self.obstacle_sprites,self.player)
 
 
 	def player_attack(self):
+		"""Called when the player attacks. Creates an attack sprite if there isn't one already."""
 		if self.attack_sprites:
 			for attack in self.attack_sprites:
 				# Check if the attack is colliding with an enemy
@@ -232,6 +248,7 @@ class Level:
 							attack.die()
     
 	def enemy_attack(self):
+		"""Called when an enemy attacks. Creates an attack sprite if there isn't one already."""
 		if self.enemy_attack_sprites:
 			for attack in self.enemy_attack_sprites:
 				# Check if the attack is colliding with an enemy
@@ -242,6 +259,7 @@ class Level:
 						self.magic_damage_player(1,attack)
       
 	def magic_damage_player(self, damage, attack):
+		"""Called when the player is hit by a magic attack. Removes health from the player and creates a damage sprite."""
 		if self.player.vulnerable and not self.player.dashing:
 			self.player.get_damage(damage)
 			self.player.vulnerable = False
@@ -249,6 +267,7 @@ class Level:
 			attack.die()
        
 	def damage_player(self, amount, attack_type):
+		"""Function called when the player is hit by an attack. Removes health from the player and creates a damage sprite."""
 		if self.player.vulnerable and not self.player.dashing:
 			self.player.get_damage(amount)
 			self.player.vulnerable = False
@@ -258,10 +277,12 @@ class Level:
 			self.player.alive=False
 
 	def create_particles(self, particle_type, pos):
+		"""Creates a particle sprite and adds it to the particle_sprites group."""
 		if self.player.vulnerable and not self.player.dashing:
 			self.animation_player.create_default_particles(particle_type, pos, self.visible_sprites)
 
 	def run(self):
+		"""Level loop."""
 		# update and draw the game
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.update()
@@ -271,6 +292,11 @@ class Level:
 		self.ui.display(self.player)
 
 class YsortCameraGroup(pygame.sprite.Group):
+	"""A sprite group that sorts sprites by their y position.
+
+	:param pygame: The pygame module.
+	:type pygame: module
+	"""
 	def __init__(self):
 		super().__init__()
 
@@ -284,10 +310,8 @@ class YsortCameraGroup(pygame.sprite.Group):
 		self.floor_surf = pygame.transform.scale(self.floor_surf, (7680,5760))
 		self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
-		
-
 	def custom_draw(self, player):
-
+		"""Draws the sprites in the group."""
 		# getting the offset
 		self.offset.x = player.rect.centerx - self.half_width
 		self.offset.y = player.rect.centery - self.half_height
@@ -301,6 +325,7 @@ class YsortCameraGroup(pygame.sprite.Group):
 			self.display_surface.blit(sprite.image, offset_pos)
 	
 	def enemy_update(self,player):
+		"""Updates the sprites in the group."""
 		enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite,'sprite_type') and sprite.sprite_type == 'enemy']
 		for enemy in enemy_sprites:
 			enemy.enemy_update(player)

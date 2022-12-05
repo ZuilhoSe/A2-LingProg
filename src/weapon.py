@@ -1,3 +1,5 @@
+"""Weapon creation data"""
+
 import pygame as pg
 
 class Weapon(pg.sprite.Sprite):
