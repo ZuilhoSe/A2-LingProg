@@ -19,7 +19,7 @@ class Menus:
 
             main_menu_screen.fill("Black")
 
-            menu_text = self.get_font(MENU_FONT_SIZE).render("THE  LEGEND  OF  OPHELIA", True, "#b68f40")
+            menu_text = self.get_font(MENU_FONT_SIZE).render("THE  LEGEND  OF  OLIVIA", True, "#b68f40")
             menu_rect = menu_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
 
             play_text= self.get_font(int(MENU_FONT_SIZE/2)).render("\"P\"   -   PLAY", True, "#b68f40")
