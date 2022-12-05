@@ -63,8 +63,8 @@ class Player(Entity):
         self.weapon_standby = False
 
         self.magic_index = 0 #IMPORTANT to change the magic equipped
-        self.magic_list = [list(magic_data.keys())[0]]
-        self.magic = self.magic_list[0]
+        self.magic_list = []
+        self.magic = None
         self.magic_time = None
         self.magic_standby = False
         
@@ -72,7 +72,6 @@ class Player(Entity):
         self.magic_switch_cooldown = 300
         self.magic_switch_time = None
 
-        #self.stats = {"health": 12, "mana": 10, "speed": 6}
         self.max_health=16
         self.health = self.max_health
         self.max_mana = 10
