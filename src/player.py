@@ -62,10 +62,8 @@ class Player(Entity):
         self.weapon_standby = False
 
         self.magic_index = 0 #IMPORTANT to change the magic equipped
-        self.magic_list = ["heal","fireball"]
-        #self.magic_list = []
-        self.magic = self.magic_list[1]
-        #self.magic = None
+        self.magic_list = list(magic_data.keys())
+        self.magic = self.magic_list[0]
         self.magic_time = None
         self.magic_standby = False
         
@@ -323,9 +321,9 @@ class Player(Entity):
         """This method sets what will be called everytime the game completes a main loop. Basically, it says what will be "updated" in each frame. 
         """
 
+        self.cooldowns()
+        self.get_status()
         self.input()
         self.move(self.speed)
-        self.get_status()
         self.animate()
-        self.cooldowns()
         self.mana_regen()

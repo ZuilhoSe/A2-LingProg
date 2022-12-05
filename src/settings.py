@@ -74,8 +74,11 @@ weapon_data = {
 
 # Magic Data:
 magic_data = {
-    "heal": {"strength": 2, "cost": 1, "cooldown": 800, "graphic": "../graphics/particles/fireball/fire.png"},
-    "fireball": {"strength": 3, "cost": 2, "cooldown": 1200, "graphic": "../graphics/particles/fireball/fire.png"}
+    "heal": {"strength": 2, "cost": 1, "cooldown": 800, "graphic": "../graphics/particles/heal/heal.png"},
+    "fireball": {"strength": 3, "cost": 2, "speed": 6, "cooldown": 1200, "graphic": "../graphics/particles/fireball/fire.png"},
+    "stone_edge": {"strength": 4, "cost": 3, "speed": 2, "cooldown": 1200, "graphic": "../graphics/particles/stone_edge/stone.png"},
+    "ice_spike": {"strength": 2, "cost": 2, "speed": 8, "cooldown": 800, "graphic": "../graphics/particles/ice_spike/ice.png"},
+    "spirit_wind": {"strength": 6, "cost": 4, "speed": 3, "cooldown": 1400, "graphic": "../graphics/particles/spirit/spirit.png"}
 }
 
 monsters_data = {
@@ -83,7 +86,7 @@ monsters_data = {
     'flam': {'health': 2,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 5, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
     'raccoon': {'health': 4,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 4, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
     'snake': {'health': 2,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
-    'giant_flam': {'health': 10,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360,'magic_radius':250,'magic_type':'fireball','magic_damage':1, 'magic_speed': 6},
+    'giant_flam': {'health': 16,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 120, 'notice_radius': 560,'magic_radius':400,'magic_type':'fireball','magic_damage':1, 'magic_speed': 6},
 }
 
 
