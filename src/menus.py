@@ -4,24 +4,44 @@ from settings import *
 import sys
 
 class Menus:
+    """_summary_ : This class is used to create menus in the game
+    """    
+
+
     def __init__(self):
+        """_summary_ : This method is used to initialize the class
+        """        
+
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGTH))
         self.volume=VOLUME
         self.sfx_vol=1
 
     def get_font(self, size):
+        """_summary_ : This method is used to get a font with a specific size
+
+        :param size: The size of the font
+        :type size: int
+        :return: The font
+        :rtype: pygame.font.Font
+        """        
+
         return pg.font.Font("../graphics/HUD/Font/NormalFont.ttf", size)
 
     def main_menu(self):
+        """_summary_ : This method is used to create the main menu
+
+        :return: The option selected
+        :rtype: bool or method
+        """            
+
         while True:
             main_menu_screen = self.screen
-
             main_menu_screen.fill("Black")
 
+            #text and rect for the main menu
             menu_text = self.get_font(MENU_FONT_SIZE).render("THE  LEGEND  OF  OLIVIA", True, "#b68f40")
             menu_rect = menu_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
-
             play_text= self.get_font(int(MENU_FONT_SIZE/2)).render("\"P\"   -   PLAY", True, "#b68f40")
             play_rect = play_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.3)))
             options_text= self.get_font(int(MENU_FONT_SIZE/2)).render("\"O\"   -   OPTIONS", True, "#b68f40")
@@ -31,7 +51,7 @@ class Menus:
             quit_text= self.get_font(int(MENU_FONT_SIZE/2)).render("\"Q\"   -   QUIT", True, "#b68f40")
             quit_rect = quit_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.9)))
             
-
+            #blit the text and rect
             main_menu_screen.blit(menu_text, menu_rect)
             main_menu_screen.blit(play_text, play_rect)
             main_menu_screen.blit(options_text, options_rect)
@@ -47,9 +67,9 @@ class Menus:
                     if event.key == pg.K_p:
                         return True
                     if event.key == pg.K_o:
-                        self.options_menu()
+                        return self.options_menu()
                     if event.key == pg.K_c:
-                        self.credits_menu()
+                        return self.credits_menu()
                     if event.key == pg.K_q:
                         pg.quit()
                         sys.exit()
@@ -57,11 +77,19 @@ class Menus:
             pg.display.update()
             
     def options_menu(self):
+        """_summary_ : This method is used to create the options menu
+
+        :return: call the main menu
+        :rtype: method
+        """        
+
+
         while True:
             options_menu_screen = self.screen
-
             options_menu_screen.fill("Black")
 
+
+            #text and rect for the options menu
             options_text = self.get_font(int(8*MENU_FONT_SIZE/10)).render("OPTIONS", True, "#b68f40")
             options_rect = options_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.05)))
             back_text = self.get_font(int(8*MENU_FONT_SIZE/10)).render("\"B\"   -   BACK", True, "#b68f40")
@@ -75,18 +103,22 @@ class Menus:
             sfx_control_text = self.get_font(int(MENU_FONT_SIZE/4)).render("\"SHIFT+UP\"   OR   \"SHIFT+DOWN\"   TO  CONTROL  SFX", True, "#b68f40")
             sfx_control_rect = sfx_control_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.85)))
 
+            #blit the text and rect
             options_menu_screen.blit(options_text, options_rect)
             options_menu_screen.blit(back_text, back_rect)
             options_menu_screen.blit(volume_text, volume_rect)
             options_menu_screen.blit(control_text, control_rect)
             options_menu_screen.blit(sfx_text, sfx_rect)
             options_menu_screen.blit(sfx_control_text, sfx_control_rect)
+
+            #blit a rectangle to show the music volume and sfx volume
             options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
                                     (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.2)))
             options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
                                     (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.6)))
 
 
+            #draw the bars to show the music volume and sfx volume
             for volume in range(0, self.volume):
                 options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/audio_icon/volume_bar.png"),
                                     (1.15*(WIDTH/20),(HEIGTH/10))), (int(2.28*(WIDTH/10)+volume*(WIDTH/20))+(WIDTH/51), int(HEIGTH*0.25)))
@@ -119,9 +151,13 @@ class Menus:
             pg.display.update()
        
     def pause_menu(self):
+        """_summary_ : This method is used to create the pause menu
+        """        
+
         pause_menu_screen = self.screen
         pause_menu_screen.fill("Black")
                 
+        #text and rect for the pause menu
         pause_text = self.get_font(MENU_FONT_SIZE).render("PAUSE", True, "#b68f40")
         pause_rect = pause_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
         resume_text = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ENTER   to  resume", True, "#b68f40")
@@ -133,18 +169,28 @@ class Menus:
         quit_text = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    Q   to  quit", True, "#b68f40")
         quit_rect = quit_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.75)))
 
+        #blit the text and rect
         pause_menu_screen.blit(pause_text, pause_rect)
         pause_menu_screen.blit(resume_text, resume_rect)
         pause_menu_screen.blit(main_menu_text, main_menu_rect)
         pause_menu_screen.blit(restar_text, restar_rect)
         pause_menu_screen.blit(quit_text, quit_rect)
+
         pg.display.update()
 
     def credits_menu(self):
+        """_summary_ : This method is used to create the credits menu
+
+        :return: Call the main menu
+        :rtype: method
+        """        
+
         while True:
             credits_menu_screen = self.screen
             credits_menu_screen.fill("Black")
 
+
+            #texts and rects for the credits menu
             credits_text = self.get_font(int(8*(MENU_FONT_SIZE/10))).render("CREDITS", True, "#b68f40")
             credits_rect = credits_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.05)))
             made_by_text = self.get_font(int(MENU_FONT_SIZE/3)).render("MADE  BY:  ", True, "#b68f40")
@@ -168,7 +214,7 @@ class Menus:
             back_text = self.get_font(int(MENU_FONT_SIZE/2)).render("\"B\"   -   BACK", True, "#b68f40")
             back_rect = back_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.95)))
 
-
+            #blit the texts and rects
             credits_menu_screen.blit(credits_text, credits_rect)
             credits_menu_screen.blit(made_by_text, made_by_rect)
             credits_menu_screen.blit(author1, author1_rect)
@@ -192,23 +238,29 @@ class Menus:
             pg.display.update()
 
     def game_over_menu(self):
-            game_over_menu_screen = self.screen
-            game_over_menu_screen.fill("Black")
+        """_summary_ : This method is used to create the game over menu
+        """        
+        
+        game_over_menu_screen = self.screen
+        game_over_menu_screen.fill("Black")
 
-            game_over_text = self.get_font(MENU_FONT_SIZE).render("GAME OVER", True, "#b68f40")
-            game_over_rect = game_over_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
-            game_over_text1 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ENTER   to  restart", True, "#b68f40")
-            game_over_rect1 = game_over_text1.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.375)))
-            game_over_text2 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ESC   to  main menu", True, "#b68f40")
-            game_over_rect2 = game_over_text2.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.5)))
-            game_over_text3 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    Q   to  quit", True, "#b68f40")
-            game_over_rect3 = game_over_text3.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.625)))
+        #texts and rects for the game over menu
+        game_over_text = self.get_font(MENU_FONT_SIZE).render("GAME OVER", True, "#b68f40")
+        game_over_rect = game_over_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.1)))
+        game_over_text1 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ENTER   to  restart", True, "#b68f40")
+        game_over_rect1 = game_over_text1.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.375)))
+        game_over_text2 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    ESC   to  main menu", True, "#b68f40")
+        game_over_rect2 = game_over_text2.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.5)))
+        game_over_text3 = self.get_font(int(MENU_FONT_SIZE/2)).render("Press    Q   to  quit", True, "#b68f40")
+        game_over_rect3 = game_over_text3.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.625)))
 
-            game_over_menu_screen.blit(game_over_text, game_over_rect)
-            game_over_menu_screen.blit(game_over_text1, game_over_rect1)
-            game_over_menu_screen.blit(game_over_text2, game_over_rect2)
-            game_over_menu_screen.blit(game_over_text3, game_over_rect3)
+        #blit the texts and rects
+        game_over_menu_screen.blit(game_over_text, game_over_rect)
+        game_over_menu_screen.blit(game_over_text1, game_over_rect1)
+        game_over_menu_screen.blit(game_over_text2, game_over_rect2)
+        game_over_menu_screen.blit(game_over_text3, game_over_rect3)
             
-            pg.display.update()
+        pg.display.update()
+
+#create the menu object
 menu=Menus()
-SFX_VOLUME = menu.sfx_vol

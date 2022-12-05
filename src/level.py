@@ -277,7 +277,7 @@ class Level:
         self.visible_sprites.enemy_update(self.player)
         self.player_attack()
         self.enemy_attack()
-        self.ui.display(self.player)
+        self.ui.display()
         self.player.sword_attack.set_volume(0.2*menu.sfx_vol/2)
         self.player.stick_attack.set_volume(0.2*menu.sfx_vol/2)
         for enemy in self.enemys:

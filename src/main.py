@@ -8,7 +8,7 @@ class Game:
 		# general setup
 		pygame.init()
 		self.screen = pygame.display.set_mode((WIDTH,HEIGTH))
-		pygame.display.set_caption('Joguinho de testes que não está pronto')
+		pygame.display.set_caption('The legend og Olivia')
 		self.clock = pygame.time.Clock()
 		self.level = Level()
 		self.menu=menu
@@ -19,10 +19,12 @@ class Game:
 		pygame.mixer.music.play(-1)
 
 	def start(self):
+        # start the game
 		if self.menu.main_menu():
 			self.run()
 
 	def run(self):
+        # game loop
 		while True:
 			if self.level.player.alive:
 				for event in pygame.event.get():

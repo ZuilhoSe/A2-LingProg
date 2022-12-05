@@ -77,7 +77,7 @@ class Player(Entity):
         self.health = self.max_health
         self.max_mana = 10
         self.mana = self.max_mana
-        self.speed = 12 # This will be used to define the speed movement in pixels/frame
+        self.speed = 6 # This will be used to define the speed movement in pixels/frame
         
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
