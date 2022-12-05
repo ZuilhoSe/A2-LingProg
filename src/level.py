@@ -113,9 +113,6 @@ class Level:
                         if style == 'boxes':
                             box_tile = graphics['box_tileset'][int(col)]
                             Box((x,y), [self.visible_sprites, self.obstacle_sprites],'box', box_tile)
-                        if style == 'door':
-                            door_tile = graphics['door_tileset'][0]
-                            Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'door', door_tile)
                         if style == 'dungeon':
                             dungeon_tile = graphics['dungeon_tileset'][int(col)]
                             Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'dungeon', dungeon_tile)
@@ -244,6 +241,7 @@ class Level:
                         target_sprite.kill()
                     
                     elif target_sprite.sprite_type == 'spiritable' and attack.sprite_type == "spirit_wind":
+                        self.player.level_up(4)
                         target_sprite.kill()
 
                     elif target_sprite.sprite_type == 'enemy':
