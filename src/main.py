@@ -48,7 +48,7 @@ class Game:
 								pygame.quit()
 								sys.exit()
 							if event.key == pygame.K_r:
-								volume=self.pause_menu.vol()
+								volume=self.menu.volume
 								new_game=Game()
 								new_game.volume=pygame.mixer.music.set_volume(volume/10)
 								new_game.run()
