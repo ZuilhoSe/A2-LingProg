@@ -60,7 +60,8 @@ class Player(Entity):
         self.weapon_standby = False
 
         self.magic_index = 0 #IMPORTANT to change the magic equipped
-        self.magic = list(magic_data.keys())[self.magic_index]
+        self.magic_list = list(magic_data.keys())
+        self.magic = self.magic_list[0]
         self.magic_time = None
         self.magic_standby = False
         
@@ -147,7 +148,7 @@ class Player(Entity):
                 self.sword_attack.play()
 
         # And the magic input
-        if keys[pg.K_LCTRL] and not self.attacking and not self.magic_standby and not self.special:
+        if keys[pg.K_LCTRL] and self.magic and not self.attacking and not self.magic_standby and not self.special:
             
             if self.magic == "heal":
                 self.special = True
@@ -163,15 +164,15 @@ class Player(Entity):
             self.create_magic(strength, cost)
 
         # For switching magics:
-        if keys[pg.K_e] and self.magic_can_switch and not self.attacking and not self.special:
+        if keys[pg.K_e] and self.magic and self.magic_can_switch and not self.attacking and not self.special:
             
             self.magic_switch_time = pg.time.get_ticks()
             self.magic_can_switch = False
             
             self.magic_index += 1
-            if self.magic_index >= len(magic_data):
+            if self.magic_index >= len(self.magic_list):
                 self.magic_index = 0
-            self.magic = list(magic_data.keys())[self.magic_index]
+            self.magic = self.magic_list[self.magic_index]
 
         # Defining the dash input
         if keys[pg.K_LSHIFT] and not self.attacking and not self.dash_wait and not "idle" in self.status and not self.special:
@@ -297,13 +298,29 @@ class Player(Entity):
         else:
             self.mana = self.stats["mana"]
 
+    def level_up(self, level):
+        """This level gives the player new magics after certain events.
+
+        :param level: This parameter defines wich level the player is going to level up, and wich magic he will gain.
+        :type level: int
+        """
+        
+        if level == 0:
+            self.weapon_index = 1
+        
+        new_magic = list(magic_data.keys)[level]
+        if new_magic not in self.magic_list:
+            self.magic_list.append(new_magic)
+
+        self.magic = self.magic_list[0]
+
     def update(self):
         """This method sets what will be called everytime the game completes a main loop. Basically, it says what will be "updated" in each frame. 
         """
 
+        self.cooldowns()
+        self.get_status()
         self.input()
         self.move(self.speed)
-        self.get_status()
         self.animate()
-        self.cooldowns()
         self.mana_regen()

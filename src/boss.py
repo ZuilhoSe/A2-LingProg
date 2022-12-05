@@ -4,25 +4,33 @@ import settings
 from entity import Entity
 import support
 class Boss(Entity):
-    """Enemy class responsible for the enemy's behaviour
+    """Boss class responsible for the bosses' behaviour
 
-    :param Entity: Enemy class inherits from Entity class
+    :param Entity: Boss class inherits from Entity class
     :type Entity: Entity
     """    
-    def __init__(self, monster_name: str,
-                 pos: tuple[int], groups,
-                 obstacle_sprites: pygame.sprite.Group(), 
+    def __init__(self, monster_name,
+                 pos, groups,
+                 obstacle_sprites, 
                  damage_player, death_particles, magic,
-                 obstacle_sprite_ignored_boss: pygame.sprite.Group()):
+                 obstacle_sprite_ignored_boss):
         """
-        :param monster_name: name of the enemy so that it's attributes can be searched
+        :param monster_name: name of the boss so that it's attributes can be searched
         :type monster_name: str
         :param pos: initial position of the enemy, measured in pixels
         :type pos: tuple[int]
-        :param groups: _description_
-        :type groups: _type_
-        :param obstacle_sprites: _description_
+        :param groups: List of tile groups the Boss will belong
+        :type groups: list
+        :param obstacle_sprites: Group of sprites the Boss will interact through collision
         :type obstacle_sprites: pygame.sprite.Group
+        :param damage_player: Method that deals damage to the player
+        :type damage_player: method
+        :param death_particles: Method that spawns particles when the Boss dies
+        :type death_particles: method
+        :param magic: Method that spawns magic projectiles
+        :type magic: method
+        :param obstacle_sprite_ignored_boss: Group of sprites the Boss will ignore through collision
+        :type obstacle_sprite_ignored_boss: pygame.sprite.Group
         """   
              
         #general setup
@@ -85,8 +93,8 @@ class Boss(Entity):
         
     
     def import_graphics(self, name: str):
-        """Stores the animations of the enemy in a list
-        :param name: name of the enemy
+        """Stores the animations of the bos in a dictionary
+        :param name: name of the boss
         :type name: str
         """ 
         if self.monster_name == 'giant_frog': size = 40
@@ -101,7 +109,7 @@ class Boss(Entity):
 
         
     def get_player_distance_direction(self, player):
-        """Gets the postion of the enemy relative to the player
+        """Gets the postion of the boss relative to the player
         :param player: the player
         :type player: Player
         """     
@@ -118,7 +126,7 @@ class Boss(Entity):
         return (distance, direction)
     
     def get_status(self, player):
-        """Define the status of the enemy based on it's distance to the player
+        """Define the status of the boss based on it's distance to the player
         :param player: the player
         :type player: Player
         """   
@@ -138,8 +146,8 @@ class Boss(Entity):
             self.status = 'idle'
             
     def actions(self,player):
-        """Define what the enemy does based on it's status
-        :param player: hte playable character
+        """Define what the boss does based on it's status
+        :param player: the playable character
         :type player: Player
         """        
         if self.status == 'attack' and self.can_attack:
@@ -147,7 +155,7 @@ class Boss(Entity):
             self.damage_player(self.attack_damage, self.attack_type)
             self.attack_sound.play()
             self.can_attack= False
-        elif self.status == 'magic' and self.can_magic:
+        elif self.status == 'magic' and self.can_magic and self.vulnerable:
             self.magic_time = pygame.time.get_ticks()
             self.direction = self.get_player_distance_direction(player)[1]
             self.magic(self)
@@ -196,6 +204,12 @@ class Boss(Entity):
                 self.vulnerable = True
                 
     def get_damage(self, player, attack_type):
+        """Calculates the damage the enemy takes
+        :param player: the player
+        :type player: Player
+        :param attack_type: the type of attack
+        :type attack_type: str
+        """
         if self.vulnerable:
             self.hit_sound.play()
             self.direction = self.get_player_distance_direction(player)[1]
@@ -208,17 +222,20 @@ class Boss(Entity):
             self.vulnerable = False
 
     def knockback_resistance(self):
+        """Calculates the knockback resistance of the boss
+        """
         if not self.vulnerable:
             self.direction *= -self.resistance
             
     def die(self):
+        """Defines what happens when the boss dies"""
         if self.health <= 0:
             self.death_particles(self.monster_name, self.rect.center)
             self.kill()
             self.death_sound.play()
     
     def update(self):
-        """Updates the enemy
+        """Updates the boss
         """        
         self.knockback_resistance()
         self.move(self.speed)
@@ -227,7 +244,7 @@ class Boss(Entity):
         self.die()
         
     def enemy_update(self,player):
-        """updates the enemy
+        """updates the boss
         :param player: the playable character
         :type player: Player
         """        
