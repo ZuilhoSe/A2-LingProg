@@ -57,7 +57,7 @@ class Player(Entity):
         self.dash_duration = 200
         self.dash_speed = 12
 
-        self.weapon_index = 1 #IMPORTANT to change the weapon
+        self.weapon_index = 0 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.weapon_time = None
         self.weapon_standby = False
@@ -319,11 +319,12 @@ class Player(Entity):
         
         if level == 0:
             self.weapon_index = 1
+            print("You got the sword!")
         
         new_magic = list(magic_data.keys())[level]
         if new_magic not in self.magic_list:
             self.magic_list.append(new_magic)
-
+        self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.magic = self.magic_list[0]
 
     def update(self):
