@@ -1,5 +1,7 @@
 import pygame as pg
+import sys
 from settings import *
+import time
 
 class UI:
 	def __init__(self,player):
@@ -43,16 +45,16 @@ class UI:
 		there_is_quarter_heart=int(wich_quarter_heart!=0)
 		self.health=self.player.health
 		for empty in range(empty_hearts-there_is_quarter_heart):
-			self.display_surface.blit(pg.transform.scale(pg.image.load(EMPTY_HEART),(48,48)),((empty+total_full_hearts+there_is_quarter_heart)
+			self.display_surface.blit(pg.transform.scale(pg.image.load(EMPTY_HEART),(48*RATIO,48*RATIO)),((empty+total_full_hearts+there_is_quarter_heart)
 			*75+30,25))
 		for heart in range(total_full_hearts):
-			self.display_surface.blit(pg.transform.scale(pg.image.load(FULL_HEART),(48,48)),(heart*75+30,25))
+			self.display_surface.blit(pg.transform.scale(pg.image.load(FULL_HEART),(48*RATIO,48*RATIO)),(heart*75+30,25))
 		if wich_quarter_heart==1:
-			self.display_surface.blit(pg.transform.scale(pg.image.load(QUARTER_HEART),(48,48)),((total_full_hearts)*75+30,25))
+			self.display_surface.blit(pg.transform.scale(pg.image.load(QUARTER_HEART),(48*RATIO,48*RATIO)),((total_full_hearts)*75+30,25))
 		elif wich_quarter_heart==2:
-			self.display_surface.blit(pg.transform.scale(pg.image.load(HALF_HEART),(48,48)),((total_full_hearts)*75+30,25))
+			self.display_surface.blit(pg.transform.scale(pg.image.load(HALF_HEART),(48*RATIO,48*RATIO)),((total_full_hearts)*75+30,25))
 		elif wich_quarter_heart==3:
-			self.display_surface.blit(pg.transform.scale(pg.image.load(QUARTER_3_HEART),(48,48)),((total_full_hearts)*75+30,25))
+			self.display_surface.blit(pg.transform.scale(pg.image.load(QUARTER_3_HEART),(48*RATIO,48*RATIO)),((total_full_hearts)*75+30,25))
 
 	def mana_draw(self):
 		total_mana=self.player.max_mana
@@ -120,6 +122,7 @@ class UI:
 		:param player: the player object
 		:type player: Player
 		"""		
+
 		icon_sprite = pg.image.load("../graphics/HUD/NinePathRect/DialogueBubble.png")
 		icon_sprite = pg.transform.scale(icon_sprite, (int(0.7*WIDTH/10),int(0.7*WIDTH/10)))
 		magic_sprite=magic_data[self.player.magic]["graphic"]
@@ -132,3 +135,9 @@ class UI:
 				cooldown=pg.transform.scale(cooldown,(int(0.7*WIDTH/10),int(0.7*WIDTH/10)))
 				cooldown.set_alpha(150)		
 				self.display_surface.blit(cooldown,(int(8*(WIDTH/10)),int((HEIGTH/40))))
+			keys=pg.key.get_pressed()
+			if keys[pg.K_LCTRL] and self.player.mana<magic_data[self.player.magic]["cost"]:
+					no_mana=pg.image.load("../graphics/HUD/NinePathRect/no_mana_mask.png")
+					no_mana=pg.transform.scale(no_mana,(int(0.7*WIDTH/10),int(0.7*WIDTH/10)))
+					no_mana.set_alpha(150)		
+					self.display_surface.blit(no_mana,(int(8*(WIDTH/10)),int((HEIGTH/40))))
