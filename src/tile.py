@@ -1,3 +1,5 @@
+"""Creating the tiles used in the game"""
+
 import pygame 
 from settings import *
 

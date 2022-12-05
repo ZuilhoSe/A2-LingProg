@@ -1,3 +1,5 @@
+"""Module tha have all the code related to the enemies"""
+
 from multiprocessing.dummy import current_process
 import pygame
 import settings
