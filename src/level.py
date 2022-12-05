@@ -147,7 +147,6 @@ class Level:
 								speech = support.import_text('../data/vendor.txt')
 								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)							
 							elif int(col)<4 or col == '10' or int(col)>=13 and int(col)<16:
-								print(col)
 								if col == '0':
 									monsters_name = 'raccoon'
 								elif col == '1':
@@ -203,13 +202,11 @@ class Level:
 
 	def player_attack(self):
 		if self.attack_sprites:
-			print(self.player.magic_index)
 			for attack in self.attack_sprites:
 				# Check if the attack is colliding with an enemy
 				collisions = pygame.sprite.spritecollide(attack, self.attackable_sprites, False)
 				
 				for target_sprite in collisions:
-					print(target_sprite.sprite_type)
 					if target_sprite.sprite_type == 'grass' and attack.sprite_type == "weapon" and self.player.weapon_index == 1:
 						pos = target_sprite.rect.center
 						offset = pygame.math.Vector2(0,75)
