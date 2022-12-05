@@ -107,6 +107,7 @@ class MagicBoss:
         type = boss.magic_type
         caster_rect = boss.rect
         speed = boss.magic_speed
+        pg.mixer.Sound("../audio/giantflame_attack.wav").play()
         Projectile(type, boss.direction, caster_rect, self.frames, groups, speed, obstacle_sprites, player, self.animation, True)
         
 class Projectile(Entity):
