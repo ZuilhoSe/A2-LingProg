@@ -14,9 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,6 +38,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="game_tutorial.html">Game Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boss_code.html">Boss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buttons_code.html">Buttons</a></li>
@@ -83,7 +82,122 @@
            <div itemprop="articleBody">
              
   <section id="level">
-<h1>Level<a class="headerlink" href="#level" title="Permalink to this heading"></a></h1>
+<h1>Level<a class="headerlink" href="#level" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="level.Level">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">level.</span></span><span class="sig-name descname"><span class="pre">Level</span></span><a class="headerlink" href="#level.Level" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Setting up the map and the sprites</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.create_attack">
+<span class="sig-name descname"><span class="pre">create_attack</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.create_attack" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new attack sprite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.create_boss_magic">
+<span class="sig-name descname"><span class="pre">create_boss_magic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boss</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.create_boss_magic" title="Permalink to this definition"></a></dt>
+<dd><p>Create a magic attack from a boss
+:param boss: the boss that cast the spell
+:type boss: Boss</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.create_magic">
+<span class="sig-name descname"><span class="pre">create_magic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strenght</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.create_magic" title="Permalink to this definition"></a></dt>
+<dd><p>Players casts a magic spell
+:param strenght: strenght of the spell
+:type strenght: int
+:param cost: cost of the spell
+:type cost: int</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.create_map">
+<span class="sig-name descname"><span class="pre">create_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.create_map" title="Permalink to this definition"></a></dt>
+<dd><p>Create the map and the player</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.create_particles">
+<span class="sig-name descname"><span class="pre">create_particles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particle_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.create_particles" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.damage_player">
+<span class="sig-name descname"><span class="pre">damage_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amount</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.damage_player" title="Permalink to this definition"></a></dt>
+<dd><p>Damage the player
+:param amount: damage of the attack
+:type amount: int
+:param attack_type: type of the attack
+:type attack_type: str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.end_attack">
+<span class="sig-name descname"><span class="pre">end_attack</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.end_attack" title="Permalink to this definition"></a></dt>
+<dd><p>Kill the current attack sprite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.enemy_attack">
+<span class="sig-name descname"><span class="pre">enemy_attack</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.enemy_attack" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the projectiles are colliding with the player</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.magic_damage_player">
+<span class="sig-name descname"><span class="pre">magic_damage_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">damage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.magic_damage_player" title="Permalink to this definition"></a></dt>
+<dd><p>Damage the player with projectiles
+:param damage: damage of the projectile
+:type damage: int
+:param attack: the projectile
+:type attack: Projectile</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.player_attack">
+<span class="sig-name descname"><span class="pre">player_attack</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.player_attack" title="Permalink to this definition"></a></dt>
+<dd><p>Check if player attacks are colliding with attackable sprites</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.Level.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#level.Level.run" title="Permalink to this definition"></a></dt>
+<dd><p>update and draw the game</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="level.YsortCameraGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">level.</span></span><span class="sig-name descname"><span class="pre">YsortCameraGroup</span></span><a class="headerlink" href="#level.YsortCameraGroup" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pygame.sprite.Group</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="level.YsortCameraGroup.custom_draw">
+<span class="sig-name descname"><span class="pre">custom_draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#level.YsortCameraGroup.custom_draw" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Draw the sprites inside the players view</dt><dd><dl class="field-list simple">
+<dt class="field-odd">param player</dt>
+<dd class="field-odd"><p>the player</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="level.YsortCameraGroup.enemy_update">
+<span class="sig-name descname"><span class="pre">enemy_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#level.YsortCameraGroup.enemy_update" title="Permalink to this definition"></a></dt>
+<dd><p>Update the enemies sprites
+:param player: the player
+:type player: Player</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

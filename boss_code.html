@@ -14,14 +14,12 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Buttons" href="buttons_code.html" />
-    <link rel="prev" title="buttons" href="generated/buttons.html" /> 
+    <link rel="prev" title="weapon" href="generated/weapon.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,6 +38,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="game_tutorial.html">Game Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Boss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buttons_code.html">Buttons</a></li>
@@ -83,14 +82,108 @@
            <div itemprop="articleBody">
              
   <section id="boss">
-<h1>Boss<a class="headerlink" href="#boss" title="Permalink to this heading"></a></h1>
+<h1>Boss<a class="headerlink" href="#boss" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="boss.Boss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boss.</span></span><span class="sig-name descname"><span class="pre">Boss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monster_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obstacle_sprites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">damage_player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">death_particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="entity_code.html#entity.Entity" title="entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">entity.Entity</span></code></a></p>
+<p>Boss class responsible for the bosses’ behaviour</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>Entity</strong> (<a class="reference internal" href="entity_code.html#entity.Entity" title="entity.Entity"><em>Entity</em></a>) – Boss class inherits from Entity class</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.actions">
+<span class="sig-name descname"><span class="pre">actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.actions" title="Permalink to this definition"></a></dt>
+<dd><p>Define what the boss does based on it’s status
+:param player: the playable character
+:type player: Player</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.animate">
+<span class="sig-name descname"><span class="pre">animate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.animate" title="Permalink to this definition"></a></dt>
+<dd><p>Draws the enemy animations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.cooldowns">
+<span class="sig-name descname"><span class="pre">cooldowns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.cooldowns" title="Permalink to this definition"></a></dt>
+<dd><p>Attack cooldown timer of the enemy</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.die">
+<span class="sig-name descname"><span class="pre">die</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.die" title="Permalink to this definition"></a></dt>
+<dd><p>Defines what happens when the boss dies
+:param player: the player
+:type player: Player</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.enemy_update">
+<span class="sig-name descname"><span class="pre">enemy_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.enemy_update" title="Permalink to this definition"></a></dt>
+<dd><p>updates the boss
+:param player: the playable character
+:type player: Player</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.get_damage">
+<span class="sig-name descname"><span class="pre">get_damage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.get_damage" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the damage the enemy takes
+:param player: the player
+:type player: Player
+:param attack_type: the type of attack
+:type attack_type: str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.get_player_distance_direction">
+<span class="sig-name descname"><span class="pre">get_player_distance_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.get_player_distance_direction" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the postion of the boss relative to the player
+:param player: the player
+:type player: Player</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.get_status">
+<span class="sig-name descname"><span class="pre">get_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.get_status" title="Permalink to this definition"></a></dt>
+<dd><p>Define the status of the boss based on it’s distance to the player
+:param player: the player
+:type player: Player</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.import_graphics">
+<span class="sig-name descname"><span class="pre">import_graphics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.import_graphics" title="Permalink to this definition"></a></dt>
+<dd><p>Stores the animations of the bos in a dictionary
+:param name: name of the boss
+:type name: str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.knockback_resistance">
+<span class="sig-name descname"><span class="pre">knockback_resistance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.knockback_resistance" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the knockback resistance of the boss</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boss.Boss.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#boss.Boss.update" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the boss</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="generated/buttons.html" class="btn btn-neutral float-left" title="buttons" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="generated/weapon.html" class="btn btn-neutral float-left" title="weapon" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="buttons_code.html" class="btn btn-neutral float-right" title="Buttons" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

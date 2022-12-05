@@ -14,9 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,6 +38,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="game_tutorial.html">Game Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boss_code.html">Boss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buttons_code.html">Buttons</a></li>
@@ -83,7 +82,43 @@
            <div itemprop="articleBody">
              
   <section id="tile">
-<h1>Tile<a class="headerlink" href="#tile" title="Permalink to this heading"></a></h1>
+<h1>Tile<a class="headerlink" href="#tile" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="tile.Box">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tile.</span></span><span class="sig-name descname"><span class="pre">Box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sprite_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface=&lt;Surface(64x64x32</span> <span class="pre">SW)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tile.Box" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tile.Tile" title="tile.Tile"><code class="xref py py-class docutils literal notranslate"><span class="pre">tile.Tile</span></code></a></p>
+<p>This class defines the boxes that will be used in the game. It inherits from Tile class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tile.Box.check_collision">
+<span class="sig-name descname"><span class="pre">check_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tile.Box.check_collision" title="Permalink to this definition"></a></dt>
+<dd><p>Function that checks if the box is colliding with another box or a wall.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>direction</strong> (<em>str</em>) – Direction the box is moving.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tile.Box.slide">
+<span class="sig-name descname"><span class="pre">slide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tile.Box.slide" title="Permalink to this definition"></a></dt>
+<dd><p>Function that slides the box in the direction the player is moving.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>direction</strong> (<em>str</em>) – Direction the player is moving.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tile.Tile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tile.</span></span><span class="sig-name descname"><span class="pre">Tile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sprite_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface=&lt;Surface(64x64x32</span> <span class="pre">SW)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tile.Tile" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pygame.sprite.Sprite</span></code></p>
+<p>This class defines the tiles that will be used in the game. It inherits from pygame.sprite.Sprite class.</p>
+</dd></dl>
+
 </section>
 
 

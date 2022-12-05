@@ -14,9 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,6 +38,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="game_tutorial.html">Game Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boss_code.html">Boss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buttons_code.html">Buttons</a></li>
@@ -83,7 +82,50 @@
            <div itemprop="articleBody">
              
   <section id="entity">
-<h1>Entity<a class="headerlink" href="#entity" title="Permalink to this heading"></a></h1>
+<h1>Entity<a class="headerlink" href="#entity" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="entity.Entity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">entity.</span></span><span class="sig-name descname"><span class="pre">Entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groups</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entity.Entity" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pygame.sprite.Sprite</span></code></p>
+<p>This class carries the methods and properties that are common to all entities spawned in the game. It inherits from pygame.sprite.Sprite class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="entity.Entity.collision">
+<span class="sig-name descname"><span class="pre">collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entity.Entity.collision" title="Permalink to this definition"></a></dt>
+<dd><p>The collision method defines the entitie’s behaviour when they touch each other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>direction</strong> (<em>str</em>) – “x” if the collision is happening in the horizontal. “y” if a collision is happening in the vertical.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="entity.Entity.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">speed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entity.Entity.move" title="Permalink to this definition"></a></dt>
+<dd><p>This defines how changes in the movement vector combines with entities speed to create movement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>speed</strong> (<em>int</em>) – Entity’s speed of movement.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="entity.Entity.variable_value">
+<span class="sig-name descname"><span class="pre">variable_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#entity.Entity.variable_value" title="Permalink to this definition"></a></dt>
+<dd><p>This method works simply to return a variable value as time passes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Varies between returning 0 or 255 as time passes.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

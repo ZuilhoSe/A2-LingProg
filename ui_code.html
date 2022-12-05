@@ -14,9 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,6 +38,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="game_tutorial.html">Game Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boss_code.html">Boss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buttons_code.html">Buttons</a></li>
@@ -83,7 +82,84 @@
            <div itemprop="articleBody">
              
   <section id="ui">
-<h1>UI<a class="headerlink" href="#ui" title="Permalink to this heading"></a></h1>
+<h1>UI<a class="headerlink" href="#ui" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ui.UI">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ui.</span></span><span class="sig-name descname"><span class="pre">UI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ui.UI" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ui.UI.display">
+<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ui.UI.display" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the UI</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="player_code.html#player.Player" title="player.Player"><em>Player</em></a>) – the player object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ui.UI.display_dialogue">
+<span class="sig-name descname"><span class="pre">display_dialogue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ui.UI.display_dialogue" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the dialogue</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_list</strong> (<em>list</em>) – the text to be displayed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ui.UI.display_dialogue_box">
+<span class="sig-name descname"><span class="pre">display_dialogue_box</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ui.UI.display_dialogue_box" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the dialogue box</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ui.UI.get_font">
+<span class="sig-name descname"><span class="pre">get_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ui.UI.get_font" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ui.UI.hearts_draw">
+<span class="sig-name descname"><span class="pre">hearts_draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ui.UI.hearts_draw" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the player’s health</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="player_code.html#player.Player" title="player.Player"><em>Player</em></a>) – the player object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ui.UI.magic_draw">
+<span class="sig-name descname"><span class="pre">magic_draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ui.UI.magic_draw" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the player’s magic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="player_code.html#player.Player" title="player.Player"><em>Player</em></a>) – the player object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ui.UI.mana_draw">
+<span class="sig-name descname"><span class="pre">mana_draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ui.UI.mana_draw" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ui.UI.weapon_draw">
+<span class="sig-name descname"><span class="pre">weapon_draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ui.UI.weapon_draw" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the player’s weapon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="player_code.html#player.Player" title="player.Player"><em>Player</em></a>) – the player object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

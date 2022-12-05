@@ -14,9 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,6 +38,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="game_tutorial.html">Game Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boss_code.html">Boss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buttons_code.html">Buttons</a></li>
@@ -83,7 +82,101 @@
            <div itemprop="articleBody">
              
   <section id="magic">
-<h1>Magic<a class="headerlink" href="#magic" title="Permalink to this heading"></a></h1>
+<h1>Magic<a class="headerlink" href="#magic" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="magic.MagicBoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">magic.</span></span><span class="sig-name descname"><span class="pre">MagicBoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">animation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#magic.MagicBoss" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The MagicPlayer class import all the magics assets at once and calls the Projectile class to create the magics.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="magic.MagicBoss.fireball">
+<span class="sig-name descname"><span class="pre">fireball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obstacle_sprites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#magic.MagicBoss.fireball" title="Permalink to this definition"></a></dt>
+<dd><p>Calls the Projectile class to create a fireball.
+:param player: The Player object, so the method can know it’s position and access it’s mana
+:type player: player.Player
+:param cost: How much mana will be deducted from the player
+:type cost: int
+:param groups: Wich groups the magic particles belong
+:type groups: list
+:param obstacle_sprites: Sprite group that contains the obstacles in the scenery
+:type obstacle_sprites: pygame.sprite.Group
+:param attackable_sprites: Sprite group that contains the enemy’s sprites
+:type attackable_sprites: pygame.sprite.Group</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="magic.MagicPlayer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">magic.</span></span><span class="sig-name descname"><span class="pre">MagicPlayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">animation_player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#magic.MagicPlayer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The MagicPlayer class import all the magics assets at once and calls the Projectile class to create the magics.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="magic.MagicPlayer.heal">
+<span class="sig-name descname"><span class="pre">heal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strength</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#magic.MagicPlayer.heal" title="Permalink to this definition"></a></dt>
+<dd><p>Calls the animation player to create healing particles, and increases player’s health.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>player</strong> (<a class="reference internal" href="player_code.html#player.Player" title="player.Player"><em>player.Player</em></a>) – The player class, so the method can access health and know its position</p></li>
+<li><p><strong>strength</strong> (<em>int</em>) – How much health will be recovered</p></li>
+<li><p><strong>cost</strong> (<em>int</em>) – How much mana will be deducted from the player</p></li>
+<li><p><strong>groups</strong> (<em>list</em>) – Wich groups the magic particles belong</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="magic.MagicPlayer.projectile">
+<span class="sig-name descname"><span class="pre">projectile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obstacle_sprites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attackable_sprites</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#magic.MagicPlayer.projectile" title="Permalink to this definition"></a></dt>
+<dd><p>Calls the Projectile class to create a projectile magic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>player</strong> (<a class="reference internal" href="player_code.html#player.Player" title="player.Player"><em>player.Player</em></a>) – The Player object, so the method can know it’s position and access it’s mana</p></li>
+<li><p><strong>cost</strong> (<em>int</em>) – How much mana will be deducted from the player</p></li>
+<li><p><strong>groups</strong> (<em>list</em>) – Wich groups the magic particles belong</p></li>
+<li><p><strong>obstacle_sprites</strong> (<em>pygame.sprite.Group</em>) – Sprite group that contains the obstacles in the scenery</p></li>
+<li><p><strong>attackable_sprites</strong> (<em>pygame.sprite.Group</em>) – Sprite group that contains the enemy’s sprites</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="magic.Projectile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">magic.</span></span><span class="sig-name descname"><span class="pre">Projectile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caster_rect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obstacle_sprites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attackable_sprites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animation_player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cast_from_center</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#magic.Projectile" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="entity_code.html#entity.Entity" title="entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">entity.Entity</span></code></a></p>
+<p>This class creates a sprite in a certain direction, that moves at constant speed in that direction. This class inherits from the Entity class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="magic.Projectile.animate">
+<span class="sig-name descname"><span class="pre">animate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#magic.Projectile.animate" title="Permalink to this definition"></a></dt>
+<dd><p>This method is called once per loop to animate the frames over the images in the self.animation list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="magic.Projectile.die">
+<span class="sig-name descname"><span class="pre">die</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#magic.Projectile.die" title="Permalink to this definition"></a></dt>
+<dd><p>This method is called when the Projectile must end.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="magic.Projectile.timer">
+<span class="sig-name descname"><span class="pre">timer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#magic.Projectile.timer" title="Permalink to this definition"></a></dt>
+<dd><p>This method verifies how long the projectile lasts, and kills it once it reaches the limit time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="magic.Projectile.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#magic.Projectile.update" title="Permalink to this definition"></a></dt>
+<dd><p>This method sets what will be called everytime the game completes a main loop. Basically, it says what will be “updated” in each frame.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

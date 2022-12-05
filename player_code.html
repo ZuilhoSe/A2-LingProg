@@ -14,9 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,6 +38,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="game_tutorial.html">Game Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boss_code.html">Boss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buttons_code.html">Buttons</a></li>
@@ -83,7 +82,78 @@
            <div itemprop="articleBody">
              
   <section id="player">
-<h1>Player<a class="headerlink" href="#player" title="Permalink to this heading"></a></h1>
+<h1>Player<a class="headerlink" href="#player" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="player.Player">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">player.</span></span><span class="sig-name descname"><span class="pre">Player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obstacle_sprites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_attack</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_attack</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_magic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#player.Player" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="entity_code.html#entity.Entity" title="entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">entity.Entity</span></code></a></p>
+<p>This class carries most of the important properties and methods to the player’s controls and functionalities. It inherits from the class Entity, in the entity module.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="player.Player.animate">
+<span class="sig-name descname"><span class="pre">animate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#player.Player.animate" title="Permalink to this definition"></a></dt>
+<dd><p>Uses the self.status property to correctly set the character’s animation sprites.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="player.Player.cooldowns">
+<span class="sig-name descname"><span class="pre">cooldowns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#player.Player.cooldowns" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the player’s cooldowns behaviour, such as attack, dash and vulnerability cooldowns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="player.Player.get_damage">
+<span class="sig-name descname"><span class="pre">get_damage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dmg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#player.Player.get_damage" title="Permalink to this definition"></a></dt>
+<dd><p>This method should be called when the player is hit by an enemy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dmg</strong> (<em>int</em>) – the damage the player will take</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="player.Player.get_status">
+<span class="sig-name descname"><span class="pre">get_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#player.Player.get_status" title="Permalink to this definition"></a></dt>
+<dd><p>This method sets the character self.status property according to the action in course.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="player.Player.input">
+<span class="sig-name descname"><span class="pre">input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#player.Player.input" title="Permalink to this definition"></a></dt>
+<dd><p>Defines how player’s keyboard inputs affects the character, with movement and attack comands.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="player.Player.level_up">
+<span class="sig-name descname"><span class="pre">level_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#player.Player.level_up" title="Permalink to this definition"></a></dt>
+<dd><p>This level gives the player new magics after certain events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>level</strong> (<em>int</em>) – This parameter defines wich level the player is going to level up, and wich magic he will gain.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="player.Player.mana_regen">
+<span class="sig-name descname"><span class="pre">mana_regen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#player.Player.mana_regen" title="Permalink to this definition"></a></dt>
+<dd><p>Defines a passive mana regeneation for the player.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="player.Player.player_assets">
+<span class="sig-name descname"><span class="pre">player_assets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#player.Player.player_assets" title="Permalink to this definition"></a></dt>
+<dd><p>Import the assets to animate the player, such as walking and attacking sprites.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="player.Player.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#player.Player.update" title="Permalink to this definition"></a></dt>
+<dd><p>This method sets what will be called everytime the game completes a main loop. Basically, it says what will be “updated” in each frame.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
