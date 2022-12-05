@@ -12,8 +12,7 @@ class Boss(Entity):
     def __init__(self, monster_name,
                  pos, groups,
                  obstacle_sprites, 
-                 damage_player, death_particles, magic,
-                 obstacle_sprite_ignored_boss):
+                 damage_player, death_particles, magic):
         """
         :param monster_name: name of the boss so that it's attributes can be searched
         :type monster_name: str
@@ -29,8 +28,6 @@ class Boss(Entity):
         :type death_particles: method
         :param magic: Method that spawns magic projectiles
         :type magic: method
-        :param obstacle_sprite_ignored_boss: Group of sprites the Boss will ignore through collision
-        :type obstacle_sprite_ignored_boss: pygame.sprite.Group
         """   
              
         #general setup
@@ -47,7 +44,6 @@ class Boss(Entity):
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(0,-10)
         self.obstacle_sprites = obstacle_sprites
-        self.obstacle_sprite_ignored_boss = obstacle_sprite_ignored_boss
         
         # stats
         self.monster_name = monster_name

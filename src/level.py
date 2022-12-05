@@ -22,7 +22,6 @@ class Level:
 		# sprite group setup
 		self.visible_sprites = YsortCameraGroup()
 		self.obstacle_sprites = pygame.sprite.Group()
-		self.obstacle_sprite_ignored_boss = pygame.sprite.Group()
 
 		# Attack sprites
 		self.current_attack = None
@@ -98,7 +97,7 @@ class Level:
 						if style == 'house_tiles':
 							house_tile = graphics['house_tileset'][int(col)]
 							if int(col) in (495,528,561,596):
-								Tile((x,y), [self.visible_sprites, self.obstacle_sprites, self.obstacle_sprite_ignored_boss],'house_tile', house_tile)
+								Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house_tile', house_tile)
 							else:
 								Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'house_tile', house_tile)
 						if style == 'houses':
@@ -181,8 +180,7 @@ class Level:
 									self.obstacle_sprites,
 									self.damage_player,
 									self.create_particles,
-         							self.create_boss_magic,
-                					self.obstacle_sprite_ignored_boss)
+         							self.create_boss_magic)
 
 	# Methods to create and kill attack's sprites
 	def create_attack(self):

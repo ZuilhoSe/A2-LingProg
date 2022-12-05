@@ -49,9 +49,7 @@ class Entity(pg.sprite.Sprite):
 
         if direction == "x":
             for obstacle in self.obstacle_sprites:
-                if self.__class__.__name__ == "Boss" and obstacle in self.obstacle_sprite_ignored_boss:
-                    pass
-                elif obstacle.hitbox.colliderect(self.hitbox):
+                if obstacle.hitbox.colliderect(self.hitbox):
                     
                     #Check if the obstacle is on the left or right of the box
                     if obstacle.sprite_type == "box" and self.__class__.__name__ == "Player":
@@ -67,9 +65,7 @@ class Entity(pg.sprite.Sprite):
 
         if direction == "y":
             for obstacle in self.obstacle_sprites:
-                if self.__class__.__name__ == "Boss" and obstacle in self.obstacle_sprite_ignored_boss:
-                    pass
-                elif obstacle.hitbox.colliderect(self.hitbox):
+                if obstacle.hitbox.colliderect(self.hitbox):
                     
                     #Check if the player is on top or bottom of the box
                     if obstacle.sprite_type == "box" and self.__class__.__name__ == "Player":
