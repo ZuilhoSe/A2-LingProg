@@ -36,36 +36,66 @@ class UI:
 
 		:param player: the player object
 		:type player: Player
-		"""        
+		""" 
+		full_heart=pg.image.load(FULL_HEART)
+		empty_heart=pg.image.load(EMPTY_HEART)
+		half_heart=pg.image.load(HALF_HEART)
+		quarter_heart=pg.image.load(QUARTER_HEART)
+		quarter_3_heart=pg.image.load(QUARTER_3_HEART)
+		full_heart=pg.transform.scale(full_heart,(48*RATIO,48*RATIO))
+		empty_heart=pg.transform.scale(empty_heart,(48*RATIO,48*RATIO))
+		half_heart=pg.transform.scale(half_heart,(48*RATIO,48*RATIO))
+		quarter_heart=pg.transform.scale(quarter_heart,(48*RATIO,48*RATIO))
+		quarter_3_heart=pg.transform.scale(quarter_3_heart,(48*RATIO,48*RATIO))
 
 		total_hearts=self.max_health//4
 		total_full_hearts=self.health//4
 		empty_hearts=total_hearts-total_full_hearts
 		wich_quarter_heart=self.health%4
 		there_is_quarter_heart=int(wich_quarter_heart!=0)
-		self.health=self.player.health
+
+
+
 		for empty in range(empty_hearts-there_is_quarter_heart):
-			self.display_surface.blit(pg.transform.scale(pg.image.load(EMPTY_HEART),(48*RATIO,48*RATIO)),((empty+total_full_hearts+there_is_quarter_heart)
-			*75+30,25))
+			self.display_surface.blit(empty_heart,(((empty+total_full_hearts+there_is_quarter_heart)
+			*75+30)*RATIO,25*RATIO))
 		for heart in range(total_full_hearts):
-			self.display_surface.blit(pg.transform.scale(pg.image.load(FULL_HEART),(48*RATIO,48*RATIO)),(heart*75+30,25))
+			self.display_surface.blit(full_heart,((heart*75+30)*RATIO,25*RATIO))
 		if wich_quarter_heart==1:
-			self.display_surface.blit(pg.transform.scale(pg.image.load(QUARTER_HEART),(48*RATIO,48*RATIO)),((total_full_hearts)*75+30,25))
+			self.display_surface.blit(quarter_heart,(((total_full_hearts)*75+30)*RATIO,25*RATIO))
 		elif wich_quarter_heart==2:
-			self.display_surface.blit(pg.transform.scale(pg.image.load(HALF_HEART),(48*RATIO,48*RATIO)),((total_full_hearts)*75+30,25))
+			self.display_surface.blit(half_heart,(((total_full_hearts)*75+30)*RATIO,25*RATIO))
 		elif wich_quarter_heart==3:
-			self.display_surface.blit(pg.transform.scale(pg.image.load(QUARTER_3_HEART),(48*RATIO,48*RATIO)),((total_full_hearts)*75+30,25))
+			self.display_surface.blit(quarter_3_heart,(((total_full_hearts)*75+30)*RATIO,25*RATIO))
 
 	def mana_draw(self):
-		total_mana=self.player.max_mana
-		total_full_mana=int(self.player.mana)
-		empty_mana=total_mana-total_full_mana
+		total=self.player.max_mana
+		total_full=int(self.player.mana)
 
-		for empty in range(empty_mana):
-			self.display_surface.blit(pg.transform.scale(pg.image.load(EMPTY_MANA),(32,32)),((empty+total_full_mana)
-			*75+30,75))
-		for mana in range(total_full_mana):
-			self.display_surface.blit(pg.transform.scale(pg.image.load(FULL_MANA),(32,32)),(mana*75+30,75))
+		empty=total-total_full
+		
+		rows_of_full=total_full//5
+		remaining_full=total_full%5
+		rows_of_empty=empty//5
+		remaining_empty=empty%5
+		there_is_remaining=int(remaining_full!=0)
+		full_mana=pg.image.load(FULL_MANA)
+		empty_mana=pg.image.load(EMPTY_MANA)
+		full_mana=pg.transform.scale(full_mana,(32*RATIO,32*RATIO))
+		empty_mana=pg.transform.scale(empty_mana,(32*RATIO,32*RATIO))
+
+
+
+		for row in range(rows_of_full):
+			for mana in range(5):
+				self.display_surface.blit(full_mana,((mana*75+30)*RATIO,(row*50+75)*RATIO))
+		for mana in range(remaining_full):
+			self.display_surface.blit(full_mana,((mana*75+30)*RATIO,(rows_of_full*50+75)*RATIO))
+		for mana in range(remaining_empty):
+			self.display_surface.blit(empty_mana,(((mana+remaining_full)*75+30)*RATIO,(rows_of_full*50+75)*RATIO))
+		for row in range(rows_of_empty):
+			for mana in range(5):
+				self.display_surface.blit(empty_mana,((mana*75+30)*RATIO,((row+rows_of_full+there_is_remaining)*50+75)*RATIO))
 		
 		
 
@@ -135,8 +165,7 @@ class UI:
 				cooldown=pg.transform.scale(cooldown,(int(0.7*WIDTH/10),int(0.7*WIDTH/10)))
 				cooldown.set_alpha(150)		
 				self.display_surface.blit(cooldown,(int(8*(WIDTH/10)),int((HEIGTH/40))))
-			keys=pg.key.get_pressed()
-			if keys[pg.K_LCTRL] and self.player.mana<magic_data[self.player.magic]["cost"]:
+			if self.player.mana<magic_data[self.player.magic]["cost"]:
 					no_mana=pg.image.load("../graphics/HUD/NinePathRect/no_mana_mask.png")
 					no_mana=pg.transform.scale(no_mana,(int(0.7*WIDTH/10),int(0.7*WIDTH/10)))
 					no_mana.set_alpha(150)		
