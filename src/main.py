@@ -3,7 +3,6 @@ from settings import *
 from level import Level
 from menus import Menus
 
-
 class Game:
 	def __init__(self):
 		# general setup
@@ -12,42 +11,83 @@ class Game:
 		pygame.display.set_caption('Joguinho de testes que não está pronto')
 		self.clock = pygame.time.Clock()
 		self.level = Level()
+		self.menu=Menus()
 		self.is_paused=False
+		self.volume=pygame.mixer.music.set_volume(VOLUME/10)
 		#Village music
 		pygame.mixer.music.load("../audio/village.ogg")
-		pygame.mixer.music.set_volume(0.2)
 		pygame.mixer.music.play(-1)
 
-	def menu(self):
-		self.menu=Menus()
-		if self.menu.main_menu() == "play":
+	def start(self):
+		if self.menu.main_menu():
 			self.run()
 
 	def run(self):
 		while True:
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					pygame.quit()
-					sys.exit()
-				if event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_RETURN:
-						self.is_paused = True
-						self.pause=Menus()
-						self.pause.pause_menu()	
-			while self.is_paused:
+			if self.level.player.alive:
 				for event in pygame.event.get():
 					if event.type == pygame.QUIT:
 						pygame.quit()
 						sys.exit()
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_RETURN:
-							self.is_paused = False
-
+							self.is_paused = not self.is_paused
+							self.pause_menu=Menus()
+							self.pause_menu.pause_menu()
+				while self.is_paused:
+					for event in pygame.event.get():
+						if event.type == pygame.QUIT:
+							pygame.quit()
+							sys.exit()
+						if event.type == pygame.KEYDOWN:
+							if event.key == pygame.K_RETURN:
+								self.is_paused = not self.is_paused
+							if event.key == pygame.K_ESCAPE:
+								self.is_paused = not self.is_paused
+								self.menu.main_menu()
+							if event.key == pygame.K_q:
+								pygame.quit()
+								sys.exit()
+							if event.key == pygame.K_r:
+								volume=self.pause_menu.vol()
+								new_game=Game()
+								new_game.volume=pygame.mixer.music.set_volume(volume/10)
+								new_game.run()
+							
+			while not self.level.player.alive:
+				self.game_over_menu=Menus()
+				self.game_over_menu.game_over_menu()
+				for event in pygame.event.get():
+					if event.type == pygame.QUIT:
+						pygame.quit()
+						sys.exit()
+					if event.type == pygame.KEYDOWN: 
+						if event.key == pygame.K_RETURN:
+							#Note the player restarts with the life you 
+							#set up initialy but that shouldn't be a problem
+							#since the player should start with full life
+							self.level.player.alive=True
+							volume=self.game_over_menu.vol()
+							new_game = Game()
+							new_game.volume=pygame.mixer.music.set_volume(volume/10)
+							new_game.run()
+						if event.key == pygame.K_ESCAPE:
+							self.level.player.alive=True
+							volume=self.game_over_menu.vol()
+							new_game = Game()
+							new_game.volume=pygame.mixer.music.set_volume(volume/10)
+							self.menu.main_menu()
+							new_game.run()
+						if event.key == pygame.K_q:
+							pygame.quit()
+							sys.exit()
+							
 			self.screen.fill('black')
 			self.level.run()
+
 			pygame.display.update()
 			self.clock.tick(FPS)
 
 if __name__ == '__main__':
 	game = Game()
-	game.menu()
+	game.start()

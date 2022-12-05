@@ -246,7 +246,8 @@ class Level:
 			self.player.vulnerable = False
 			self.player.hurt_time = pygame.time.get_ticks()
 			self.animation_player.create_default_particles(attack_type, self.player.rect.center, [self.visible_sprites])
-   
+		if self.player.health == 0:
+			self.player.alive=False
 
 	def create_particles(self, particle_type, pos):
 		if self.player.vulnerable and not self.player.dashing:
@@ -275,7 +276,7 @@ class YsortCameraGroup(pygame.sprite.Group):
 		self.floor_surf = pygame.transform.scale(self.floor_surf, (7680,5760))
 		self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
-	    
+		
 
 	def custom_draw(self, player):
 

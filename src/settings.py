@@ -1,10 +1,13 @@
+import pygame as pg
+
 # game setup
 STANDARD_WIDTH=1280
 STANDARD_HEIGTH=720
-STANDARD_FONT_SIZE=100
-WIDTH    = 1280	
+STANDARD_FONT_SIZE=80
+WIDTH    = 1280
 HEIGTH   = 720
-MENU_FONT_SIZE=STANDARD_FONT_SIZE*(int(WIDTH/STANDARD_WIDTH))
+RATIO=WIDTH/STANDARD_WIDTH
+MENU_FONT_SIZE=int(STANDARD_FONT_SIZE*(RATIO))
 FPS      = 60
 TILESIZE = 64
 
@@ -36,6 +39,9 @@ EMPTY_HEART='../graphics/HUD/empty_heart.png'
 QUARTER_HEART='../graphics/HUD/quarter_heart.png'
 QUARTER_3_HEART='../graphics/HUD/quarter_3_heart.png'
 
+#mana
+FULL_MANA='../graphics/HUD/full_mana.png'
+EMPTY_MANA='../graphics/HUD/empty_mana.png'
 
 WORLD_MAP = [
 ['x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'],
@@ -82,3 +88,6 @@ monsters_data = {
     'snake': {'health': 2,'exp':100,'damage':1,'attack_type': 'slash', 'attack_sound':'../audio/monster_hit.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360},
     'giant_flam': {'health': 16,'exp':100,'damage':1,'attack_type': 'fire', 'attack_sound':'../audio/flame_attack.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 120, 'notice_radius': 560,'magic_radius':400,'magic_type':'fireball','magic_damage':1, 'magic_speed': 6},
 }
+
+
+VOLUME=1
