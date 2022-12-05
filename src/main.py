@@ -71,7 +71,7 @@ class Game:
 							new_game.run()
 						if event.key == pygame.K_ESCAPE:
 							self.level.player.alive=True
-							volume=self.menu.vol()
+							volume=self.menu.volume
 							new_game = Game()
 							new_game.volume=pygame.mixer.music.set_volume(volume/10)
 							self.menu.main_menu()

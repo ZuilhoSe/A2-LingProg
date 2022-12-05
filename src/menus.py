@@ -62,26 +62,37 @@ class Menus:
 
             options_menu_screen.fill("Black")
 
-            options_text = self.get_font(MENU_FONT_SIZE).render("OPTIONS", True, "#b68f40")
+            options_text = self.get_font(int(8*MENU_FONT_SIZE/10)).render("OPTIONS", True, "#b68f40")
             options_rect = options_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.05)))
-            back_text = self.get_font(MENU_FONT_SIZE).render("BACK", True, "#b68f40")
-            back_rect = back_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.9)))
+            back_text = self.get_font(int(8*MENU_FONT_SIZE/10)).render("BACK", True, "#b68f40")
+            back_rect = back_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.95)))
             volume_text = self.get_font(int(MENU_FONT_SIZE/2)).render(f"VOLUME:  {self.volume}", True, "#b68f40")
-            volume_rect = volume_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.35)))
+            volume_rect = volume_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.15)))
             control_text = self.get_font(int(MENU_FONT_SIZE/4)).render("\"CTRL+UP\"   OR   \"CTRL+DOWN\"   TO  CONTROL  VOLUME", True, "#b68f40")
-            control_rect = control_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.65)))
+            control_rect = control_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.45)))
+            sfx_text = self.get_font(int(MENU_FONT_SIZE/2)).render(f"SFX:  {self.sfx_vol}", True, "#b68f40")
+            sfx_rect = sfx_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.55)))
+            sfx_control_text = self.get_font(int(MENU_FONT_SIZE/4)).render("\"SHIFT+UP\"   OR   \"SHIFT+DOWN\"   TO  CONTROL  SFX", True, "#b68f40")
+            sfx_control_rect = sfx_control_text.get_rect(center=(int(WIDTH/2), int(HEIGTH*0.85)))
 
             options_menu_screen.blit(options_text, options_rect)
             options_menu_screen.blit(back_text, back_rect)
             options_menu_screen.blit(volume_text, volume_rect)
             options_menu_screen.blit(control_text, control_rect)
+            options_menu_screen.blit(sfx_text, sfx_rect)
+            options_menu_screen.blit(sfx_control_text, sfx_control_rect)
             options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
-                                    (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.4)))
+                                    (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.2)))
+            options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/Dialog/ChoiceBox.png"),
+                                    (6*(WIDTH/10),HEIGTH/5)), (int(WIDTH/5), int(HEIGTH*0.6)))
 
 
             for volume in range(0, self.volume):
                 options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/audio_icon/volume_bar.png"),
-                                    (1.15*(WIDTH/20),(HEIGTH/10))), (int(2.28*(WIDTH/10)+volume*(WIDTH/20))+(WIDTH/51), int(HEIGTH*0.45)))
+                                    (1.15*(WIDTH/20),(HEIGTH/10))), (int(2.28*(WIDTH/10)+volume*(WIDTH/20))+(WIDTH/51), int(HEIGTH*0.25)))
+            for sfx_vol in range(0, self.sfx_vol):
+                options_menu_screen.blit(pg.transform.scale(pg.image.load("../graphics/HUD/audio_icon/volume_bar.png"),
+                                    (1.15*(WIDTH/20),(HEIGTH/10))), (int(2.28*(WIDTH/10)+sfx_vol*(WIDTH/20))+(WIDTH/51), int(HEIGTH*0.65)))
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -98,11 +109,12 @@ class Menus:
                             if self.volume>0:	
                                 self.volume-=1
                                 pg.mixer.music.set_volume(self.volume/10)
-                    if event.key == pg.K_s:
-                        self.sfx_vol+=1
-
-                    if event.key == pg.K_a:
-                        self.sfx_vol-=1
+                    if event.key == pg.K_UP and pg.key.get_mods() & pg.KMOD_SHIFT:
+                        if self.sfx_vol<10:
+                            self.sfx_vol+=1
+                    if event.key == pg.K_DOWN and pg.key.get_mods() & pg.KMOD_SHIFT:
+                        if self.sfx_vol>0:
+                            self.sfx_vol-=1
                 
             pg.display.update()
        
