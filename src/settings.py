@@ -68,8 +68,11 @@ weapon_data = {
 
 # Magic Data:
 magic_data = {
-    "fireball": {"strength": 3, "cost": 2, "cooldown": 1200, "graphic": "../graphics/particles/fireball/fire.png"},
-    "heal": {"strength": 2, "cost": 1, "cooldown": 800, "graphic": "../graphics/particles/fireball/fire.png"}
+    "heal": {"strength": 2, "cost": 1, "cooldown": 800, "graphic": "../graphics/particles/heal/heal.png"},
+    "fireball": {"strength": 3, "cost": 2, "speed": 6, "cooldown": 1200, "graphic": "../graphics/particles/fireball/fire.png"},
+    "stone_edge": {"strength": 4, "cost": 3, "speed": 2, "cooldown": 1200, "graphic": "../graphics/particles/stone_edge/stone.png"},
+    "ice_spike": {"strength": 2, "cost": 2, "speed": 8, "cooldown": 800, "graphic": "../graphics/particles/ice_spike/ice.png"},
+    "spirit_wind": {"strength": 6, "cost": 4, "speed": 3, "cooldown": 1400, "graphic": "../graphics/particles/spirit/spirit.png"}
 }
 
 monsters_data = {
