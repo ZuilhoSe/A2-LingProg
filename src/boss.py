@@ -1,4 +1,4 @@
-from multiprocessing.dummy import current_process
+from multiprocessing.dummy import current_process # this probably should be deleated
 import pygame
 import settings
 from entity import Entity
@@ -83,10 +83,6 @@ class Boss(Entity):
         self.death_sound = pygame.mixer.Sound('../audio/death.wav')
         self.hit_sound = pygame.mixer.Sound('../audio/monster_hit.wav')
         self.attack_sound = pygame.mixer.Sound(monster_info['attack_sound'])
-        self.death_sound.set_volume(0.4)
-        self.hit_sound.set_volume(0.4)
-        self.attack_sound.set_volume(0.4)
-        
     
     def import_graphics(self, name: str):
         """Stores the animations of the bos in a dictionary
