@@ -57,14 +57,14 @@ class Player(Entity):
         self.dash_duration = 200
         self.dash_speed = 12
 
-        self.weapon_index = 1 #IMPORTANT to change the weapon
+        self.weapon_index = 0 #IMPORTANT to change the weapon
         self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.weapon_time = None
         self.weapon_standby = False
 
         self.magic_index = 0 #IMPORTANT to change the magic equipped
-        self.magic_list = [list(magic_data.keys())[0]]
-        self.magic = self.magic_list[0]
+        self.magic_list = []
+        self.magic = None
         self.magic_time = None
         self.magic_standby = False
         
@@ -72,12 +72,11 @@ class Player(Entity):
         self.magic_switch_cooldown = 300
         self.magic_switch_time = None
 
-        #self.stats = {"health": 12, "mana": 10, "speed": 6}
         self.max_health=16
         self.health = self.max_health
         self.max_mana = 10
         self.mana = self.max_mana
-        self.speed = 12 # This will be used to define the speed movement in pixels/frame
+        self.speed = 6 # This will be used to define the speed movement in pixels/frame
         
         # IMPORTANT: This defines wich group of sprites is going to collide against the player, and will be passed as an argument at __init__
         self.obstacle_sprites = obstacle_sprites
@@ -319,11 +318,12 @@ class Player(Entity):
         
         if level == 0:
             self.weapon_index = 1
+            print("You got the sword!")
         
         new_magic = list(magic_data.keys())[level]
         if new_magic not in self.magic_list:
             self.magic_list.append(new_magic)
-
+        self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.magic = self.magic_list[0]
 
     def update(self):

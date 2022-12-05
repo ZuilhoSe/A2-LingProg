@@ -115,9 +115,6 @@ class Level:
                         if style == 'boxes':
                             box_tile = graphics['box_tileset'][int(col)]
                             Box((x,y), [self.visible_sprites, self.obstacle_sprites],'box', box_tile)
-                        if style == 'door':
-                            door_tile = graphics['door_tileset'][0]
-                            Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'door', door_tile)
                         if style == 'dungeon':
                             dungeon_tile = graphics['dungeon_tileset'][int(col)]
                             Tile((x,y), [self.visible_sprites, self.obstacle_sprites],'dungeon', dungeon_tile)
@@ -194,24 +191,35 @@ class Level:
 
     # Methods to create and kill attack's sprites
     def create_attack(self):
+        """Create a new attack sprite"""
         self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites], self.create_particles)
 
     def end_attack(self):
+        """Kill the current attack sprite"""	
         if self.current_attack:
             self.current_attack.kill()
         self.current_attack = None
   
     def create_magic(self, strenght, cost):
+        """Players casts a magic spell
+        :param strenght: strenght of the spell
+        :type strenght: int
+        :param cost: cost of the spell
+        :type cost: int"""	
         if self.player.magic == "heal":
             self.magic_player.heal(self.player, strenght, cost, [self.visible_sprites])
         else:
             self.magic_player.projectile(self.player, cost, [self.visible_sprites, self.attack_sprites], self.obstacle_sprites, self.attackable_sprites)
    
     def create_boss_magic(self, boss):
+        """Create a magic attack from a boss
+        :param boss: the boss that cast the spell
+        :type boss: Boss"""
         self.magic_boss.fireball(boss,[self.visible_sprites, self.enemy_attack_sprites], self.obstacle_sprites,self.player)
 
 
     def player_attack(self):
+        """Check if player attacks are colliding with attackable sprites"""
         if self.attack_sprites:
             for attack in self.attack_sprites:
                 # Check if the attack is colliding with an enemy
@@ -235,6 +243,7 @@ class Level:
                         target_sprite.kill()
                     
                     elif target_sprite.sprite_type == 'spiritable' and attack.sprite_type == "spirit_wind":
+                        self.player.level_up(4)
                         target_sprite.kill()
 
                     elif target_sprite.sprite_type == 'enemy':
@@ -243,6 +252,7 @@ class Level:
                             attack.die()
     
     def enemy_attack(self):
+        """Check if the projectiles are colliding with the player"""
         if self.enemy_attack_sprites:
             for attack in self.enemy_attack_sprites:
                 # Check if the attack is colliding with an enemy
@@ -253,6 +263,11 @@ class Level:
                         self.magic_damage_player(1,attack)
       
     def magic_damage_player(self, damage, attack):
+        """Damage the player with projectiles
+        :param damage: damage of the projectile
+        :type damage: int
+        :param attack: the projectile
+        :type attack: Projectile"""	
         if self.player.vulnerable and not self.player.dashing:
             self.player.get_damage(damage)
             self.player.vulnerable = False
@@ -260,6 +275,11 @@ class Level:
             attack.die()
        
     def damage_player(self, amount, attack_type):
+        """Damage the player
+        :param amount: damage of the attack
+        :type amount: int
+        :param attack_type: type of the attack
+        :type attack_type: str"""
         if self.player.vulnerable and not self.player.dashing:
             self.player.get_damage(amount)
             self.player.vulnerable = False
@@ -273,7 +293,7 @@ class Level:
             self.animation_player.create_default_particles(particle_type, pos, self.visible_sprites)
 
     def run(self):
-        # update and draw the game
+        """update and draw the game"""
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
@@ -311,7 +331,9 @@ class YsortCameraGroup(pygame.sprite.Group):
         
 
     def custom_draw(self, player):
-
+        """Draw the sprites inside the players view
+  		:param player: the player
+    	:type player: Player"""
         # getting the offset
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
@@ -325,6 +347,9 @@ class YsortCameraGroup(pygame.sprite.Group):
             self.display_surface.blit(sprite.image, offset_pos)
     
     def enemy_update(self,player):
+        """Update the enemies sprites
+        :param player: the player
+        :type player: Player"""
         enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite,'sprite_type') and sprite.sprite_type == 'enemy']
         for enemy in enemy_sprites:
             enemy.enemy_update(player)
