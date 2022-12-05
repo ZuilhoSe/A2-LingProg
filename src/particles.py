@@ -43,6 +43,11 @@ class AnimationPlayer:
             'raccoon': import_folder('../graphics/particles/smoke', rescale=1),
             'flam': import_folder('../graphics/particles/sparkle', rescale=1),
             'giant_flam': import_folder('../graphics/particles/sparkle', rescale=4),
+            'skull': import_folder('../graphics/particles/sparkle', rescale=1),
+            'blue_skull': import_folder('../graphics/particles/sparkle', rescale=1),
+            'blue_octopus': import_folder('../graphics/particles/smoke_orange', rescale=1),
+            'beast': import_folder('../graphics/particles/smoke', rescale=1),
+            
             # 'bamboo': import_folder('../graphics/particles/bamboo', rescale=1),
             
             # leafs 

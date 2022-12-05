@@ -147,7 +147,8 @@ class Level:
 								image = pygame.image.load('../graphics/entities/009.png').convert_alpha()
 								speech = support.import_text('../data/vendor.txt')
 								Villager((x,y), [self.visible_sprites, self.obstacle_sprites], image, self.player, speech)							
-							elif int(col)<5:
+							elif int(col)<4 or col == '10' or int(col)>=13 and int(col)<16:
+								print(col)
 								if col == '0':
 									monsters_name = 'raccoon'
 								elif col == '1':
@@ -156,14 +157,24 @@ class Level:
 									monsters_name = 'snake'
 								elif col == '3':
 									monsters_name = 'squid'
+								elif col == '10':
+									monsters_name = 'blue_octopus'
+								elif col == '13':
+									monsters_name = 'blue_skull'
+								elif col == '14':
+									monsters_name = 'beast'
+								elif col == '15':
+									monsters_name = 'skull'
 								Enemy(monsters_name,(x,y),
 									[self.visible_sprites,self.attackable_sprites],
 									self.obstacle_sprites,
 									self.damage_player,
 									self.create_particles)
-							else:
+							elif col == '5' or col == '11':
 								if col == '5':
 									monsters_name = 'giant_flam'
+								elif col == '11':
+    								monsters_name = 'giant_frog'
 								# elif col == '6':
 								# 	monsters_name = 'giant_raccoon'
 								Boss(monsters_name,(x,y),

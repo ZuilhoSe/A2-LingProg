@@ -89,10 +89,15 @@ class Boss(Entity):
         :param name: name of the enemy
         :type name: str
         """ 
-        animations = support.import_tiles(f'../graphics/monster/{name}.png',64*3,64*3,(64*3)/50)
-        self.animations = {'idle': [],}
-        for i in range(len(animations)):
-            self.animations['idle'].append(animations[i])
+        if self.monster_name == 'giant_frog': size = 40
+        elif self.monster_name == 'giant_flam': size = 50
+        animations_idle = support.import_tiles(f'../graphics/monster/{name}_idle.png',64*3,64*3,(64*3)/size)
+        animations_move = support.import_tiles(f'../graphics/monster/{name}_move.png',64*3,64*3,(64*3)/size)
+        self.animations = {'idle': [],'move': []}
+        for i in range(len(animations_idle)):
+            self.animations['idle'].append(animations_idle[i])
+        for i in range(len(animations_move)):
+            self.animations['move'].append(animations_move[i])
 
         
     def get_player_distance_direction(self, player):
